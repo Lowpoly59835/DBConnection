@@ -6,10 +6,19 @@
 *.lo
 *.o
 *.obj
+*.tlog
+*.log
+*.recipe
+*.idb
+*.pdb
+*.cache
 
 # Precompiled Headers
 *.gch
 *.pch
+*.ilk
+*.exp
+*.user
 
 # Compiled Dynamic libraries
 *.so
@@ -28,5 +37,18 @@
 
 # Executables
 *.exe
+*.dll
+*.txt
 *.out
 *.app
+.vs/NetworkEngine/
+*.ipch
+*.db
+*.db
+*.ipch
+/x64/
+/Debug/
+/01.Library/
+/02.Binout/
+/CodeGenerator/bin/
+/CodeGenerator/obj/
