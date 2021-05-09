@@ -2,7 +2,7 @@
 #include <exception>
 #include <string>
 #include <windows.h>
-
+#include <type_traits>
 
 namespace NetworkCommon
 {
@@ -55,6 +55,19 @@ namespace NetworkCommon
         va_end(args);
 
         return result.c_str();
+    }
+}
+
+namespace NetworkCommon
+{
+    namespace TypeCheck
+    {
+        template<typename T, bool>
+        struct IsType
+        {
+
+        };
+
     }
 }
 

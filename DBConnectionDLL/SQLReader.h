@@ -17,7 +17,7 @@ namespace NetworkCommon
 
 		public:
 			
-			template<typename T>
+			template<typename T, >
 			T GetResult();
 
 		private:
