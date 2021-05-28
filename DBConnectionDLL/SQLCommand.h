@@ -1,11 +1,30 @@
 #pragma once
 #include "SQLConnection.h"
+#include <string>
+#include <list>
 
 namespace NetworkCommon
 {
 	namespace DBConnection
 	{
 		class SQLReader;
+
+
+		struct DBCONNECTIONDLL_EXPORTS SQLParameter
+		{
+		public:
+			SQLParameter() = delete;
+			SQLParameter(const SQLParameter&) = delete;
+			SQLParameter(const SQLParameter*) = delete;
+
+			SQLParameter(const char* name, char type);
+			~SQLParameter();
+
+		public:
+			std::string m_name;
+			char m_type;
+
+		};
 
 		class DBCONNECTIONDLL_EXPORTS SQLCommand
 		{
@@ -17,11 +36,21 @@ namespace NetworkCommon
 
 		public:
 			const SQLReader&& Execute();
+			const SQLReader&& Execute(const wchar_t * command);
+
+			void AddParameterWithValue(const char* parameterName, char type);
+			void AddParameterWithOutput(const char* parameterName, char type);
+
 
 		private:
-			std::wstring m_comannd;
+			RETCODE ExecuteStatement(SQLHSTMT& hStmt);
+
+		private:
+			std::wstring m_command;
 			SQLConnection* m_connection;
-			SQLHSTMT m_hStmt;
+			
+			std::list<SQLParameter> m_pararmetersOutput;
+			std::list<SQLParameter> m_pararmetersWithValue;
 		};
 	}
 }

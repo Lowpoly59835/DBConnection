@@ -4,10 +4,12 @@
 #include <iostream>
 #include <type_traits>
 #include <map>
+#include <cassert>
+#include <list>
 
 using namespace std;
 
-
+/*
 enum EType
 {
 	None = 0,
@@ -93,13 +95,121 @@ EType GetType(T& value)
 	st_metadata<T> _type;
 	return _type.type;
 }
+*/
 
+//template<typename T, typename std::enable_if<std::is_class<T>::value::type* = nullptr>
+//void GetResult(T* value)
+//{
+//	static_assert("invalid type");
+//}
 
-int main()
+template<typename T>
+struct check_type
+	: std::false_type
 {
-	char temp[15] = "hello world";
+};
 
-	std::cout << GetType(temp) << endl;
+
+template<>
+struct check_type<int>
+	: std::true_type
+{ // determine whether T is type that we want
+};
+
+template<>
+struct check_type<float>
+	: std::true_type
+{ // determine whether T is type that we want
+};
+
+
+template<>
+struct check_type<std::string>
+	: std::true_type
+{ // determine whether T is type that we want
+};
+
+
+
+#define PROPERT_GET(_get) _declspec(property(get = _get))
+#define PROPERT_SET(_set) _declspec(property(set = _set))
+#define PROPERTY(_get, _set) _declspec(property(get = _get, put = _set))
+
+#define PROPERT_MAKE_GET(value, type, name) type Get##name() { return value; }
+#define PROPERT_MAKE_SET(value, type, name) void Set##name(type _value) { value = _value; }
+#define PROPERT_MAKE(value, type, name) PROPERT_MAKE_GET(value, type, name) PROPERT_MAKE_SET(value, type, name)
+
+
+#define PROPERT_GETEX(value, type, name) PROPERT_MAKE_GET(value, type, name) PROPERT_GET(Get##name) type name;
+#define PROPERT_SETEX(value, type, name) PROPERT_MAKE_SET(value, type, name) PROPERT_GET(Get##name) type name;
+
+template<typename T>
+class DBRecord
+{
+public:
+	DBRecord()
+	{
+		static_assert(check_type<T>::value, "DB Record type error!!");
+	}
+
+private:
+	T _value;
+	PROPERT_GETEX(_value, T, value)
+};
+
+struct test
+{
+	int num;
+};
+
+class DBTable
+{
+private:
+	DBRecord<int> m_value;
+};
+
+class tempClass
+{
+public:
+	tempClass(int _num)
+		:num(_num)
+	{
+		cout << "hello world" << endl;
+	}
+
+	~tempClass()
+	{
+		cout << "end!!" << endl;
+	}
+
+	tempClass(tempClass*) = delete;
+
+	tempClass(tempClass&&) = delete;
+	tempClass(tempClass&) = delete;
+	tempClass(const tempClass&) = delete;
+	tempClass(const tempClass&&) = delete;
+
+	tempClass operator=(tempClass& other) = delete;
+	tempClass operator=(tempClass&& other) = delete;
+
+	tempClass operator=(const tempClass& other) = delete;
+	tempClass operator=(const tempClass&& other) = delete;
+
+	int num;
+};
+
+tempClass&& TestFunc()
+{
+	return tempClass(100);
+}
+
+int main() 
+{
+	tempClass&& test = TestFunc();
+
+	cout << test.num << endl;
+
+	return 0;
 }
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴

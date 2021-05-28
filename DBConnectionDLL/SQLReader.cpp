@@ -1,16 +1,41 @@
 #include "pch.h"
 #include "SQLReader.h"
+#include <cassert>
 
-NetworkCommon::DBConnection::SQLReader::SQLReader(SQLHSTMT& hStmt)
-	:m_resultStmt(hStmt)
+using std::list;
+using namespace NetworkCommon::DBConnection;
+
+SQLReader::SQLReader(SQLHSTMT& hStmt, std::list<SQLParameter>& pararmetersWithValue, std::list<SQLParameter>& pararmetersWithOutput)
+	:m_hStmt(hStmt), m_pararmetersWithValue(pararmetersWithValue), m_pararmetersWithOutput(pararmetersWithOutput)
 {
+	assert(!(m_hStmt == NULL), "hStmt is null");
 }
 
-NetworkCommon::DBConnection::SQLReader::SQLReader(const SQLReader&& other)
+SQLReader::SQLReader(const SQLReader&& other)
+	:m_hStmt(other.m_hStmt), m_pararmetersWithValue(other.m_pararmetersWithValue), m_pararmetersWithOutput(other.m_pararmetersWithOutput)
 {
-	m_resultStmt = other.m_resultStmt;
+	assert(!(m_hStmt == NULL), "hStmt is null");
 }
 
-NetworkCommon::DBConnection::SQLReader::~SQLReader()
+SQLReader::~SQLReader()
 {
+	if (m_hStmt)
+	{
+		SQLFreeHandle(SQL_HANDLE_STMT, m_hStmt);
+		m_hStmt = NULL;
+	}
+}
+
+bool SQLReader::Next()
+{
+
+	for (std::list<SQLParameter>::iterator it = m_pararmetersWithValue.begin(), int count = 1 ; it != m_pararmetersWithValue.end(); it++, count++)
+	{
+		switch (it->m_type)
+		{
+
+		}
+	}
+
+	return false;
 }
