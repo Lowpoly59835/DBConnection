@@ -46,6 +46,7 @@
 *.db
 *.db
 *.ipch
+/.vs/
 /x64/
 /Debug/
 /01.Library/

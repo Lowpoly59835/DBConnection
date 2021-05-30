@@ -163,6 +163,7 @@
     <ClInclude Include="SQLCommand.h" />
     <ClInclude Include="SQLConnection.h" />
     <ClInclude Include="SQLReader.h" />
+    <ClInclude Include="type.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />

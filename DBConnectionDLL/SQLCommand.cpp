@@ -47,7 +47,7 @@ const SQLReader&& NetworkCommon::DBConnection::SQLCommand::Execute()
 		throw exception(Format("Excute fail :  %d \n", retCode));
 	}
 
-	return SQLReader(hStmt);
+	return SQLReader(hStmt, m_pararmetersWithValue, m_pararmetersOutput);
 }
 
 RETCODE NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStmt)
@@ -81,12 +81,12 @@ const SQLReader && NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_
 
 void NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char * parameterName, char type)
 {
-	m_pararmetersWithValue[parameterName] = SQLParameter(parameterName, type);
+	m_pararmetersWithValue.push_back(SQLParameter(parameterName, type));
 }
 
 void NetworkCommon::DBConnection::SQLCommand::AddParameterWithOutput(const char * parameterName, char type)
 {
-	m_pararmetersOutput[parameterName] = SQLParameter(parameterName, type);
+	m_pararmetersOutput.push_back(SQLParameter(parameterName, type));
 }
 
 NetworkCommon::DBConnection::SQLParameter::SQLParameter(const char * name, char type)
@@ -102,6 +102,11 @@ NetworkCommon::DBConnection::SQLParameter::SQLParameter(const char * name, char 
 	default:
 		static_assert(true, "none support type");
 	}
+}
+
+NetworkCommon::DBConnection::SQLParameter::SQLParameter(const SQLParameter& other)
+	:m_name(other.m_name), m_type(other.m_type)
+{
 }
 
 NetworkCommon::DBConnection::SQLParameter::~SQLParameter()

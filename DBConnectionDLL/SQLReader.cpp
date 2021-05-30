@@ -9,13 +9,15 @@ using namespace NetworkCommon::DBConnection;
 SQLReader::SQLReader(SQLHSTMT& hStmt, std::list<SQLParameter>& pararmetersWithValue, std::list<SQLParameter>& pararmetersWithOutput)
 	:m_hStmt(hStmt), m_pararmetersWithValue(pararmetersWithValue), m_pararmetersWithOutput(pararmetersWithOutput)
 {
-	assert(!(m_hStmt == NULL), "hStmt is null");
+	assert(!(m_hStmt == NULL));
+	SetResult();
 }
 
 SQLReader::SQLReader(const SQLReader&& other)
 	:m_hStmt(other.m_hStmt), m_pararmetersWithValue(other.m_pararmetersWithValue), m_pararmetersWithOutput(other.m_pararmetersWithOutput)
 {
-	assert(!(m_hStmt == NULL), "hStmt is null");
+	assert(!(m_hStmt == NULL));
+	SetResult();
 }
 
 SQLReader::~SQLReader()
@@ -27,33 +29,31 @@ SQLReader::~SQLReader()
 	}
 }
 
-bool SQLReader::Next()
+void NetworkCommon::DBConnection::SQLReader::SetResult()
 {
-
-	for (std::list<SQLParameter>::iterator it = m_pararmetersWithValue.begin(), int count = 1 ; it != m_pararmetersWithValue.end(); it++, count++)
+	for (list<SQLParameter>::iterator it = m_pararmetersWithValue.begin(); it != m_pararmetersWithValue.end(); it++)
 	{
+		ISQLResult* sqlResult = nullptr;
+
 		switch (it->m_type)
 		{
 		case SQL_C_CHAR:
-			SQLResult<std::string> strResult();
-			this->m_sqlResult.insert(strResult);
+			sqlResult = new SQLResult<std::string>();
+			//m_sqlResult.push_back(ISQLResult());
 			break;
 		case SQL_C_LONG:
-			SQLResult<int> intResult();
-			this->m_sqlResult.insert(intResult);
+			sqlResult = new SQLResult<int>();
 			break;
 		case SQL_C_DOUBLE:
-			SQLResult<float> floatResult();
-			this->m_sqlResult.insert(floatResult);
+			sqlResult = new SQLResult<float>();
 			break;
 		case SQL_C_DATE:
-			SQLResult<time_t> timeResult();
-			this->m_sqlResult.insert(timeResult);
+			sqlResult = new SQLResult<time_t>();
 			break;
 		default:
-			static_assert(true, "none support type");
+			assert(true);
 		}
-	}
 
-	return false;
+		m_sqlResult.push_back(sqlResult);
+	}
 }

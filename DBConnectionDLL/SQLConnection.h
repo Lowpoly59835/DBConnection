@@ -5,7 +5,7 @@ namespace NetworkCommon
 {
 	namespace DBConnection
 	{
-		class DBCONNECTIONDLL_EXPORTS SQLConnection : public IConnection
+		class DBCONNECTIONDLL_IMPORT SQLConnection : public IConnection
 		{
 		public:
 			SQLConnection() = delete;

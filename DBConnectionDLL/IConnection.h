@@ -9,13 +9,13 @@ namespace NetworkCommon
 {
 	namespace DBConnection
 	{
-		__interface DBCONNECTIONDLL_EXPORTS IConnection
+		__interface DBCONNECTIONDLL_IMPORT IConnection
 		{
 		public:
 			void Open() throw(std::exception);
 			void Close() throw(std::exception);
 		};
 
-		void DBCONNECTIONDLL_EXPORTS HandleDiagnosticRecord(SQLHANDLE hHandle, SQLSMALLINT hType, RETCODE RetCode);
+		void DBCONNECTIONDLL_IMPORT HandleDiagnosticRecord(SQLHANDLE hHandle, SQLSMALLINT hType, RETCODE RetCode);
 	}
 }
