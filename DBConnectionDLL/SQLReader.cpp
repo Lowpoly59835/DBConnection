@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SQLReader.h"
 #include <cassert>
+#include <time.h>
 
 using std::list;
 using namespace NetworkCommon::DBConnection;
@@ -33,7 +34,24 @@ bool SQLReader::Next()
 	{
 		switch (it->m_type)
 		{
-
+		case SQL_C_CHAR:
+			SQLResult<std::string> strResult();
+			this->m_sqlResult.insert(strResult);
+			break;
+		case SQL_C_LONG:
+			SQLResult<int> intResult();
+			this->m_sqlResult.insert(intResult);
+			break;
+		case SQL_C_DOUBLE:
+			SQLResult<float> floatResult();
+			this->m_sqlResult.insert(floatResult);
+			break;
+		case SQL_C_DATE:
+			SQLResult<time_t> timeResult();
+			this->m_sqlResult.insert(timeResult);
+			break;
+		default:
+			static_assert(true, "none support type");
 		}
 	}
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <type_traits>
 #include <string>
+#include <time.h>
 
 namespace NetworkCommon
 {
@@ -28,6 +29,13 @@ namespace NetworkCommon
 
 		template<>
 		struct check_type<std::string>
+			: std::true_type
+		{ // determine whether T is type that we want
+		};
+
+
+		template<>
+		struct check_type<time_t>
 			: std::true_type
 		{ // determine whether T is type that we want
 		};
