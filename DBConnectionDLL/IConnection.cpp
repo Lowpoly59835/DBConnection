@@ -3,7 +3,7 @@
 
 using std::exception;
 
-void DBCONNECTIONDLL_IMPORT NetworkCommon::DBConnection::HandleDiagnosticRecord(SQLHANDLE hHandle, SQLSMALLINT hType, RETCODE RetCode)
+void NetworkCommon::DBConnection::HandleDiagnosticRecord(SQLHANDLE hHandle, SQLSMALLINT hType, RETCODE RetCode)
 {
 	SQLSMALLINT iRec = 0;
 	SQLINTEGER  iError;

@@ -10,7 +10,7 @@ namespace NetworkCommon
 		class SQLReader;
 
 
-		struct DBCONNECTIONDLL_IMPORT SQLParameter
+		struct DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLParameter
 		{
 		public:
 			SQLParameter() = delete;
@@ -26,7 +26,7 @@ namespace NetworkCommon
 
 		};
 
-		class DBCONNECTIONDLL_IMPORT SQLCommand
+		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand
 		{
 
 		public:
@@ -35,8 +35,8 @@ namespace NetworkCommon
 			~SQLCommand();
 
 		public:
-			const SQLReader&& Execute();
-			const SQLReader&& Execute(const wchar_t * command);
+			const SQLReader Execute();
+			const SQLReader Execute(const wchar_t * command);
 
 			void AddParameterWithValue(const char* parameterName, char type);
 			void AddParameterWithOutput(const char* parameterName, char type);

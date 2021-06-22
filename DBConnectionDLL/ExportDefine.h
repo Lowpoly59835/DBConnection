@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef DBCONNECTIONDLL_EXPORTS
-#define DBCONNECTIONDLL_IMPORT __declspec(dllexport)
+#define DBCONNECTIONDLL_EXPORTS_DECLSPEC __declspec(dllexport)
 #else
-#define DBCONNECTIONDLL_IMPORT __declspec(dllimport)
+#define DBCONNECTIONDLL_EXPORTS_DECLSPEC __declspec(dllimport)
 #endif

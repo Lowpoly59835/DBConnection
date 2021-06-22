@@ -19,7 +19,7 @@ NetworkCommon::DBConnection::SQLCommand::~SQLCommand()
 {
 }
 
-const SQLReader&& NetworkCommon::DBConnection::SQLCommand::Execute()
+const SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 {
 	if (m_connection == nullptr)
 	{
@@ -47,7 +47,7 @@ const SQLReader&& NetworkCommon::DBConnection::SQLCommand::Execute()
 		throw exception(Format("Excute fail :  %d \n", retCode));
 	}
 
-	return SQLReader(hStmt, m_pararmetersWithValue, m_pararmetersOutput);
+	return SQLReader(hStmt);
 }
 
 RETCODE NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStmt)
@@ -71,7 +71,7 @@ RETCODE NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStm
 	 return retcode;
 }
 
-const SQLReader && NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * command)
+const SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * command)
 {
 	m_command = command;
 

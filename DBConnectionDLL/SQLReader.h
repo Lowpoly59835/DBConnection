@@ -1,65 +1,38 @@
 #pragma once
 #include "SQLCommand.h"
-#include <list>
-#include "type.h"
+#include <vector>
+#include "SQLBuffer.h"
 
 
 namespace NetworkCommon
 {
 	namespace DBConnection
 	{
-		using std::list;
+		using std::vector;
 		using namespace NetworkCommon::Type;
 
-		struct ISQLResult
+		template class DBCONNECTIONDLL_EXPORTS_DECLSPEC vector<SQLBuffer>;
+
+		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader
 		{
-
-		};
-
-
-
-		template<typename T>
-		struct DBCONNECTIONDLL_IMPORT SQLResult : ISQLResult
-		{
-		public:
-			SQLResult()
-			{
-				static_assert(check_type<T>::value, "none support type");
-			}
-
-			~SQLResult()
-			{
-
-			}
-
-			T value;
-		};
-		class DBCONNECTIONDLL_IMPORT SQLReader
-		{
-
+			
 		public:
 			SQLReader() = delete;
 			SQLReader(const SQLReader&) = delete;
-			SQLReader(SQLHSTMT& hStmt, std::list<SQLParameter>& pararmetersWithValue, std::list<SQLParameter>& pararmetersWithOutput);
+			SQLReader(SQLHSTMT& hStmt);
 			SQLReader(const SQLReader&& other);
 			~SQLReader();
 
 		public:
-			bool Next();
-			void GetValue(const char* colName);
-
-		private:
-			void SetResult();
+			bool Next() noexcept;
+			void GetValue(const char* colName) noexcept;
 
 		private:
 			SQLHSTMT m_hStmt;
-
-
-			list<SQLParameter> m_pararmetersWithOutput;
-			list<SQLParameter> m_pararmetersWithValue;
-
-			list<ISQLResult*> m_sqlResult;
+			
+			vector<SQLBuffer> m_sqlResult;
 		};
+
 	}
 }
 
