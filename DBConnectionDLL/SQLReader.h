@@ -19,7 +19,7 @@ namespace NetworkCommon
 		public:
 			SQLReader() = delete;
 			SQLReader(const SQLReader&) = delete;
-			SQLReader(SQLHSTMT& hStmt);
+			SQLReader(SQLCommand& command, SQLHSTMT hStmt);
 			SQLReader(const SQLReader&& other);
 			~SQLReader();
 
@@ -29,6 +29,7 @@ namespace NetworkCommon
 
 		private:
 			SQLHSTMT m_hStmt;
+			SQLCommand& m_command;
 			
 			vector<SQLBuffer> m_sqlResult;
 		};

@@ -7,15 +7,15 @@ using std::list;
 using namespace NetworkCommon::DBConnection;
 
 
-SQLReader::SQLReader(SQLHSTMT& hStmt)
-	:m_hStmt(hStmt)
+SQLReader::SQLReader(SQLCommand& command, SQLHSTMT hStmt)
+	:m_command(command), m_hStmt(hStmt)
 {
 	assert(!(m_hStmt == NULL));
 }
 
 
 SQLReader::SQLReader(const SQLReader&& other)
-	:m_hStmt(other.m_hStmt)
+	:m_command(other.m_command), m_hStmt(other.m_hStmt)
 {
 	assert(!(m_hStmt == NULL));
 }
@@ -27,4 +27,9 @@ SQLReader::~SQLReader()
 		SQLFreeHandle(SQL_HANDLE_STMT, m_hStmt);
 		m_hStmt = NULL;
 	}
+}
+
+bool NetworkCommon::DBConnection::SQLReader::Next() noexcept
+{
+	return false;
 }
