@@ -26,6 +26,10 @@ namespace NetworkCommon
 		public:
 			bool Next() noexcept;
 			void GetValue(const char* colName) noexcept;
+			bool HasValue() noexcept;
+
+		private:
+			void bind();
 
 		private:
 			SQLHSTMT m_hStmt;

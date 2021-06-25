@@ -2,8 +2,9 @@
 #include "SQLReader.h"
 #include <cassert>
 #include <time.h>
+#include <algorithm>
 
-using std::list;
+using std::vector;
 using namespace NetworkCommon::DBConnection;
 
 
@@ -31,5 +32,31 @@ SQLReader::~SQLReader()
 
 bool NetworkCommon::DBConnection::SQLReader::Next() noexcept
 {
+
+
 	return false;
+}
+
+//https://gist.github.com/bombless/6a71da1ed3e6b0b7d404 148 ∂Û¿Œ
+void NetworkCommon::DBConnection::SQLReader::bind()
+{
+	if (m_hStmt == NULL)
+	{
+		throw std::exception("Handle is null");
+	}
+
+	SQLSMALLINT cCols;
+
+	if (!success(SQLNumResultCols(m_hStmt, &cCols))
+	{
+
+	}
+
+	for (auto& it : m_command.ParameterWithValues)
+	{
+
+
+		SQLBuffer buffer((SQLBuffer::EStorageType)it.m_type);
+		buffer.Bind()
+	}
 }

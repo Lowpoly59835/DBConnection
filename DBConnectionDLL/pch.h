@@ -9,5 +9,12 @@
 
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
+#include <sql.h>
+#include <sqlext.h>
+
+bool success(SQLRETURN val)
+{
+	return val == SQLRETURN(SQL_SUCCESS) || val == SQLRETURN(SQL_SUCCESS_WITH_INFO);
+}
 
 #endif //PCH_H

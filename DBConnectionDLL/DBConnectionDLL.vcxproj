@@ -160,6 +160,7 @@
     <ClInclude Include="IConnection.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SharedClass.h" />
+    <ClInclude Include="SQLBuffer.h" />
     <ClInclude Include="SQLCommand.h" />
     <ClInclude Include="SQLConnection.h" />
     <ClInclude Include="SQLReader.h" />
@@ -174,6 +175,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SQLBuffer.cpp" />
     <ClCompile Include="SQLCommand.cpp" />
     <ClCompile Include="SQLConnection.cpp" />
     <ClCompile Include="SQLReader.cpp" />

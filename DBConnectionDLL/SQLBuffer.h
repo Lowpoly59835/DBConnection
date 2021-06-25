@@ -13,6 +13,8 @@ namespace NetworkCommon
 		//int, float, datetime, string¸¸ Áö¿ø
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer
 		{
+			friend class SQLReader;
+		public:
 			enum EStorageType
 			{
 				None,
@@ -53,8 +55,11 @@ namespace NetworkCommon
 				}
 			}
 
+			PROPERT_GETEX(m_Type, EStorageType, Type);
+
+		private:
 			template<typename T>
-			void SetValue(T* value)
+			void Bind(T* value)
 			{
 				if (value == nullptr)
 				{
@@ -73,15 +78,14 @@ namespace NetworkCommon
 					m_string = static_cast<char*>(*value);
 					break;
 				case EStorageType::DateTime:
-					m_Data.DateTime = static_cast<time>(*value);
+					m_Data.DateTime = static_cast<time_t>(*value);
 					break;
 				default:
 					throw exception("unknown type");
 				}
 			}
 
-			PROPERT_GETEX(m_Type, EStorageType, Type)
-
+			
 		private:
 			EStorageType m_Type;
 			StorageData m_Data;

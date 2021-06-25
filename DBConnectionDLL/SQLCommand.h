@@ -1,10 +1,12 @@
 #pragma once
 #include "SQLConnection.h"
 #include <string>
-#include <list>
+#include <vector>
 
 namespace NetworkCommon
 {
+	using std::vector;
+
 	namespace DBConnection
 	{
 		class SQLReader;
@@ -41,6 +43,8 @@ namespace NetworkCommon
 			void AddParameterWithValue(const char* parameterName, char type);
 			void AddParameterWithOutput(const char* parameterName, char type);
 
+			PROPERT_GETEX(m_pararmetersWithValue, vector<SQLParameter>, ParameterWithValues);
+			PROPERT_GETEX(m_pararmetersOutput, vector<SQLParameter>, ParameterOutputs);
 
 		private:
 			RETCODE ExecuteStatement(SQLHSTMT& hStmt);
@@ -49,8 +53,8 @@ namespace NetworkCommon
 			std::wstring m_command;
 			SQLConnection* m_connection;
 			
-			std::list<SQLParameter> m_pararmetersOutput;
-			std::list<SQLParameter> m_pararmetersWithValue;
+			vector<SQLParameter> m_pararmetersOutput;
+			vector<SQLParameter> m_pararmetersWithValue;
 		};
 	}
 }

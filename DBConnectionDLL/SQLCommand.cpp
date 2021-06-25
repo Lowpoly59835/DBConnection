@@ -47,7 +47,7 @@ const SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 		throw exception(Format("Excute fail :  %d \n", retCode));
 	}
 
-	return SQLReader(hStmt);
+	return SQLReader(*this, hStmt);
 }
 
 RETCODE NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStmt)
