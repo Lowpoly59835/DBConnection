@@ -22,7 +22,6 @@ NetworkCommon::DBConnection::SQLBuffer::~SQLBuffer()
 }
 
 SQLRETURN NetworkCommon::DBConnection::SQLBuffer::Bind(SQLHSTMT& hstmt, int colpos, SQLLEN string_length)
-
 {
 	if (hstmt == NULL)
 	{

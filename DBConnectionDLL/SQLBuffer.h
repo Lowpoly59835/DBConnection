@@ -58,32 +58,7 @@ namespace NetworkCommon
 			PROPERT_GETEX(m_Type, EStorageType, Type);
 
 		private:
-			template<typename T>
-			void Bind(T* value)
-			{
-				if (value == nullptr)
-				{
-					return;
-				}
-
-				switch (m_Type)
-				{
-				case EStorageType::Int:
-					m_Data.Int = static_cast<int>(*value);
-					break;
-				case EStorageType::Float:
-					m_Data.Float = static_cast<float>(*value);
-					break;
-				case EStorageType::String:
-					m_string = static_cast<char*>(*value);
-					break;
-				case EStorageType::DateTime:
-					m_Data.DateTime = static_cast<time_t>(*value);
-					break;
-				default:
-					throw exception("unknown type");
-				}
-			}
+			SQLRETURN Bind(SQLHSTMT& hstmt, int colpos, SQLLEN string_length = 0);
 
 			
 		private:

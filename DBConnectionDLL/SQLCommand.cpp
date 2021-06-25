@@ -10,6 +10,11 @@ using std::make_pair;
 using std::string;
 
 
+bool success(SQLRETURN val)
+{
+	return val == SQLRETURN(SQL_SUCCESS) || val == SQLRETURN(SQL_SUCCESS_WITH_INFO);
+}
+
 NetworkCommon::DBConnection::SQLCommand::SQLCommand(SQLConnection* connection, const wchar_t* command)
 	:m_connection(connection), m_command(command)
 {
@@ -45,6 +50,19 @@ const SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 	if (retCode != SQL_SUCCESS)
 	{
 		throw exception(Format("Excute fail :  %d \n", retCode));
+	}
+
+		
+	SQLSMALLINT cCols;
+
+	if (success(SQLNumResultCols(hStmt, &cCols)))
+	{
+
+	}
+	else
+	{
+
+		throw exception(Format("get result fail :  %d \n", retCode));
 	}
 
 	return SQLReader(*this, hStmt);
