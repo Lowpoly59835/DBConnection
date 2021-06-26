@@ -1,21 +1,25 @@
 #pragma once
 #include "type.h"
-#include <exception>
+#include "IConnection.h"
 #include "SharedClass.h"
 #include "ExportDefine.h"
 
-using std::exception;
 
 namespace NetworkCommon
 {
 	namespace DBConnection
 	{
+#pragma warning (disable : 4231)
+#pragma warning( disable : 4251)
+		EXPORT_STL_STRING(char);
+#pragma warning (default : 4231) 
+#pragma warning (default : 4251)
 		//int, float, datetime, string¸¸ Áö¿ø
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer
 		{
 			friend class SQLReader;
 		public:
-			enum EStorageType
+			enum class DBCONNECTIONDLL_EXPORTS_DECLSPEC EStorageType
 			{
 				None,
 				Int,
@@ -24,7 +28,7 @@ namespace NetworkCommon
 				DateTime
 			};
 
-			union StorageData
+			union DBCONNECTIONDLL_EXPORTS_DECLSPEC StorageData
 			{
 				INT32 Int;
 				FLOAT Float;
@@ -51,14 +55,14 @@ namespace NetworkCommon
 				case EStorageType::DateTime:
 					return m_Data.DateTime;
 				default:
-					throw std::exception("unknow data type");
+					throw SQLException("unknow data type", ESQLErrorCode::NO_SUPPORT_TYPE);
 				}
 			}
 
 			PROPERT_GETEX(m_Type, EStorageType, Type);
 
 		private:
-			SQLRETURN Bind(SQLHSTMT& hstmt, int colpos, SQLLEN string_length = 0);
+			SQLRETURN Bind(SQLHSTMT& hstmt, int colpos);
 
 			
 		private:

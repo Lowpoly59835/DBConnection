@@ -12,7 +12,7 @@ void NetworkCommon::DBConnection::HandleDiagnosticRecord(SQLHANDLE hHandle, SQLS
 
 	if (RetCode == SQL_INVALID_HANDLE)
 	{
-		throw exception("Invalid handle!\n");
+		throw SQLException("Invalid handle!", ESQLErrorCode::INVALID);
 	}
 
 	if (SQLGetDiagRec(hType,
@@ -24,6 +24,16 @@ void NetworkCommon::DBConnection::HandleDiagnosticRecord(SQLHANDLE hHandle, SQLS
 		(SQLSMALLINT)(sizeof(wszMessage) / sizeof(WCHAR)),
 		(SQLSMALLINT*)NULL) != SQL_SUCCESS)
 	{
-		throw exception("Invalid handle!\n");
+		throw SQLException("Invalid handle!", ESQLErrorCode::INVALID);
 	}
+}
+
+bool DBCONNECTIONDLL_EXPORTS_DECLSPEC NetworkCommon::DBConnection::IsSuccess(SQLRETURN val)
+{
+	return val == SQLRETURN(SQL_SUCCESS) || val == SQLRETURN(SQL_SUCCESS_WITH_INFO);
+}
+
+NetworkCommon::DBConnection::SQLException::SQLException(const char* message, ESQLErrorCode errcode, SQLRETURN returnValue)
+	:m_exception(message), m_errorCode(errcode), m_result(returnValue)
+{
 }

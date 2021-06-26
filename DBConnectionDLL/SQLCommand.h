@@ -1,21 +1,22 @@
 #pragma once
 #include "SQLConnection.h"
-#include <string>
 #include <vector>
 
 namespace NetworkCommon
 {
-	using std::vector;
-
 	namespace DBConnection
 	{
 		class SQLReader;
-
+#pragma warning (disable : 4231)
+#pragma warning( disable : 4251)
+		EXPORT_STL_STRING(char);
+#pragma warning (default : 4231) 
+#pragma warning (default : 4251)
 
 		struct DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLParameter
 		{
 		public:
-			SQLParameter() = delete;
+			SQLParameter();
 			SQLParameter(const SQLParameter*) = delete;
 
 			SQLParameter(const char* name, char type);
@@ -27,6 +28,14 @@ namespace NetworkCommon
 			char m_type;
 
 		};
+
+		using std::vector;
+
+#pragma warning (disable : 4231)
+#pragma warning( disable : 4251)
+		EXPORT_INTERFACE_CLASS(vector<SQLParameter>);
+#pragma warning (default : 4231) 
+#pragma warning (default : 4251)
 
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand
 		{
@@ -57,5 +66,7 @@ namespace NetworkCommon
 			vector<SQLParameter> m_pararmetersWithValue;
 		};
 	}
+    
+
 }
 

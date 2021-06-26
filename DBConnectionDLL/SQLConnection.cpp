@@ -1,8 +1,5 @@
 #include "pch.h"
 #include "SQLConnection.h"
-#include <exception>
-
-using std::exception;
 
 NetworkCommon::DBConnection::SQLConnection::SQLConnection(const wchar_t* strConnection)
 	:m_strConnection(strConnection), m_connHanlde(NULL), m_envHandle(NULL)
@@ -18,15 +15,15 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 {
 	if (SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_envHandle) == SQL_ERROR)
 	{
-		throw exception("Unable to allocate an environment handle\n");
+		throw SQLException("Unable to allocate an environment handle", ESQLErrorCode::ALLOC_HANDDLE_FAIL, SQL_ERROR);
 	}
 
-	RETCODE retCode = SQLSetEnvAttr(m_envHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
+	SQLRETURN retCode = SQLSetEnvAttr(m_envHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
 
 
 	if (retCode != SQL_SUCCESS)
 	{
-		throw exception(Format("Invalid handle errorCode :  %d \n", retCode));
+		throw SQLException("Invalid handle errorCode", ESQLErrorCode::ALLOC_HANDDLE_FAIL, retCode);
 	}
 
 	HandleDiagnosticRecord(m_envHandle, SQL_HANDLE_ENV, retCode);
@@ -35,7 +32,7 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 
 	if (retCode != SQL_SUCCESS)
 	{
-		throw exception(Format("Invalid ConnHanlde! errorCode :  %d \n", retCode));
+		throw SQLException("Invalid ConnHanlde", ESQLErrorCode::INVALID, retCode);
 	}
 
 
@@ -46,11 +43,11 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 
 	if (retCode != SQL_SUCCESS)
 	{
-		throw exception(Format("Connect fail errorCode :  %d \n", retCode));
+		throw SQLException("Connect fail", ESQLErrorCode::CONNECT_FAIL, retCode);
 	}
 }
 
-void NetworkCommon::DBConnection::SQLConnection::Close() throw(std::exception)
+void NetworkCommon::DBConnection::SQLConnection::Close()
 {
 	if (m_connHanlde)
 	{

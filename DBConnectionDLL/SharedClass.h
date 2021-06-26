@@ -44,18 +44,18 @@ namespace NetworkCommon
     #define CSLOCK( cs_ )   if( CCriticalSectionLock STRING_CAT( lock_, __LINE__ ) = cs_ )
 
 
-    inline const char* Format(const char* format, ...)
-    {
-        va_list args;
-        va_start(args, format);
+	inline const char* Format(const char* format, ...)
+	{
+		va_list args;
+		va_start(args, format);
 
-        int size = _vscprintf(format, args);
-        std::string result(++size, 0);
-        vsnprintf_s((char*)result.data(), size, _TRUNCATE, format, args);
-        va_end(args);
+		int size = _vscprintf(format, args);
+		std::string result(++size, 0);
+		vsnprintf_s((char*)result.data(), size, _TRUNCATE, format, args);
+		va_end(args);
 
-        return result.c_str();
-    }
+		return result.c_str();
+	}
 }
 
 namespace NetworkCommon

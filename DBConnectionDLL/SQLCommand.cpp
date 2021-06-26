@@ -9,12 +9,6 @@ using NetworkCommon::DBConnection::SQLReader;
 using std::make_pair;
 using std::string;
 
-
-bool success(SQLRETURN val)
-{
-	return val == SQLRETURN(SQL_SUCCESS) || val == SQLRETURN(SQL_SUCCESS_WITH_INFO);
-}
-
 NetworkCommon::DBConnection::SQLCommand::SQLCommand(SQLConnection* connection, const wchar_t* command)
 	:m_connection(connection), m_command(command)
 {
@@ -28,63 +22,55 @@ const SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 {
 	if (m_connection == nullptr)
 	{
-		throw exception("conntion is null");
+		throw SQLException("conntion is null");
 	}
 	else if (m_command.empty())
 	{
-		throw exception("command is empty");
+		throw SQLException("command is empty", ESQLErrorCode::INVALID);
 	}
 
 
 	SQLHSTMT hStmt = NULL;
 
-	RETCODE retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_connection->m_connHanlde, &hStmt);
+	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_connection->m_connHanlde, &hStmt);
 
 	if (retCode != SQL_SUCCESS)
 	{
-		throw exception(Format("Invalid stmt errorCode :  %d \n", retCode));
+		throw SQLException("execute error", ESQLErrorCode::ALLOC_HANDDLE_FAIL, retCode);
 	}
 	
 	retCode = ExecuteStatement(hStmt);
 
 	if (retCode != SQL_SUCCESS)
 	{
-		throw exception(Format("Excute fail :  %d \n", retCode));
+		throw SQLException("execute error", ESQLErrorCode::EXECUTE_FAIL, retCode);
 	}
 
 		
 	SQLSMALLINT cCols;
 
-	if (success(SQLNumResultCols(hStmt, &cCols)))
-	{
+	retCode = SQLNumResultCols(hStmt, &cCols);
 
-	}
-	else
+	if (!IsSuccess(retCode))
 	{
-
-		throw exception(Format("get result fail :  %d \n", retCode));
+		throw SQLException("execute error", ESQLErrorCode::EXECUTE_FAIL, retCode);
 	}
 
 	return SQLReader(*this, hStmt);
 }
 
-RETCODE NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStmt)
+SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStmt)
 {
 	WCHAR* command = const_cast<WCHAR*>(m_command.c_str());
 
-	RETCODE retcode = SQLPrepare(hStmt, command, SQL_NTS);
+	SQLRETURN retcode = SQLPrepare(hStmt, command, SQL_NTS);
 
 	if (retcode != SQL_SUCCESS) 
 	{
-		throw exception(Format("sql prepare fail"));
+		return retcode;
 	}
 
 	 retcode = SQLExecute(hStmt);
-
-	 if (retcode != SQL_SUCCESS) 
-	 {
-		 throw exception(Format("sql query execute fail"));
-	 }
 
 	 return retcode;
 }
@@ -107,20 +93,31 @@ void NetworkCommon::DBConnection::SQLCommand::AddParameterWithOutput(const char 
 	m_pararmetersOutput.push_back(SQLParameter(parameterName, type));
 }
 
+NetworkCommon::DBConnection::SQLParameter::SQLParameter() 
+	:m_name(), m_type()
+{
+}
+
 NetworkCommon::DBConnection::SQLParameter::SQLParameter(const char * name, char type)
 	:m_name(name), m_type(type)
 {
 	switch (m_type)
 	{
 	case SQL_C_CHAR:
+		break;
 	case SQL_C_LONG:
+		break;
 	case SQL_C_DOUBLE:
+		break;
 	case SQL_C_DATE:
 		break;
 	default:
 		static_assert(true, "none support type");
+		break;
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
 NetworkCommon::DBConnection::SQLParameter::SQLParameter(const SQLParameter& other)
 	:m_name(other.m_name), m_type(other.m_type)

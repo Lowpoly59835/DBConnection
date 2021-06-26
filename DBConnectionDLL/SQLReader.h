@@ -11,7 +11,11 @@ namespace NetworkCommon
 		using std::vector;
 		using namespace NetworkCommon::Type;
 
-		template class DBCONNECTIONDLL_EXPORTS_DECLSPEC vector<SQLBuffer>;
+#pragma warning (disable : 4231)
+#pragma warning( disable : 4251)
+		EXPORT_INTERFACE_CLASS(vector<SQLBuffer>);
+#pragma warning (default : 4231) 
+#pragma warning (default : 4251)
 
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader
 		{
@@ -19,14 +23,15 @@ namespace NetworkCommon
 		public:
 			SQLReader() = delete;
 			SQLReader(const SQLReader&) = delete;
-			SQLReader(SQLCommand& command, SQLHSTMT hStmt);
-			SQLReader(const SQLReader&& other);
+			SQLReader(SQLCommand& command, SQLHSTMT hStmt) noexcept;
+			SQLReader(const SQLReader&& other) noexcept;
 			~SQLReader();
 
 		public:
 			bool Next() noexcept;
 			void GetValue(const char* colName) noexcept;
 			bool HasValue() noexcept;
+			int RowCount() noexcept;
 
 		private:
 			void bind();
