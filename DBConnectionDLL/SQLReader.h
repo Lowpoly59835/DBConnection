@@ -10,10 +10,11 @@ namespace NetworkCommon
 	{
 		using std::vector;
 		using namespace NetworkCommon::Type;
+		using std::string;
 
 #pragma warning (disable : 4231)
 #pragma warning( disable : 4251)
-		EXPORT_INTERFACE_CLASS(vector<SQLBuffer>);
+		EXPORT_INTERFACE_CLASS(vector<std::pair<string, SQLBuffer>>);
 #pragma warning (default : 4231) 
 #pragma warning (default : 4251)
 
@@ -29,7 +30,13 @@ namespace NetworkCommon
 
 		public:
 			bool Next();
-			void GetValue(const char* colName) noexcept;
+
+			template<typename T>
+			T GetValue(const char* colName)
+			{
+				static_assert(true, "unknow data type");
+			}
+
 			bool HasValue() noexcept;
 			int RowCount() noexcept;
 
@@ -40,9 +47,22 @@ namespace NetworkCommon
 			SQLHSTMT m_hStmt;
 			SQLCommand& m_command;
 			
-			vector<SQLBuffer> m_sqlResult;
+			vector<std::pair<string, SQLBuffer>> m_resultBuffer;
+			int m_rowCount;
+			bool m_hasValue;
 		};
 
+		template <>
+		int DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<int>(const char* colName);
+
+		template <>
+		float DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<float>(const char* colName);
+
+		template <>
+		std::string DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<std::string>(const char* colName);
+
+		template <>
+		time_t DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<time_t>(const char* colName);
 	}
 }
 

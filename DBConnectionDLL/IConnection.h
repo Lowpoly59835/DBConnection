@@ -30,6 +30,7 @@ namespace NetworkCommon
 			ALLOC_HANDDLE_FAIL = 3,
 			EXECUTE_FAIL = 4,
 			COLUMNS_ERROR = 5,
+			NOT_EXISTIS_COLUM = 6
 		};
 
 		class EXPORT_INTERFACE(std::exception);

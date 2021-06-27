@@ -52,3 +52,28 @@ SQLRETURN NetworkCommon::DBConnection::SQLBuffer::Bind(SQLHSTMT& hstmt, int colp
 
 	return result;
 }
+
+
+template<>
+int NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
+{
+	return m_Data.Int;
+}
+
+template<>
+float NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
+{
+	return m_Data.Float;
+}
+
+template<>
+std::string NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
+{ 
+	return m_string;
+}
+
+template<>
+time_t NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
+{
+	return m_Data.DateTime;
+}
