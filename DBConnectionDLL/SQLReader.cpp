@@ -34,7 +34,7 @@ SQLReader::~SQLReader()
 	}
 }
 
-bool NetworkCommon::DBConnection::SQLReader::Next() noexcept
+bool NetworkCommon::DBConnection::SQLReader::Next()
 {
 	SQLRETURN result = SQLFetch(m_hStmt);
 

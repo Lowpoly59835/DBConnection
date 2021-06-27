@@ -28,7 +28,7 @@ namespace NetworkCommon
 			~SQLReader();
 
 		public:
-			bool Next() noexcept;
+			bool Next();
 			void GetValue(const char* colName) noexcept;
 			bool HasValue() noexcept;
 			int RowCount() noexcept;
