@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DBConnectionDLL", "DBConnectionDLL\DBConnectionDLL.vcxproj", "{CF9BD8DE-77EC-49C7-8585-759F5E4F28BA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Reflection", "Reflection\Reflection.vcxproj", "{DF9AB796-3856-4BC8-B7EE-56A8D964F632}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DBConntionTest", "DBConntionTest\DBConntionTest.vcxproj", "{9ED6B253-3B75-4470-BB2F-C34372415E33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,16 +27,16 @@ Global
 		{CF9BD8DE-77EC-49C7-8585-759F5E4F28BA}.Release|x64.Build.0 = Release|x64
 		{CF9BD8DE-77EC-49C7-8585-759F5E4F28BA}.Release|x86.ActiveCfg = Release|Win32
 		{CF9BD8DE-77EC-49C7-8585-759F5E4F28BA}.Release|x86.Build.0 = Release|Win32
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Debug|x64.ActiveCfg = Debug|x64
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Debug|x64.Build.0 = Debug|x64
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Debug|x86.ActiveCfg = Debug|Win32
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Debug|x86.Build.0 = Debug|Win32
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Release|Any CPU.ActiveCfg = Release|Win32
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Release|x64.ActiveCfg = Release|x64
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Release|x64.Build.0 = Release|x64
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Release|x86.ActiveCfg = Release|Win32
-		{DF9AB796-3856-4BC8-B7EE-56A8D964F632}.Release|x86.Build.0 = Release|Win32
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Debug|x64.ActiveCfg = Debug|x64
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Debug|x64.Build.0 = Debug|x64
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Debug|x86.ActiveCfg = Debug|Win32
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Debug|x86.Build.0 = Debug|Win32
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Release|Any CPU.ActiveCfg = Release|Win32
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Release|x64.ActiveCfg = Release|x64
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Release|x64.Build.0 = Release|x64
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Release|x86.ActiveCfg = Release|Win32
+		{9ED6B253-3B75-4470-BB2F-C34372415E33}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

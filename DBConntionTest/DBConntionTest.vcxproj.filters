@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Reflection.cpp">
+    <ClCompile Include="DBConntionTest.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

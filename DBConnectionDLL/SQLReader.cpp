@@ -45,6 +45,8 @@ bool NetworkCommon::DBConnection::SQLReader::Next()
 
 	m_hasValue = (result == SQL_SUCCESS ? true : false);
 
+
+
 	return HasValue();
 }
 
