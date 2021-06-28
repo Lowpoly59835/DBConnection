@@ -78,10 +78,7 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 	{
 		throw SQLException("", ESQLErrorCode::UNKNOWN, result);
 	}
-	else if (cCols != m_command.ParameterWithValues.size())
-	{
-		throw SQLException(Format("colums count not equles %d", m_command.ParameterWithValues.size()), ESQLErrorCode::COLUMNS_ERROR, result);
-	}
+
 
 	SQLLEN rowCount = 0;
 	result = SQLRowCount(m_hStmt, &rowCount);
@@ -95,12 +92,22 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 
 	for(int i = 0 ; i < cCols ; i++)
 	{
-		if (m_command.ParameterWithValues.size() > i)
+		SQLWCHAR      ColumnName[255] = L"";
+		SQLSMALLINT   BufferLength = 0;
+		SQLSMALLINT  NameLength = 0;
+		SQLSMALLINT  DataType = 0;
+		SQLULEN      ColumnSize = 0;
+		SQLSMALLINT  DecimalDigits = 0;
+		SQLSMALLINT   NullablePtr = SQL_NULLABLE_UNKNOWN;
+
+		SQLRETURN describeColResult = SQLDescribeCol(m_hStmt, i + 1, ColumnName, sizeof(ColumnName), &NameLength, &DataType, &ColumnSize, &DecimalDigits, &NullablePtr);
+
+		if (!IsSuccess(describeColResult))
 		{
-			break;
+			continue;
 		}
 		
-		SQLBuffer buffer((SQLBuffer::EStorageType)m_command.ParameterWithValues[i].m_type);
+		SQLBuffer buffer(DataType);
 		
 		SQLRETURN result = buffer.Bind(m_hStmt, i);
 
@@ -110,17 +117,22 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 			throw SQLException("", ESQLErrorCode::UNKNOWN, result);
 		}
 
-		m_resultBuffer.push_back({m_command.ParameterWithValues[i].m_name, buffer});
+		if (wcslen(ColumnName) == 0)
+		{
+			//문자열 길이가 0이라면, 다른 이름으로 치환해줘야할듯?
+		}
+
+		m_resultBuffer.push_back({ColumnName, buffer});
 	}
 }
 
 
 template<>
-int NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
+int NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 {
 	for (auto& it : m_resultBuffer)
 	{
-		if (strcmp(it.first.c_str(), colName) == 0)
+		if (wcscmp(it.first.c_str(), colName) == 0)
 		{
 			return it.second.GetValue<int>();
 		}
@@ -130,11 +142,11 @@ int NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 }
 
 template<>
-float NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
+float NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 {
 	for (auto& it : m_resultBuffer)
 	{
-		if (strcmp(it.first.c_str(), colName) == 0)
+		if (wcscmp(it.first.c_str(), colName) == 0)
 		{
 			return it.second.GetValue<float>();
 		}
@@ -144,11 +156,11 @@ float NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 }
 
 template<>
-std::string NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
+std::string NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 {
 	for (auto& it : m_resultBuffer)
 	{
-		if (strcmp(it.first.c_str(), colName) == 0)
+		if (wcscmp(it.first.c_str(), colName) == 0)
 		{
 			return it.second.GetValue<std::string>();
 		}
@@ -158,11 +170,11 @@ std::string NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName
 }
 
 template<>
-time_t NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
+time_t NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 {
 	for (auto& it : m_resultBuffer)
 	{
-		if (strcmp(it.first.c_str(), colName) == 0)
+		if (wcscmp(it.first.c_str(), colName) == 0)
 		{
 			return it.second.GetValue<time_t>();
 		}

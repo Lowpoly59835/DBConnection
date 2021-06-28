@@ -2,10 +2,36 @@
 //
 
 #include <iostream>
+#include "SQLConnection.h"
+#include "SQLCommand.h"
+#include "SQLReader.h"
+
+using namespace NetworkCommon::DBConnection;
 
 int main()
 {
     std::cout << "Hello World!\n";
+
+	try
+	{
+		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost, 1433; DATABASE=MasterDB; UID=PuttTheBallAccesser;PWD=skfnxh59835;");
+	
+		sqlConn.Open();
+		
+		std::cout << "connect sucess " << std::endl;
+
+		SQLCommand command(&sqlConn);
+
+		const SQLReader& reader = command.Execute(L"select * from _RefDownloadList_v1");
+
+		sqlConn.Close();
+
+		std::cout << "disconnect sucess" << std::endl;
+	}
+	catch (SQLException ex)
+	{
+		std::cout << "fail" << std::endl;
+	}
 }
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴

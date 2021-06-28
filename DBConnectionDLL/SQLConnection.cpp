@@ -21,27 +21,27 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 	SQLRETURN retCode = SQLSetEnvAttr(m_envHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
 
 
-	if (retCode != SQL_SUCCESS)
+	if (!IsSuccess(retCode))
 	{
 		throw SQLException("Invalid handle errorCode", ESQLErrorCode::ALLOC_HANDDLE_FAIL, retCode);
 	}
 
-	HandleDiagnosticRecord(m_envHandle, SQL_HANDLE_ENV, retCode);
+	//HandleDiagnosticRecord(m_envHandle, SQL_HANDLE_ENV, retCode);
 
 	retCode = SQLAllocHandle(SQL_HANDLE_DBC, m_envHandle, &m_connHanlde);
 
-	if (retCode != SQL_SUCCESS)
+	if (!IsSuccess(retCode))
 	{
 		throw SQLException("Invalid ConnHanlde", ESQLErrorCode::INVALID, retCode);
 	}
 
 
-	HandleDiagnosticRecord(m_envHandle, SQL_HANDLE_ENV, retCode);
+	//HandleDiagnosticRecord(m_envHandle, SQL_HANDLE_ENV, retCode);
 	WCHAR* pwszConnStr = const_cast<WCHAR*>(m_strConnection.c_str());
 
 	retCode = SQLDriverConnect(m_connHanlde, GetDesktopWindow(), pwszConnStr, SQL_NTS, NULL, 0, NULL, SQL_DRIVER_COMPLETE);
 
-	if (retCode != SQL_SUCCESS)
+	if (!IsSuccess(retCode))
 	{
 		throw SQLException("Connect fail", ESQLErrorCode::CONNECT_FAIL, retCode);
 	}

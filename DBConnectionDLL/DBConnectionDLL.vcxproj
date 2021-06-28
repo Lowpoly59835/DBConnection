@@ -43,12 +43,12 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -83,6 +83,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)out\$(Configuration)\$(Platform)\</OutDir>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -115,6 +116,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(ProjectDir)ExportDefine.h" "$(OutDir)"
+copy /Y "$(ProjectDir)IConnection.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SharedClass.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLBuffer.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLCommand.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLConnection.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLReader.h" "$(OutDir)"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -154,7 +165,23 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <Version>
+      </Version>
+      <CreateHotPatchableImage>X64Image</CreateHotPatchableImage>
     </Link>
+    <Xdcmake>
+      <DocumentLibraryDependencies>false</DocumentLibraryDependencies>
+    </Xdcmake>
+    <PostBuildEvent>
+      <Command>copy /Y "$(ProjectDir)ExportDefine.h" "$(OutDir)"
+copy /Y "$(ProjectDir)IConnection.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SharedClass.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLBuffer.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLCommand.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLConnection.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLReader.h" "$(OutDir)"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ExportDefine.h" />
@@ -166,7 +193,6 @@
     <ClInclude Include="SQLCommand.h" />
     <ClInclude Include="SQLConnection.h" />
     <ClInclude Include="SQLReader.h" />
-    <ClInclude Include="type.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />

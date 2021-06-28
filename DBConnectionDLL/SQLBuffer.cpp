@@ -12,11 +12,12 @@ NetworkCommon::DBConnection::SQLBuffer::SQLBuffer(const SQLBuffer & other)
 {
 }
 
-NetworkCommon::DBConnection::SQLBuffer::SQLBuffer(EStorageType type)
-	:m_Type(type)
+NetworkCommon::DBConnection::SQLBuffer::SQLBuffer(SQLSMALLINT sqlType)
+	:m_Type((EStorageType)sqlType)
 {
 	m_Data.Int = 0;
 }
+
 
 NetworkCommon::DBConnection::SQLBuffer::~SQLBuffer()
 {
@@ -34,17 +35,17 @@ SQLRETURN NetworkCommon::DBConnection::SQLBuffer::Bind(SQLHSTMT& hstmt, int colp
 		result = SQLBindCol(hstmt, colpos, SQL_INTEGER, &m_Data.Int, sizeof(m_Data.Int), &cid);
 		break;
 	case EStorageType::Float:
-		result = SQLBindCol(hstmt, colpos, SQL_C_FLOAT, &m_Data.Float, sizeof(m_Data.Float), &cid);
+		result = SQLBindCol(hstmt, colpos, SQL_FLOAT, &m_Data.Float, sizeof(m_Data.Float), &cid);
 		break;
 	case EStorageType::String:
 		if (!IsSuccess(SQLColAttribute(hstmt, colpos, SQL_DESC_DISPLAY_SIZE, NULL, 0, NULL, &string_length)))
 		{
 			break;
 		}
-		result = SQLBindCol(hstmt, colpos, SQL_C_TCHAR, SQLPOINTER(m_string.data()), (string_length + 1) * sizeof(TCHAR), &cid);
+		result = SQLBindCol(hstmt, colpos, SQL_VARCHAR, SQLPOINTER(m_string.data()), (string_length + 1) * sizeof(TCHAR), &cid);
 		break;
 	case EStorageType::DateTime:
-		result = SQLBindCol(hstmt, colpos, SQL_C_DATE, &m_Data.DateTime, sizeof(m_Data.DateTime), &cid);
+		result = SQLBindCol(hstmt, colpos, SQL_DATETIME, &m_Data.DateTime, sizeof(m_Data.DateTime), &cid);
 		break;
 	default:
 		throw SQLException("unknown type", ESQLErrorCode::NO_SUPPORT_TYPE);

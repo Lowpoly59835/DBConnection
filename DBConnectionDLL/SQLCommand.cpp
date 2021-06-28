@@ -9,6 +9,11 @@ using NetworkCommon::DBConnection::SQLReader;
 using std::make_pair;
 using std::string;
 
+NetworkCommon::DBConnection::SQLCommand::SQLCommand(SQLConnection * connection)
+	:m_connection(connection)
+{
+}
+
 NetworkCommon::DBConnection::SQLCommand::SQLCommand(SQLConnection* connection, const wchar_t* command)
 	:m_connection(connection), m_command(command)
 {
