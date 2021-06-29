@@ -90,7 +90,7 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 
 	m_rowCount = rowCount;
 
-	for(int i = 0 ; i < cCols ; i++)
+	for (int i = 1; i <= cCols; i++)
 	{
 		SQLWCHAR      ColumnName[255] = L"";
 		SQLSMALLINT   BufferLength = 0;
@@ -100,21 +100,11 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 		SQLSMALLINT  DecimalDigits = 0;
 		SQLSMALLINT   NullablePtr = SQL_NULLABLE_UNKNOWN;
 
-		SQLRETURN describeColResult = SQLDescribeCol(m_hStmt, i + 1, ColumnName, sizeof(ColumnName), &NameLength, &DataType, &ColumnSize, &DecimalDigits, &NullablePtr);
+		SQLRETURN describeColResult = SQLDescribeCol(m_hStmt, i, ColumnName, sizeof(ColumnName), &NameLength, &DataType, &ColumnSize, &DecimalDigits, &NullablePtr);
 
 		if (!IsSuccess(describeColResult))
 		{
 			continue;
-		}
-		
-		SQLBuffer buffer(DataType);
-		
-		SQLRETURN result = buffer.Bind(m_hStmt, i);
-
-		if (!IsSuccess(result))
-		{
-			m_resultBuffer.clear();
-			throw SQLException("", ESQLErrorCode::UNKNOWN, result);
 		}
 
 		if (wcslen(ColumnName) == 0)
@@ -122,9 +112,19 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 			//문자열 길이가 0이라면, 다른 이름으로 치환해줘야할듯?
 		}
 
-		m_resultBuffer.push_back({ColumnName, buffer});
+		m_resultBuffer.emplace_back(ColumnName, SQLBuffer(DataType));
+
+
+		SQLRETURN result = m_resultBuffer[i - 1].second.Bind(m_hStmt, i);
+
+		if (!IsSuccess(result))
+		{
+			m_resultBuffer.clear();
+			throw SQLException("", ESQLErrorCode::UNKNOWN, result);
+		}
 	}
 }
+
 
 
 template<>

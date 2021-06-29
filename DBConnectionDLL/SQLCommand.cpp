@@ -23,7 +23,7 @@ NetworkCommon::DBConnection::SQLCommand::~SQLCommand()
 {
 }
 
-const SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
+SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 {
 	if (m_connection == nullptr)
 	{
@@ -80,7 +80,7 @@ SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hS
 	 return retcode;
 }
 
-const SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * command)
+SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * command)
 {
 	m_command = command;
 

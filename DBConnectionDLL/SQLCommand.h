@@ -47,8 +47,8 @@ namespace NetworkCommon
 			~SQLCommand();
 
 		public:
-			const SQLReader Execute();
-			const SQLReader Execute(const wchar_t * command);
+			SQLReader Execute();
+			SQLReader Execute(const wchar_t * command);
 
 			void AddParameterWithValue(const char* parameterName, char type);
 			void AddParameterWithOutput(const char* parameterName, char type);
