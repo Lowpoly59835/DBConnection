@@ -172,13 +172,13 @@ std::string NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colN
 }
 
 template<>
-time_t NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
+TIMESTAMP_STRUCT NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 {
 	for (auto& it : m_resultBuffer)
 	{
 		if (wcscmp(it.first.c_str(), colName) == 0)
 		{
-			return it.second->GetValue<time_t>();
+			return it.second->GetValue<TIMESTAMP_STRUCT>();
 		}
 	}
 

@@ -5,6 +5,7 @@
 #include "SQLConnection.h"
 #include "SQLCommand.h"
 #include "SQLReader.h"
+#include <ctime> 
 
 using namespace NetworkCommon::DBConnection;
 
@@ -27,8 +28,7 @@ int main()
 		while (reader.Next())
 		{
 			int id = reader.GetValue<int>(L"RankingID");
-			//int value = reader.GetValue<int>(L"ChestID");
-			//std::cout << id << std::endl;
+			TIMESTAMP_STRUCT beginTime = reader.GetValue<TIMESTAMP_STRUCT>(L"StartDate");
 		}
 
 		sqlConn.Close();

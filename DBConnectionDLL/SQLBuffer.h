@@ -31,7 +31,7 @@ namespace NetworkCommon
 			{
 				SQLINTEGER  Int;
 				SQLFLOAT	Float;
-				SQLDATE DateTime;
+				TIMESTAMP_STRUCT  DateTime;
 			};
 
 			template<typename T>
@@ -70,6 +70,6 @@ namespace NetworkCommon
 		std::string DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<std::string>() noexcept;
 
 		template <>
-		time_t DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<time_t>() noexcept;
+		TIMESTAMP_STRUCT DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<TIMESTAMP_STRUCT>() noexcept;
 	}
 }

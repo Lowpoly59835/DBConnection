@@ -63,7 +63,7 @@ namespace NetworkCommon
 		std::string DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<std::string>(const wchar_t* colName);
 
 		template <>
-		time_t DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<time_t>(const wchar_t* colName);
+		TIMESTAMP_STRUCT DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<TIMESTAMP_STRUCT>(const wchar_t* colName);
 	}
 }
 

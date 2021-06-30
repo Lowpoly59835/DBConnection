@@ -50,7 +50,7 @@ SQLRETURN NetworkCommon::DBConnection::SQLBuffer::Bind(SQLHSTMT& hstmt, int colp
 		result = SQLBindCol(hstmt, colpos, SQL_C_CHAR, SQLPOINTER(m_string.data()), (string_length + 1) * sizeof(CHAR), &cid);
 		break;
 	case EStorageType::DateTime:
-		result = SQLBindCol(hstmt, colpos, SQL_C_DATE, &m_Data, sizeof(m_Data.DateTime), &cid);
+		result = SQLBindCol(hstmt, colpos, SQL_C_TIMESTAMP, &m_Data, sizeof(m_Data.DateTime), &cid);
 		break;
 	default:
 		throw SQLException("unknown type", ESQLErrorCode::NO_SUPPORT_TYPE);
@@ -84,7 +84,7 @@ std::string NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 }
 
 template<>
-time_t NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
+TIMESTAMP_STRUCT NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 {
 	return m_Data.DateTime;
 }
