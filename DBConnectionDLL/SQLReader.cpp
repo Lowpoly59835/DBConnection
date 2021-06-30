@@ -25,7 +25,7 @@ SQLReader::SQLReader(const SQLReader&& other) noexcept
 
 SQLReader::~SQLReader()
 {
-	m_resultBuffer.clear();
+	BufferClear();
 
 	if (m_hStmt)
 	{
@@ -63,7 +63,10 @@ int NetworkCommon::DBConnection::SQLReader::RowCount() noexcept
 //https://gist.github.com/bombless/6a71da1ed3e6b0b7d404 148 라인
 void NetworkCommon::DBConnection::SQLReader::bind()
 {
-	m_resultBuffer.clear();
+	if (!m_resultBuffer.empty())
+	{
+		BufferClear();
+	}
 
 	if (m_hStmt == NULL)
 	{
@@ -73,22 +76,10 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 	SQLSMALLINT cCols;
 	SQLRETURN result = SQLNumResultCols(m_hStmt, &cCols);
 
-
 	if (!IsSuccess(result))
 	{
 		throw SQLException("", ESQLErrorCode::UNKNOWN, result);
 	}
-
-
-	SQLLEN rowCount = 0;
-	result = SQLRowCount(m_hStmt, &rowCount);
-
-	if (!IsSuccess(result))
-	{
-		throw SQLException("get row count fail");
-	}
-
-	m_rowCount = rowCount;
 
 	for (int i = 1; i <= cCols; i++)
 	{
@@ -110,12 +101,13 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 		if (wcslen(ColumnName) == 0)
 		{
 			//문자열 길이가 0이라면, 다른 이름으로 치환해줘야할듯?
+			//검색할떈 어떻하지?
 		}
 
-		m_resultBuffer.emplace_back(ColumnName, SQLBuffer(DataType));
+		m_resultBuffer.emplace_back(ColumnName, new SQLBuffer(DataType));
 
 
-		SQLRETURN result = m_resultBuffer[i - 1].second.Bind(m_hStmt, i);
+		SQLRETURN result = m_resultBuffer[i - 1].second->Bind(m_hStmt, i);
 
 		if (!IsSuccess(result))
 		{
@@ -123,6 +115,16 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 			throw SQLException("", ESQLErrorCode::UNKNOWN, result);
 		}
 	}
+}
+
+void NetworkCommon::DBConnection::SQLReader::BufferClear()
+{
+	for (auto& it : m_resultBuffer)
+	{
+		delete it.second;
+	}
+
+	m_resultBuffer.clear();
 }
 
 
@@ -134,7 +136,7 @@ int NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 	{
 		if (wcscmp(it.first.c_str(), colName) == 0)
 		{
-			return it.second.GetValue<int>();
+			return it.second->GetValue<int>();
 		}
 	}
 
@@ -148,7 +150,7 @@ float NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 	{
 		if (wcscmp(it.first.c_str(), colName) == 0)
 		{
-			return it.second.GetValue<float>();
+			return it.second->GetValue<float>();
 		}
 	}
 
@@ -162,7 +164,7 @@ std::string NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colN
 	{
 		if (wcscmp(it.first.c_str(), colName) == 0)
 		{
-			return it.second.GetValue<std::string>();
+			return it.second->GetValue<std::string>();
 		}
 	}
 
@@ -176,7 +178,7 @@ time_t NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 	{
 		if (wcscmp(it.first.c_str(), colName) == 0)
 		{
-			return it.second.GetValue<time_t>();
+			return it.second->GetValue<time_t>();
 		}
 	}
 

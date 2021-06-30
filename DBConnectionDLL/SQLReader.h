@@ -14,7 +14,7 @@ namespace NetworkCommon
 #pragma warning (disable : 4231)
 #pragma warning( disable : 4251)
 		EXPORT_STL_STRING(wchar_t);
-		EXPORT_INTERFACE_CLASS(vector<std::pair<wstring, SQLBuffer>>);
+		EXPORT_INTERFACE_CLASS(vector<std::pair<wstring, SQLBuffer*>>);
 #pragma warning (default : 4231) 
 #pragma warning (default : 4251)
 
@@ -42,12 +42,13 @@ namespace NetworkCommon
 
 		private:
 			void bind();
+			void BufferClear();
 
 		private:
 			SQLHSTMT m_hStmt;
 			SQLCommand& m_command;
 			
-			vector<std::pair<wstring, SQLBuffer>> m_resultBuffer;
+			vector<std::pair<wstring, SQLBuffer*>> m_resultBuffer;
 			INT64 m_rowCount;
 			bool m_hasValue;
 		};

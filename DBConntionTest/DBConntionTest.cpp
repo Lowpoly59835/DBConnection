@@ -22,12 +22,13 @@ int main()
 
 		SQLCommand command(&sqlConn);
 
-		SQLReader reader = command.Execute(L"select * from _RefRankingConfig");
+		SQLReader reader = command.Execute(L"select * from _RefRanking");
 
 		while (reader.Next())
 		{
-			std::string id = reader.GetValue<std::string>(L"ConfigKey");
+			int id = reader.GetValue<int>(L"RankingID");
 			//int value = reader.GetValue<int>(L"ChestID");
+			//std::cout << id << std::endl;
 		}
 
 		sqlConn.Close();

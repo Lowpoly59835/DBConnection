@@ -29,9 +29,9 @@ namespace NetworkCommon
 
 			union DBCONNECTIONDLL_EXPORTS_DECLSPEC StorageData
 			{
-				INT32 Int;
-				FLOAT Float;
-				time_t DateTime;
+				SQLINTEGER  Int;
+				SQLFLOAT	Float;
+				SQLDATE DateTime;
 			};
 
 			template<typename T>
