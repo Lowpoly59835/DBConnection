@@ -64,6 +64,11 @@ namespace NetworkCommon
 
 		template <>
 		TIMESTAMP_STRUCT DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<TIMESTAMP_STRUCT>(const wchar_t* colName);
+
+		/// 초단위까지만 지원
+		/// 밀리세컨드는 따로 변환해야함
+		template <>
+		tm DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<tm>(const wchar_t* colName);
 	}
 }
 

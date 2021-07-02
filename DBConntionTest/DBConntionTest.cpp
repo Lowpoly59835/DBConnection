@@ -5,9 +5,11 @@
 #include "SQLConnection.h"
 #include "SQLCommand.h"
 #include "SQLReader.h"
-#include <ctime> 
+#include <chrono>
+
 
 using namespace NetworkCommon::DBConnection;
+using namespace std::chrono;
 
 int main()
 {
@@ -15,6 +17,7 @@ int main()
 
 	try
 	{
+
 		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost, 1433; DATABASE=MasterDB; UID=PuttTheBallAccesser;PWD=skfnxh59835;");
 	
 		sqlConn.Open();
@@ -24,11 +27,17 @@ int main()
 		SQLCommand command(&sqlConn);
 
 		SQLReader reader = command.Execute(L"select * from _RefRanking");
-
+		
 		while (reader.Next())
 		{
 			int id = reader.GetValue<int>(L"RankingID");
-			TIMESTAMP_STRUCT beginTime = reader.GetValue<TIMESTAMP_STRUCT>(L"StartDate");
+			tm beginTime = reader.GetValue<tm>(L"StartDate");
+					   			
+			char str[26];
+
+			strftime(str, sizeof(str),"%Y-%m-%d %H:%M:%S", &beginTime);
+
+			std::cout << "id : " << id << " / time : " << str << std::endl;
 		}
 
 		sqlConn.Close();

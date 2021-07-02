@@ -183,5 +183,19 @@ TIMESTAMP_STRUCT NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t*
 	}
 
 	throw SQLException("not exists colums", ESQLErrorCode::NOT_EXISTIS_COLUM);
+}
 
+/// 초단위까지만 지원
+/// 밀리세컨드는 따로 변환해야함
+template<>
+tm NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
+{
+	TIMESTAMP_STRUCT timestamp = GetValue<TIMESTAMP_STRUCT>(colName);
+	
+	tm time_tm{ timestamp.second , timestamp.minute, timestamp.hour, timestamp.day, timestamp.month - 1, timestamp.year - 1900
+	}; 
+	
+	mktime(&time_tm);
+
+	return time_tm;
 }
