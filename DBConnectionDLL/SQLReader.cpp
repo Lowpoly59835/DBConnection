@@ -7,12 +7,11 @@
 using std::vector;
 using namespace NetworkCommon::DBConnection;
 
-
 SQLReader::SQLReader(SQLCommand& command, SQLHSTMT hStmt) noexcept
 	:m_command(command), m_hStmt(hStmt), m_rowCount(0), m_hasValue(false)
 {
 	assert(!(m_hStmt == NULL));
-	bind();
+	Bind();
 }
 
 
@@ -20,7 +19,7 @@ SQLReader::SQLReader(const SQLReader&& other) noexcept
 	:m_command(other.m_command), m_hStmt(other.m_hStmt), m_rowCount(0), m_hasValue(false)
 {
 	assert(!(m_hStmt == NULL));
-	bind();
+	Bind();
 }
 
 SQLReader::~SQLReader()
@@ -61,7 +60,7 @@ int NetworkCommon::DBConnection::SQLReader::RowCount() noexcept
 }
 
 //https://gist.github.com/bombless/6a71da1ed3e6b0b7d404 148 ¶óÀÎ
-void NetworkCommon::DBConnection::SQLReader::bind()
+void NetworkCommon::DBConnection::SQLReader::Bind()
 {
 	if (!m_resultBuffer.empty())
 	{
@@ -106,8 +105,7 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 
 		m_resultBuffer.emplace_back(ColumnName, new SQLBuffer(DataType));
 
-
-		SQLRETURN result = m_resultBuffer[i - 1].second->Bind(m_hStmt, i);
+		SQLRETURN result = BindReadBuffer(*m_resultBuffer[i - 1].second, m_hStmt, i);
 
 		if (!IsSuccess(result))
 		{
@@ -115,6 +113,43 @@ void NetworkCommon::DBConnection::SQLReader::bind()
 			throw SQLException("", ESQLErrorCode::UNKNOWN, result);
 		}
 	}
+}
+
+
+SQLRETURN NetworkCommon::DBConnection::SQLReader::BindReadBuffer(SQLBuffer& buffer, SQLHSTMT & hstmt, int colpos)
+{	
+	SQLLEN cid = 0;
+	SQLRETURN result = 0;
+	SQLLEN string_length = 0;
+		
+	switch (buffer.Type)
+	{
+	case SQLBuffer::EStorageType::Int:
+		result = SQLBindCol(hstmt, colpos, SQL_INTEGER, static_cast<SQLINTEGER*>(buffer.GetBuffer()), sizeof(SQLINTEGER), &cid);
+		break;
+	case SQLBuffer::EStorageType::Float:
+		result = SQLBindCol(hstmt, colpos, SQL_C_FLOAT, static_cast<SQLFLOAT*>(buffer.GetBuffer()), sizeof(SQLFLOAT), &cid);
+		break;
+	case SQLBuffer::EStorageType::String:
+		if (!(result = IsSuccess(SQLColAttribute(hstmt, colpos, SQL_DESC_DISPLAY_SIZE, NULL, 0, NULL, &string_length))))
+		{
+			break;
+		}
+		result = SQLBindCol(hstmt, colpos, SQL_C_CHAR, SQLPOINTER(static_cast<std::string*>(buffer.GetBuffer())), (string_length + 1) * sizeof(CHAR), &cid);
+		break;
+	case SQLBuffer::EStorageType::DateTime:
+		result = SQLBindCol(hstmt, colpos, SQL_C_TIMESTAMP, static_cast<TIMESTAMP_STRUCT*>(buffer.GetBuffer()), sizeof(TIMESTAMP_STRUCT), &cid);
+		break;
+	default:
+		throw SQLException("unknown type", ESQLErrorCode::NO_SUPPORT_TYPE);
+	}
+
+	if (cid == SQL_NULL_DATA)
+	{
+		throw SQLException("null data", ESQLErrorCode::INVALID);
+	}
+
+	return result;
 }
 
 void NetworkCommon::DBConnection::SQLReader::BufferClear()

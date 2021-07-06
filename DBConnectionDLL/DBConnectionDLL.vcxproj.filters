@@ -68,7 +68,7 @@
     <ClCompile Include="SQLBuffer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SQLPararmeter.cpp">
+    <ClCompile Include="SQLParameter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

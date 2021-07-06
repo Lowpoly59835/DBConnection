@@ -16,7 +16,6 @@ namespace NetworkCommon
 		//int, float, datetime, string만 지원
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer
 		{
-			friend class SQLReader;
 		public:
 			enum class DBCONNECTIONDLL_EXPORTS_DECLSPEC EStorageType
 			{
@@ -46,17 +45,20 @@ namespace NetworkCommon
 			SQLBuffer(SQLSMALLINT sqlType);
 			~SQLBuffer();
 
+			PROPERT_GETEX(m_type, EStorageType, Type);
 
-			PROPERT_GETEX(m_Type, EStorageType, Type);
-
-		private:
-			SQLRETURN Bind(SQLHSTMT& hstmt, int colpos);
 
 		private:
-			EStorageType m_Type;
-			StorageData m_Data;
+			//SQLRETURN ParmeterBind(SQLHSTMT & hstmt, int colpos, char inputOutputType);
+			friend class SQLReader;
+			friend class SQLCommand;
+			void* GetBuffer();
+
+		private:
+			EStorageType m_type;
+			StorageData m_data;
 			//union으로 string을 관리하기 힘들기에 따로 관리
-			std::string m_string;
+			std::string m_strData;
 		};
 
 

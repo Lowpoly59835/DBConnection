@@ -1,6 +1,5 @@
 #pragma once
-#include "IConnection.h"
-
+#include "SQLBuffer.h"
 namespace NetworkCommon
 {
 	namespace DBConnection
@@ -14,16 +13,20 @@ namespace NetworkCommon
 		struct DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLParameter
 		{
 		public:
-			SQLParameter();
-			SQLParameter(const SQLParameter*) = delete;
+			SQLParameter() = default;
+			SQLParameter& operator=(const SQLParameter&) = default;
+			SQLParameter(const SQLParameter&) = default;
 
-			SQLParameter(const char* name, char type);
-			SQLParameter(const SQLParameter&);
+			SQLParameter(SQLSMALLINT type);
+			SQLParameter(const char* name, SQLSMALLINT type);
 			~SQLParameter();
 
 		public:
+
+
+		private:
+			SQLBuffer m_buffer;
 			std::string m_name;
-			char m_type;
 		};
 	}
 }

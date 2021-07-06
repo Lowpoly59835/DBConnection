@@ -41,7 +41,8 @@ namespace NetworkCommon
 			int RowCount() noexcept;
 
 		private:
-			void bind();
+			void Bind();
+			SQLRETURN BindReadBuffer(SQLBuffer& buffer, SQLHSTMT& hstmt, int colpos);
 			void BufferClear();
 
 		private:

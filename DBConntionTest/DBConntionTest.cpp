@@ -13,11 +13,11 @@ using namespace std::chrono;
 
 int main()
 {
+
     std::cout << "Hello World!\n";
 
 	try
 	{
-
 		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost, 1433; DATABASE=MasterDB; UID=PuttTheBallAccesser;PWD=skfnxh59835;");
 	
 		sqlConn.Open();

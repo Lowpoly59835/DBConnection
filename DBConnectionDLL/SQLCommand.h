@@ -8,8 +8,8 @@ namespace NetworkCommon
 	namespace DBConnection
 	{
 		class SQLReader;
-		using std::vector;
-
+		using std::vector; 
+		
 #pragma warning (disable : 4231)
 #pragma warning( disable : 4251)
 		EXPORT_INTERFACE_CLASS(vector<SQLParameter>);
@@ -29,11 +29,8 @@ namespace NetworkCommon
 			SQLReader Execute();
 			SQLReader Execute(const wchar_t * command);
 
-			void AddParameterWithValue(const char* parameterName, char type);
-			void AddParameterWithOutput(const char* parameterName, char type);
-
-			PROPERT_GETEX(m_pararmetersWithValue, vector<SQLParameter>, ParameterWithValues);
-			PROPERT_GETEX(m_pararmetersOutput, vector<SQLParameter>, ParameterOutputs);
+			void AddParameterWithValue(const char* parameterName, SQLSMALLINT type);
+			void AddParameterWithOutput(const char* parameterName, SQLSMALLINT type);
 
 		private:
 			RETCODE ExecuteStatement(SQLHSTMT& hStmt);
@@ -46,7 +43,5 @@ namespace NetworkCommon
 			vector<SQLParameter> m_pararmetersWithValue;
 		};
 	}
-    
-
 }
 
