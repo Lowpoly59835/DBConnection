@@ -8,7 +8,7 @@ using std::vector;
 using namespace NetworkCommon::DBConnection;
 
 SQLReader::SQLReader(SQLCommand& command, SQLHSTMT hStmt) noexcept
-	:m_command(command), m_hStmt(hStmt), m_rowCount(0), m_hasValue(false)
+	:m_command(command), m_hStmt(hStmt), m_hasValue(false)
 {
 	assert(!(m_hStmt == NULL));
 	Bind();
@@ -16,7 +16,7 @@ SQLReader::SQLReader(SQLCommand& command, SQLHSTMT hStmt) noexcept
 
 
 SQLReader::SQLReader(const SQLReader&& other) noexcept
-	:m_command(other.m_command), m_hStmt(other.m_hStmt), m_rowCount(0), m_hasValue(false)
+	:m_command(other.m_command), m_hStmt(other.m_hStmt), m_hasValue(false)
 {
 	assert(!(m_hStmt == NULL));
 	Bind();
@@ -54,11 +54,6 @@ bool NetworkCommon::DBConnection::SQLReader::HasValue() noexcept
 	return m_hasValue;
 }
 
-int NetworkCommon::DBConnection::SQLReader::RowCount() noexcept
-{
-	return m_rowCount;
-}
-
 //https://gist.github.com/bombless/6a71da1ed3e6b0b7d404 148 ∂Û¿Œ
 void NetworkCommon::DBConnection::SQLReader::Bind()
 {
@@ -90,7 +85,7 @@ void NetworkCommon::DBConnection::SQLReader::Bind()
 		SQLSMALLINT  DecimalDigits = 0;
 		SQLSMALLINT   NullablePtr = SQL_NULLABLE_UNKNOWN;
 
-		SQLRETURN describeColResult = SQLDescribeCol(m_hStmt, i, ColumnName, sizeof(ColumnName), &NameLength, &DataType, &ColumnSize, &DecimalDigits, &NullablePtr);
+		SQLRETURN describeColResult = SQLDescribeCol(m_hStmt, i, ColumnName, sizeof(ColumnName) / 2, &NameLength, &DataType, &ColumnSize, &DecimalDigits, &NullablePtr);
 
 		if (!IsSuccess(describeColResult))
 		{

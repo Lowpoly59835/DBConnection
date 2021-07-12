@@ -10,7 +10,7 @@ namespace NetworkCommon
 #pragma warning (default : 4231) 
 #pragma warning (default : 4251)
 
-		struct DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLParameter
+		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLParameter
 		{
 		public:
 			SQLParameter() = default;
@@ -21,8 +21,10 @@ namespace NetworkCommon
 			SQLParameter(const char* name, SQLSMALLINT type);
 			~SQLParameter();
 
-		public:
+		private:
+			friend class SQLCommand;
 
+			RETCODE BindParmeter(SQLHSTMT& hstmt, int colpos, SQLSMALLINT bindType);
 
 		private:
 			SQLBuffer m_buffer;

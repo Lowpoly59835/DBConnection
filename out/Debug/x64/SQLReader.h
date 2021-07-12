@@ -50,7 +50,6 @@ namespace NetworkCommon
 			SQLCommand& m_command;
 			
 			vector<std::pair<wstring, SQLBuffer*>> m_resultBuffer;
-			INT64 m_rowCount;
 			bool m_hasValue;
 		};
 

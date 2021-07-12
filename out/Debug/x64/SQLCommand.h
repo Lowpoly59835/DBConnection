@@ -40,7 +40,7 @@ namespace NetworkCommon
 			SQLConnection* m_connection;
 			
 			vector<SQLParameter> m_pararmetersOutput;
-			vector<SQLParameter> m_pararmetersWithValue;
+			vector<SQLParameter> m_pararmeters;
 		};
 	}
 }

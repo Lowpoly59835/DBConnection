@@ -66,6 +66,16 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 
 SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStmt)
 {
+	for (int i = 1 ; i <= m_pararmeters.size() ; i++)
+	{
+		m_pararmeters[i].BindParmeter(hStmt, i, SQL_PARAM_INPUT);
+	}
+
+	for (int i = 1; i <= m_pararmeters.size(); i++)
+	{
+		m_pararmeters[i].BindParmeter(hStmt, i + m_pararmeters.size(), SQL_PARAM_OUTPUT);
+	}
+
 	WCHAR* command = const_cast<WCHAR*>(m_command.c_str());
 
 	SQLRETURN retcode = SQLPrepare(hStmt, command, SQL_NTS);
@@ -80,6 +90,7 @@ SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hS
 	 return retcode;
 }
 
+
 SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * command)
 {
 	m_command = command;
@@ -90,7 +101,7 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * comma
 
 void NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char * parameterName, SQLSMALLINT type)
 {
-	m_pararmetersWithValue.push_back(SQLParameter(parameterName, type));
+	m_pararmeters.push_back(SQLParameter(parameterName, type));
 }
 
 void NetworkCommon::DBConnection::SQLCommand::AddParameterWithOutput(const char * parameterName, SQLSMALLINT type)
