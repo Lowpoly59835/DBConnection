@@ -18,7 +18,7 @@ int main()
 
 	try
 	{
-		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost, 1433; DATABASE=MasterDB; UID=PuttTheBallAccesser;PWD=skfnxh59835;");
+		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost, 1433; DATABASE=TestDB; UID=Sin;PWD=skfnxh59835;");
 	
 		sqlConn.Open();
 		
@@ -30,14 +30,15 @@ int main()
 		
 		while (reader.Next())
 		{
-			int id = reader.GetValue<int>(L"RankingID");
-			tm beginTime = reader.GetValue<tm>(L"StartDate");
+			int id = reader.GetValue<int>(L"ID");
+			std::string test_value = reader.GetValue<std::string>(L"Value");
+			tm beginTime = reader.GetValue<tm>(L"UpdateTime");
 					   			
 			char str[26];
 
 			strftime(str, sizeof(str),"%Y-%m-%d %H:%M:%S", &beginTime);
 
-			std::cout << "id : " << id << " / time : " << str << std::endl;
+			std::cout << "id : " << id << " / value : " << test_value.c_str() << " / time : " << str << std::endl;
 		}
 
 		sqlConn.Close();

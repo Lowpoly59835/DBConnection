@@ -52,7 +52,7 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 	case SQLBuffer::EStorageType::String:
 	{
 		std::string* pString = static_cast<std::string*>(m_buffer.GetBuffer());
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, SQL_CHAR, pString->length(), 0, SQLPOINTER(static_cast<std::string*>(m_buffer.GetBuffer())), 0, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, SQL_CHAR, pString->length(), 0, SQLPOINTER(pString->data()), 0, &cid);
 	}break;
 	case SQLBuffer::EStorageType::DateTime:
 		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TIMESTAMP, sizeof(TIMESTAMP_STRUCT), 0, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), 0, &cid);
