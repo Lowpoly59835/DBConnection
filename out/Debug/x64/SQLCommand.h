@@ -32,6 +32,8 @@ namespace NetworkCommon
 			void AddParameterWithValue(const char* parameterName, SQLSMALLINT type);
 			void AddParameterWithOutput(const char* parameterName, SQLSMALLINT type);
 
+			PROPERT_GETEX(m_pararmeters, vector<SQLParameter>, Parmeters);
+
 		private:
 			RETCODE ExecuteStatement(SQLHSTMT& hStmt);
 

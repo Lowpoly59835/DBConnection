@@ -23,18 +23,26 @@ void NetworkCommon::DBConnection::SQLParameter::operator=(int value)
 
 void NetworkCommon::DBConnection::SQLParameter::operator=(float value)
 {
+	SQLFLOAT* pValue = static_cast<SQLFLOAT*>(m_buffer.GetBuffer());
+	*pValue = value;
 }
 
 void NetworkCommon::DBConnection::SQLParameter::operator=(const char* value)
 {
+	std::string* pValue = static_cast<std::string*>(m_buffer.GetBuffer());
+	*pValue = value;
 }
 
 void NetworkCommon::DBConnection::SQLParameter::operator=(std::string& value)
 {
+	std::string* pValue = static_cast<std::string*>(m_buffer.GetBuffer());
+	*pValue = value;
 }
 
 void NetworkCommon::DBConnection::SQLParameter::operator=(TIMESTAMP_STRUCT& value)
 {
+	TIMESTAMP_STRUCT* pValue = static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer());
+	*pValue = value;
 }
 
 RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt, int colpos, SQLSMALLINT bindType)
