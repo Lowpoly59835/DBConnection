@@ -49,7 +49,6 @@ namespace NetworkCommon
 
 
 		private:
-			//SQLRETURN ParmeterBind(SQLHSTMT & hstmt, int colpos, char inputOutputType);
 			friend class SQLReader;
 			friend class SQLParameter;
 

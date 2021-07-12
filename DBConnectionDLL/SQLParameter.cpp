@@ -15,6 +15,28 @@ NetworkCommon::DBConnection::SQLParameter::~SQLParameter()
 {
 }
 
+void NetworkCommon::DBConnection::SQLParameter::operator=(int value)
+{
+	SQLINTEGER* pValue = static_cast<SQLINTEGER*>(m_buffer.GetBuffer());
+	*pValue = value;
+}
+
+void NetworkCommon::DBConnection::SQLParameter::operator=(float value)
+{
+}
+
+void NetworkCommon::DBConnection::SQLParameter::operator=(const char* value)
+{
+}
+
+void NetworkCommon::DBConnection::SQLParameter::operator=(std::string& value)
+{
+}
+
+void NetworkCommon::DBConnection::SQLParameter::operator=(TIMESTAMP_STRUCT& value)
+{
+}
+
 RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt, int colpos, SQLSMALLINT bindType)
 {
 	SQLLEN cid = 0;
