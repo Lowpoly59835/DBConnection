@@ -29,8 +29,8 @@ namespace NetworkCommon
 			SQLReader Execute();
 			SQLReader Execute(const wchar_t * command);
 
-			void AddParameterWithValue(const char* parameterName, SQLSMALLINT type);
-			void AddParameterWithOutput(const char* parameterName, SQLSMALLINT type);
+			void AddParameter(const char* parameterName, SQLSMALLINT type);
+			void AddOutputParameter(const char* parameterName, SQLSMALLINT type);
 
 			//PROPERT_GETEX(m_pararmeters, vector<SQLParameter>, Parmeters);
 

@@ -99,12 +99,12 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * comma
 }
 
 
-void NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char * parameterName, SQLSMALLINT type)
+void NetworkCommon::DBConnection::SQLCommand::AddParameter(const char * parameterName, SQLSMALLINT type)
 {
 	m_pararmeters.push_back(SQLParameter(parameterName, type));
 }
 
-void NetworkCommon::DBConnection::SQLCommand::AddParameterWithOutput(const char * parameterName, SQLSMALLINT type)
+void NetworkCommon::DBConnection::SQLCommand::AddOutputParameter(const char * parameterName, SQLSMALLINT type)
 {
 	m_pararmetersOutput.push_back(SQLParameter(parameterName, type));
 }
