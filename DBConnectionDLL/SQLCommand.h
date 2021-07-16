@@ -29,10 +29,17 @@ namespace NetworkCommon
 			SQLReader Execute();
 			SQLReader Execute(const wchar_t * command);
 
-			void AddParameter(const char* parameterName, SQLSMALLINT type);
-			void AddOutputParameter(const char* parameterName, SQLSMALLINT type);
+			SQLParameter* AddParameter(const char* parameterName, SQLSMALLINT type);
+			SQLParameter* AddParameterWithValue(const char* parameterName, SQLSMALLINT type, int value);
+			SQLParameter* AddParameterWithValue(const char* parameterName, SQLSMALLINT type, float value);
+			SQLParameter* AddParameterWithValue(const char* parameterName, SQLSMALLINT type, std::string value);
+			SQLParameter* AddParameterWithValue(const char* parameterName, SQLSMALLINT type, TIMESTAMP_STRUCT value);
 
-			//PROPERT_GETEX(m_pararmeters, vector<SQLParameter>, Parmeters);
+			SQLParameter* AddOutputParameter(const char* parameterName, SQLSMALLINT type);
+			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, int value);
+			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, float value);
+			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, std::string value);
+			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, TIMESTAMP_STRUCT value);
 
 		private:
 			RETCODE ExecuteStatement(SQLHSTMT& hStmt);

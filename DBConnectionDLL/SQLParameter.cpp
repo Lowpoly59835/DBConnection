@@ -51,25 +51,6 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 	SQLRETURN result = 0;
 	SQLLEN string_length = 0;
 
-	if (!m_name.empty())
-	{
-		SQLHDESC hIpd = NULL;
-
-		result = SQLGetStmtAttr(hstmt, SQL_ATTR_IMP_PARAM_DESC, &hIpd, 0, 0);
-
-		if (!IsSuccess(result))
-		{
-			throw SQLException("", ESQLErrorCode::BIND_PARMETER_ERROR, result);
-		}
-
-		result = SQLSetDescField(hIpd, colpos, SQL_DESC_NAME, SQLPOINTER(m_name.c_str()), SQL_NTS);
-
-
-		if (!IsSuccess(result))
-		{
-			throw SQLException("", ESQLErrorCode::BIND_PARMETER_ERROR, result);
-		}
-	}
 
 	switch (m_buffer.Type)
 	{
@@ -88,13 +69,33 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TIMESTAMP, sizeof(TIMESTAMP_STRUCT), 0, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
 	default:
-		throw SQLException("unknown type", ESQLErrorCode::NO_SUPPORT_TYPE);
+		throw SQLException(Format("%s parameter is unknown type", m_name.c_str()), ESQLErrorCode::NO_SUPPORT_TYPE);
 	}
 
 	if (cid == SQL_NULL_DATA)
 	{
 		throw SQLException("null data", ESQLErrorCode::INVALID);
 	}
+
+
+	//if (!m_name.empty())
+	//{
+	//	SQLHDESC hIpd = NULL;
+
+	//	result = SQLGetStmtAttr(hstmt, SQL_ATTR_IMP_PARAM_DESC, &hIpd, 0, 0);
+
+	//	if (!IsSuccess(result))
+	//	{
+	//		throw SQLException("", ESQLErrorCode::BIND_PARMETER_ERROR, result);
+	//	}
+
+	//	result = SQLSetDescField(hIpd, colpos, SQL_DESC_NAME, SQLPOINTER(m_name.c_str()), SQL_NTS);
+
+	//	if (!IsSuccess(result))
+	//	{
+	//		throw SQLException("", ESQLErrorCode::BIND_PARMETER_ERROR, result);
+	//	}
+	//}
 
 	return result;
 }

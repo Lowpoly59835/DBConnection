@@ -6,6 +6,7 @@
 
 using std::exception;
 using NetworkCommon::DBConnection::SQLReader;
+using NetworkCommon::DBConnection::SQLParameter;
 using std::make_pair;
 using std::string;
 
@@ -66,25 +67,24 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 
 SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStmt)
 {
-	for (int i = 1 ; i <= m_pararmeters.size() ; i++)
-	{
-		m_pararmeters[i].BindParmeter(hStmt, i, SQL_PARAM_INPUT);
-	}
-
-	for (int i = 1; i <= m_pararmeters.size(); i++)
-	{
-		m_pararmeters[i].BindParmeter(hStmt, i + m_pararmeters.size(), SQL_PARAM_OUTPUT);
-	}
-
 	WCHAR* command = const_cast<WCHAR*>(m_command.c_str());
 
 	SQLRETURN retcode = SQLPrepare(hStmt, command, SQL_NTS);
 
-	if (retcode != SQL_SUCCESS) 
+	if (retcode != SQL_SUCCESS)
 	{
 		return retcode;
 	}
 
+	for (int i = 0 ; i < m_pararmeters.size() ; i++)
+	{
+		m_pararmeters[i].BindParmeter(hStmt, i + 1, SQL_PARAM_INPUT);
+	}
+
+	for (int i = 0; i < m_pararmetersOutput.size(); i++)
+	{
+		m_pararmetersOutput[i].BindParmeter(hStmt, i + m_pararmeters.size() + 1, SQL_PARAM_OUTPUT);
+	}
 	 retcode = SQLExecute(hStmt);
 
 	 return retcode;
@@ -99,12 +99,89 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * comma
 }
 
 
-void NetworkCommon::DBConnection::SQLCommand::AddParameter(const char * parameterName, SQLSMALLINT type)
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameter(const char * parameterName, SQLSMALLINT type)
 {
-	m_pararmeters.push_back(SQLParameter(parameterName, type));
+	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
+
+	return &result;
 }
 
-void NetworkCommon::DBConnection::SQLCommand::AddOutputParameter(const char * parameterName, SQLSMALLINT type)
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, int value)
 {
-	m_pararmetersOutput.push_back(SQLParameter(parameterName, type));
+	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
+}
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, float value)
+{
+	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
+}
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, std::string value)
+{
+	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
+}
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, TIMESTAMP_STRUCT value)
+{
+	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
+}
+
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameter(const char * parameterName, SQLSMALLINT type)
+{
+	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
+
+	return &result;
+}
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, int value)
+{
+	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
+}
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, float value)
+{
+	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
+}
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, std::string value)
+{
+	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
+}
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, TIMESTAMP_STRUCT value)
+{
+	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
 }

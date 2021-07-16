@@ -53,11 +53,8 @@
 /02.Binout/
 /CodeGenerator/bin/
 /CodeGenerator/obj/
-out/Release/x64/DBConnectionDLL.ipdb
+DBConntionTest/out/
+*.iobj
+*.ipdb
 out/Release/x64/DBConnectionDLL.iobj
-out/Release/x64/DBConnectionDLL.iobj
 out/Release/x64/DBConnectionDLL.ipdb
-out/Release/x64/DBConnectionDLL.iobj
-out/Release/x64/DBConnectionDLL.ipdb
-out/Release/x64/DBConnectionDLL.ipdb
-out/Release/x64/DBConnectionDLL.iobj

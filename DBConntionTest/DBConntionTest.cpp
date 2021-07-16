@@ -24,10 +24,13 @@ int main()
 		
 		std::cout << "connect sucess " << std::endl;
 
-		SQLCommand command(&sqlConn);
+		SQLCommand command(&sqlConn, L"Proc_LoadRanking");
 
-		SQLReader reader = command.Execute(L"select * from _RefRanking");
+		command.AddParameterWithValue("@pID", SQL_INTEGER, 2);
+
+		SQLReader reader = command.Execute();
 		
+
 		while (reader.Next())
 		{
 			int id = reader.GetValue<int>(L"ID");
