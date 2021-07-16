@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)out\$(Configuration)\$(Platform);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)out\$(Configuration)\$(Platform);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)out\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
     <ReferencePath>$(SolutionDir)out\$(Configuration)\$(Platform);$(VC_ReferencesPath_x64);</ReferencePath>
     <SourcePath>$(VC_SourcePath);</SourcePath>
@@ -133,7 +133,17 @@
       <AdditionalLibraryDirectories>$(SolutionDir)out\$(Configuration)\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\*.dll"  "$(OutDir)" </Command>
+      <Command>copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\*.dll"  "$(OutDir)" 
+
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\ExportDefine.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\IConnection.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SharedClass.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLBuffer.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLCommand.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLConnection.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLParameter.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLReader.h" "$(OutDir)"
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

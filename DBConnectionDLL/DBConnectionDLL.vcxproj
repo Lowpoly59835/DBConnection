@@ -84,7 +84,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)out\$(Configuration)\$(Platform)\</OutDir>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -185,6 +185,7 @@ copy /Y "$(ProjectDir)SharedClass.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLBuffer.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLCommand.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLConnection.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLParameter.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLReader.h" "$(OutDir)"
 </Command>
     </PostBuildEvent>
