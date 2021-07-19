@@ -58,3 +58,6 @@ DBConntionTest/out/
 *.ipdb
 out/Release/x64/DBConnectionDLL.iobj
 out/Release/x64/DBConnectionDLL.ipdb
+x64/
+*.iobj
+*.ipdb
