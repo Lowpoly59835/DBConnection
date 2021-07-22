@@ -13,10 +13,21 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="DBSQL">
+      <UniqueIdentifier>{39edeb29-0696-4edf-9d9c-41eeb2f73598}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DBConntionTest.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="[TestDB]createTable.sql">
+      <Filter>DBSQL</Filter>
+    </None>
+    <None Include="[TestDB]createProcedure.sql">
+      <Filter>DBSQL</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,20 +1,15 @@
 #pragma once
 #include "SQLBuffer.h"
+#include "CustomString.h"
+
 namespace NetworkCommon
 {
 	namespace DBConnection
 	{
-#pragma warning (disable : 4231)
-#pragma warning( disable : 4251)
-		EXPORT_STL_STRING(char);
-#pragma warning (default : 4231) 
-#pragma warning (default : 4251)
-
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLParameter
 		{
 		public:
 			SQLParameter() = default;
-			SQLParameter& operator=(const SQLParameter&) = default;
 			SQLParameter(const SQLParameter&) = default;
 
 			SQLParameter(SQLSMALLINT type);
@@ -34,7 +29,7 @@ namespace NetworkCommon
 
 		private:
 			SQLBuffer m_buffer;
-			std::string m_name;
+			CustomString m_name;
 		};
 	}
 }

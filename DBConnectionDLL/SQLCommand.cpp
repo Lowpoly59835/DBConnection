@@ -30,7 +30,7 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 	{
 		throw SQLException("conntion is null");
 	}
-	else if (m_command.empty())
+	else if (m_command.Empty())
 	{
 		throw SQLException("command is empty", ESQLErrorCode::INVALID);
 	}
@@ -67,7 +67,7 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 
 SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStmt)
 {
-	WCHAR* command = const_cast<WCHAR*>(m_command.c_str());
+	WCHAR* command = const_cast<WCHAR*>(m_command.c_wstr());
 
 	SQLRETURN retcode = SQLPrepare(hStmt, command, SQL_NTS);
 

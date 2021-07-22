@@ -2,6 +2,7 @@
 #include "SQLCommand.h"
 #include <vector>
 #include "SQLBuffer.h"
+#include "CustomString.h"
 
 
 namespace NetworkCommon
@@ -9,14 +10,12 @@ namespace NetworkCommon
 	namespace DBConnection
 	{
 		using std::vector;
-		using std::wstring;
-
 #pragma warning (disable : 4231)
 #pragma warning( disable : 4251)
-		EXPORT_STL_STRING(wchar_t);
-		EXPORT_INTERFACE_CLASS(vector<std::pair<wstring, SQLBuffer*>>);
+		EXPORT_INTERFACE_CLASS(vector<std::pair<CustomString, SQLBuffer*>>);
 #pragma warning (default : 4231) 
 #pragma warning (default : 4251)
+
 
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader
 		{
@@ -49,7 +48,7 @@ namespace NetworkCommon
 			SQLHSTMT m_hStmt;
 			SQLCommand& m_command;
 			
-			vector<std::pair<wstring, SQLBuffer*>> m_resultBuffer;
+			vector<std::pair<CustomString, SQLBuffer*>> m_resultBuffer;
 			bool m_hasValue;
 		};
 

@@ -4,6 +4,7 @@
 #include "SharedClass.h"
 #include <sql.h>
 #include <sqlext.h>
+#include "CustomString.h"
 
 namespace NetworkCommon
 {
@@ -45,6 +46,11 @@ namespace NetworkCommon
 		public:
 			SQLException(const char* message = "", ESQLErrorCode errcode = ESQLErrorCode::UNKNOWN, SQLRETURN returnValue = 0);
 			PROPERT_GETEX(m_errorCode, ESQLErrorCode, ErrorCode);
+
+			std::string GetMessage()
+			{
+				return Format("[%d]%s", m_errorCode, m_exception.what());
+			}
 		};
 
 	}

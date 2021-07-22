@@ -131,9 +131,9 @@ SQLRETURN NetworkCommon::DBConnection::SQLReader::BindReadBuffer(SQLBuffer& buff
 		{
 			break;
 		}
-		std::string* pStrBuffer = static_cast<std::string*>(buffer.GetBuffer());
-		pStrBuffer->resize(string_length + 1);
-		result = SQLBindCol(hstmt, colpos, SQL_C_CHAR, SQLPOINTER(pStrBuffer->data()), (string_length + 1) * sizeof(CHAR), &cid);
+		CustomString* pStrBuffer = static_cast<CustomString*>(buffer.GetBuffer());
+		pStrBuffer->Resize(string_length + 1);
+		result = SQLBindCol(hstmt, colpos, SQL_C_CHAR, SQLPOINTER(pStrBuffer->c_str()), (string_length + 1) * sizeof(CHAR), &cid);
 	}	break;
 	case SQLBuffer::EStorageType::DateTime:
 		result = SQLBindCol(hstmt, colpos, SQL_C_TIMESTAMP, static_cast<TIMESTAMP_STRUCT*>(buffer.GetBuffer()), sizeof(TIMESTAMP_STRUCT), &cid);
@@ -167,7 +167,7 @@ int NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 {
 	for (auto& it : m_resultBuffer)
 	{
-		if (wcscmp(it.first.c_str(), colName) == 0)
+		if (wcscmp(it.first.c_wstr(), colName) == 0)
 		{
 			return it.second->GetValue<int>();
 		}
@@ -181,7 +181,7 @@ float NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colName)
 {
 	for (auto& it : m_resultBuffer)
 	{
-		if (wcscmp(it.first.c_str(), colName) == 0)
+		if (wcscmp(it.first.c_wstr(), colName) == 0)
 		{
 			return it.second->GetValue<float>();
 		}
@@ -195,7 +195,7 @@ std::string NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t* colN
 {
 	for (auto& it : m_resultBuffer)
 	{
-		if (wcscmp(it.first.c_str(), colName) == 0)
+		if (wcscmp(it.first.c_wstr(), colName) == 0)
 		{
 			return it.second->GetValue<std::string>();
 		}
@@ -209,7 +209,7 @@ TIMESTAMP_STRUCT NetworkCommon::DBConnection::SQLReader::GetValue(const wchar_t*
 {
 	for (auto& it : m_resultBuffer)
 	{
-		if (wcscmp(it.first.c_str(), colName) == 0)
+		if (wcscmp(it.first.c_wstr(), colName) == 0)
 		{
 			return it.second->GetValue<TIMESTAMP_STRUCT>();
 		}

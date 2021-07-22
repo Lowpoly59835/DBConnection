@@ -37,7 +37,7 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 
 
 	//HandleDiagnosticRecord(m_envHandle, SQL_HANDLE_ENV, retCode);
-	WCHAR* pwszConnStr = const_cast<WCHAR*>(m_strConnection.c_str());
+	WCHAR* pwszConnStr = const_cast<WCHAR*>(m_strConnection.c_wstr());
 
 	retCode = SQLDriverConnect(m_connHanlde, GetDesktopWindow(), pwszConnStr, SQL_NTS, NULL, 0, NULL, SQL_DRIVER_COMPLETE);
 

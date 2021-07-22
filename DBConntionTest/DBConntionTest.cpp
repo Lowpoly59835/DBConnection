@@ -18,13 +18,13 @@ int main()
 
 	try
 	{
-		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost, 1433; DATABASE=TestDB; UID=Sin;PWD=skfnxh59835;");
+		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost,1433;DATABASE=TestDB;UID=Sin;PWD=skfnxh59835;");
 	
 		sqlConn.Open();
 		
 		std::cout << "connect sucess " << std::endl;
 
-		SQLCommand command(&sqlConn, L"Proc_LoadRanking");
+		SQLCommand command(&sqlConn, L"Proc_LoadRanking ?");
 
 		command.AddParameterWithValue("@pID", SQL_INTEGER, 2);
 
@@ -50,7 +50,7 @@ int main()
 	}
 	catch (SQLException ex)
 	{
-		std::cout << "fail" << std::endl;
+		std::cout << "fail : " << ex.GetMessageW() << std::endl;
 	}
 }
 
