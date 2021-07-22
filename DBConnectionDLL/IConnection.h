@@ -4,6 +4,7 @@
 #include "SharedClass.h"
 #include <sql.h>
 #include <sqlext.h>
+#include "CustomString.h"
 
 namespace NetworkCommon
 {

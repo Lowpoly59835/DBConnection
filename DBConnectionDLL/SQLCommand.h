@@ -3,6 +3,7 @@
 #include "SQLParameter.h"
 #include <vector>
 
+
 namespace NetworkCommon
 {
 	namespace DBConnection
@@ -45,7 +46,7 @@ namespace NetworkCommon
 			RETCODE ExecuteStatement(SQLHSTMT& hStmt);
 
 		private:
-			std::wstring m_command;
+			CustomString m_command;
 			SQLConnection* m_connection;
 			
 			vector<SQLParameter> m_pararmetersOutput;

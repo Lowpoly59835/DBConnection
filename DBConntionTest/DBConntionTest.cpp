@@ -24,7 +24,7 @@ int main()
 		
 		std::cout << "connect sucess " << std::endl;
 
-		SQLCommand command(&sqlConn, L"Proc_LoadRanking");
+		SQLCommand command(&sqlConn, L"Proc_LoadRanking ?");
 
 		command.AddParameterWithValue("@pID", SQL_INTEGER, 2);
 
@@ -50,7 +50,7 @@ int main()
 	}
 	catch (SQLException ex)
 	{
-		std::cout << "fail" << std::endl;
+		std::cout << "fail : " << ex.GetMessageW() << std::endl;
 	}
 }
 

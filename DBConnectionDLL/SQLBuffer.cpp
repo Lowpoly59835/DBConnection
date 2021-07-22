@@ -59,7 +59,7 @@ float NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 template<>
 std::string NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 { 
-	return m_strData;
+	return (const char*)m_strData;
 }
 
 template<>

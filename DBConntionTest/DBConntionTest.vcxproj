@@ -143,6 +143,7 @@ copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLCommand.h" "$(OutDir)
 copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLConnection.h" "$(OutDir)"
 copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLParameter.h" "$(OutDir)"
 copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLReader.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\CustomString.h" "$(OutDir)"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -164,7 +165,17 @@ copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLReader.h" "$(OutDir)"
       <AdditionalLibraryDirectories>$(SolutionDir)out\$(Configuration)\$(Platform)\</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\*.dll"  "$(OutDir)" </Command>
+      <Command>copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\*.dll"  "$(OutDir)" 
+
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\ExportDefine.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\IConnection.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SharedClass.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLBuffer.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLCommand.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLConnection.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLParameter.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLReader.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\CustomString.h" "$(OutDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

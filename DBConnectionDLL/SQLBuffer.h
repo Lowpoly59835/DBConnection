@@ -8,11 +8,6 @@ namespace NetworkCommon
 {
 	namespace DBConnection
 	{
-#pragma warning (disable : 4231)
-#pragma warning( disable : 4251)
-		EXPORT_STL_STRING(char);
-#pragma warning (default : 4231) 
-#pragma warning (default : 4251)
 		//int, float, datetime, string만 지원
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer
 		{
@@ -58,7 +53,7 @@ namespace NetworkCommon
 			EStorageType m_type;
 			StorageData m_data;
 			//union으로 string을 관리하기 힘들기에 따로 관리
-			std::string m_strData;
+			CustomString m_strData;
 		};
 
 

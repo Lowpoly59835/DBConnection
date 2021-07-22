@@ -5,11 +5,6 @@ namespace NetworkCommon
 {
 	namespace DBConnection
 	{
-#pragma warning (disable : 4231)
-#pragma warning( disable : 4251)
-		EXPORT_STL_STRING(wchar_t);
-#pragma warning (default : 4231) 
-#pragma warning (default : 4251)
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLConnection : public IConnection
 		{
 		public:
@@ -27,7 +22,7 @@ namespace NetworkCommon
 			friend class SQLCommand;
 
 		private:
-			std::wstring m_strConnection;
+			CustomString m_strConnection;
 			SQLHDBC m_connHanlde;
 			SQLHENV m_envHandle;
 		};
