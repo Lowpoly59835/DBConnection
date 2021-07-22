@@ -18,7 +18,7 @@ int main()
 
 	try
 	{
-		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost, 1433; DATABASE=TestDB; UID=Sin;PWD=skfnxh59835;");
+		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost,1433;DATABASE=TestDB;UID=Sin;PWD=skfnxh59835;");
 	
 		sqlConn.Open();
 		

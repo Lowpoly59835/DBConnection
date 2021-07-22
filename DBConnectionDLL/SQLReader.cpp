@@ -131,9 +131,9 @@ SQLRETURN NetworkCommon::DBConnection::SQLReader::BindReadBuffer(SQLBuffer& buff
 		{
 			break;
 		}
-		std::string* pStrBuffer = static_cast<std::string*>(buffer.GetBuffer());
-		pStrBuffer->resize(string_length + 1);
-		result = SQLBindCol(hstmt, colpos, SQL_C_CHAR, SQLPOINTER(pStrBuffer->data()), (string_length + 1) * sizeof(CHAR), &cid);
+		CustomString* pStrBuffer = static_cast<CustomString*>(buffer.GetBuffer());
+		pStrBuffer->Resize(string_length + 1);
+		result = SQLBindCol(hstmt, colpos, SQL_C_CHAR, SQLPOINTER(pStrBuffer->c_str()), (string_length + 1) * sizeof(CHAR), &cid);
 	}	break;
 	case SQLBuffer::EStorageType::DateTime:
 		result = SQLBindCol(hstmt, colpos, SQL_C_TIMESTAMP, static_cast<TIMESTAMP_STRUCT*>(buffer.GetBuffer()), sizeof(TIMESTAMP_STRUCT), &cid);

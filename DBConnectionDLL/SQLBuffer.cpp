@@ -20,6 +20,10 @@ NetworkCommon::DBConnection::SQLBuffer::SQLBuffer(SQLSMALLINT sqlType)
 	{
 		m_type = EStorageType::DateTime;
 	}
+	else if (sqlType == -9)
+	{
+		m_type = EStorageType::String;
+	}
 }
 
 
@@ -59,7 +63,7 @@ float NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 template<>
 std::string NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 { 
-	return (const char*)m_strData;
+	return m_strData.c_str();
 }
 
 template<>

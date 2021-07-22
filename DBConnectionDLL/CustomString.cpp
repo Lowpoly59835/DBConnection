@@ -16,7 +16,7 @@ CustomString::CustomString(const char* value)
 CustomString::CustomString(const wchar_t* value)
 	: CustomString::CustomString()
 {
-	Write((const char*)value, wcslen(value) / 2);
+	Write((const char*)value, wcslen(value) * 2);
 }
 
 CustomString::CustomString(const CustomString& other)
@@ -53,14 +53,14 @@ CustomString& CustomString::operator=(const wchar_t* value)
 {
 	// TODO: 여기에 return 문을 삽입합니다.
 	Clear();
-	Write((const char*)value, wcslen(value) / 2);
+	Write((const char*)value, wcslen(value) * 2);
 	return *this;
 }
 
 CustomString& CustomString::operator+=(const wchar_t* value)
 {
 	// TODO: 여기에 return 문을 삽입합니다.
-	Write((const char*)value, wcslen(value) / 2);
+	Write((const char*)value, wcslen(value) * 2);
 	return *this;
 }
 
@@ -80,6 +80,11 @@ CustomString::operator const char* ()
 CustomString::operator const wchar_t* ()
 {
 	return c_wstr();
+}
+
+size_t CustomString::Size()
+{
+	return write_size;
 }
 
 void CustomString::Resize(size_t length)
@@ -115,6 +120,26 @@ bool CustomString::Write(const char* desc, size_t length)
 	write_size += length;
 
 	return true;
+}
+
+void CustomString::Clear()
+{
+	memset(m_Buff, 0, max_size); write_size = 0;
+}
+
+const char* CustomString::c_str()
+{
+	return m_Buff;
+}
+
+const wchar_t* CustomString::c_wstr()
+{
+	return (const wchar_t*)m_Buff;
+}
+
+bool CustomString::Empty()
+{
+	return write_size == 0;
 }
 
 size_t CustomString::Capacity()

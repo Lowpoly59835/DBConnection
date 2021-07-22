@@ -30,7 +30,7 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 	{
 		throw SQLException("conntion is null");
 	}
-	else if (m_command.empty())
+	else if (m_command.Empty())
 	{
 		throw SQLException("command is empty", ESQLErrorCode::INVALID);
 	}

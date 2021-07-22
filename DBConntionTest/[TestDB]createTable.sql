@@ -1,0 +1,23 @@
+use TestDB;
+
+IF EXISTS (SELECT object_id FROM SYS.OBJECTS WHERE name = N'_RefRanking' AND type = N'U')
+DROP TABLE DBO._RefRanking
+GO
+
+CREATE TABLE DBO._RefRanking
+(
+	ID INT NOT NULL,
+	Value VARCHAR(64) NOT NULL,
+	UpdateTime DATETIME NOT NULL
+) ON [PRIMARY]
+GO
+
+
+-- PRIMARY KEY
+ALTER TABLE _RefRanking ADD CONSTRAINT PK__RefRanking PRIMARY KEY (ID)
+WITH FILLFACTOR = 90 ON [PRIMARY]
+GO
+
+INSERT INTO _RefRanking VALUES(1, 'Test Value', GETDATE());
+INSERT INTO _RefRanking VALUES(2, 'Test Value2', GETDATE());
+INSERT INTO _RefRanking VALUES(3, 'Test Value3', GETDATE());

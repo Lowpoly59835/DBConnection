@@ -19,14 +19,15 @@ public:
 	operator const wchar_t* ();
 
 private:
-	void Resize(size_t length);
 	bool Write(const char* desc, size_t length);
-	void Clear() { memset(m_Buff, 0, max_size); write_size = 0; }
+	void Clear();
 public:
 	size_t Capacity();
-	const char* c_str() { return m_Buff; }
-	const wchar_t* c_wstr() { return (const wchar_t*)m_Buff; }
-	bool empty() { return write_size == 0; }
+	const char* c_str();
+	const wchar_t* c_wstr();
+	bool Empty();
+	size_t Size();
+	void Resize(size_t length);
 private:
 	static const int DEFAULT_SIZE = 128;
 
