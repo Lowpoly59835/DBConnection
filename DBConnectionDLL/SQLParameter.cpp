@@ -69,7 +69,7 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TIMESTAMP, sizeof(TIMESTAMP_STRUCT), 0, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
 	default:
-		throw SQLException(Format("%s parameter is unknown type", m_name.c_str()), ESQLErrorCode::NO_SUPPORT_TYPE);
+		throw SQLException(Format("%s parameter is unknown type", m_name.c_str()).c_str(), ESQLErrorCode::NO_SUPPORT_TYPE);
 	}
 
 	if (cid == SQL_NULL_DATA)

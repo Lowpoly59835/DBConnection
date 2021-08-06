@@ -44,7 +44,7 @@ namespace NetworkCommon
 #define CSLOCK( cs_ )   if( CCriticalSectionLock STRING_CAT( lock_, __LINE__ ) = cs_ )
 
 
-	inline const char* Format(const char* format, ...)
+	inline std::string Format(const char* format, ...)
 	{
 		va_list args;
 		va_start(args, format);
@@ -54,7 +54,7 @@ namespace NetworkCommon
 		vsnprintf_s((char*)result.data(), size, _TRUNCATE, format, args);
 		va_end(args);
 
-		return result.c_str();
+		return result;
 	}
 }
 #define GetCurrentMethodName __FUNCTION__

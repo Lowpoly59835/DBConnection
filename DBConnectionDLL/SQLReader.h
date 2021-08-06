@@ -31,7 +31,7 @@ namespace NetworkCommon
 			bool Next();
 
 			template<typename T>
-			T GetValue(const wchar_t* colName)
+			T GetValue(const char* colName)
 			{
 				static_assert(true, "unknow data type");
 			}
@@ -43,6 +43,7 @@ namespace NetworkCommon
 			void Bind();
 			SQLRETURN BindReadBuffer(SQLBuffer& buffer, SQLHSTMT& hstmt, int colpos);
 			void BufferClear();
+			std::wstring ToWString(const char* source);
 
 		private:
 			SQLHSTMT m_hStmt;
@@ -53,21 +54,21 @@ namespace NetworkCommon
 		};
 
 		template <>
-		int DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<int>(const wchar_t* colName);
+		int DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<int>(const char* colName);
 
 		template <>
-		float DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<float>(const wchar_t* colName);
+		float DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<float>(const char* colName);
 
 		template <>
-		std::string DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<std::string>(const wchar_t* colName);
+		std::string DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<std::string>(const char* colName);
 
 		template <>
-		TIMESTAMP_STRUCT DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<TIMESTAMP_STRUCT>(const wchar_t* colName);
+		TIMESTAMP_STRUCT DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<TIMESTAMP_STRUCT>(const char* colName);
 
 		/// 초단위까지만 지원
 		/// 밀리세컨드는 따로 변환해야함
 		template <>
-		tm DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<tm>(const wchar_t* colName);
+		tm DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<tm>(const char* colName);
 	}
 }
 
