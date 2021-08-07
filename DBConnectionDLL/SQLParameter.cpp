@@ -51,7 +51,6 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 	SQLRETURN result = 0;
 	SQLLEN string_length = 0;
 
-
 	switch (m_buffer.Type)
 	{
 	case SQLBuffer::EStorageType::Int:
@@ -62,8 +61,9 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 		break;
 	case SQLBuffer::EStorageType::String:
 	{
-		std::string* pString = static_cast<std::string*>(m_buffer.GetBuffer());
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, SQL_CHAR, pString->length(), 0, SQLPOINTER(pString->data()), 0, &cid);
+		cid = SQL_NTS;
+		CustomString* pString = static_cast<CustomString*>(m_buffer.GetBuffer());
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, SQL_CHAR, pString->Size(), 0, SQLPOINTER(pString->c_str()), pString->Size() + 1, &cid);
 	}break;
 	case SQLBuffer::EStorageType::DateTime:
 		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TIMESTAMP, sizeof(TIMESTAMP_STRUCT), 0, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), 0, &cid);

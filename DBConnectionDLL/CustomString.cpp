@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "CustomString.h"
+#include <string>
+
+using namespace std;
 
 CustomString::CustomString()
 	:write_size(0), max_size(DEFAULT_SIZE)
@@ -110,6 +113,7 @@ void CustomString::Resize(size_t length)
 	max_size = newSize;
 }
 
+
 bool CustomString::Write(const char* desc, size_t length)
 {
 	if (desc == nullptr) return false;
@@ -135,6 +139,11 @@ const char* CustomString::c_str()
 const wchar_t* CustomString::c_wstr()
 {
 	return (const wchar_t*)m_Buff;
+}
+
+const char* CustomString::data()
+{
+	return m_Buff;
 }
 
 bool CustomString::Empty()

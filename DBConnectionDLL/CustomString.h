@@ -25,6 +25,7 @@ public:
 	size_t Capacity();
 	const char* c_str();
 	const wchar_t* c_wstr();
+	const char* data();
 	bool Empty();
 	size_t Size();
 	void Resize(size_t length);
