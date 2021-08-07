@@ -29,14 +29,14 @@ void NetworkCommon::DBConnection::SQLParameter::operator=(float value)
 
 void NetworkCommon::DBConnection::SQLParameter::operator=(const char* value)
 {
-	std::string* pValue = static_cast<std::string*>(m_buffer.GetBuffer());
+	CustomString* pValue = static_cast<CustomString*>(m_buffer.GetBuffer());
 	*pValue = value;
 }
 
 void NetworkCommon::DBConnection::SQLParameter::operator=(std::string& value)
 {
-	std::string* pValue = static_cast<std::string*>(m_buffer.GetBuffer());
-	*pValue = value;
+	CustomString* pValue = static_cast<CustomString*>(m_buffer.GetBuffer());
+	*pValue = value.c_str();
 }
 
 void NetworkCommon::DBConnection::SQLParameter::operator=(TIMESTAMP_STRUCT& value)
