@@ -39,12 +39,14 @@ void * NetworkCommon::DBConnection::SQLBuffer::GetBuffer()
 		return &m_data.Int;
 	case SQLBuffer::EStorageType::Float:
 		return &m_data.Float;
+	case SQLBuffer::EStorageType::BIGINT:
+		return &m_data.BIGINT;
 	case SQLBuffer::EStorageType::String:
 		return &m_strData;
 	case SQLBuffer::EStorageType::DateTime:
 		return &m_data.DateTime;
 	default:
-		throw SQLException("unknown type", ESQLErrorCode::NO_SUPPORT_TYPE);
+		throw SQLException("unknown type");
 	}
 }
 
@@ -60,6 +62,11 @@ float NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 	return m_data.Float;
 }
 
+template<>
+long long NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
+{
+	return m_data.BIGINT;
+}
 template<>
 std::string NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 { 

@@ -19,7 +19,7 @@ CustomString::CustomString(const char* value)
 CustomString::CustomString(const wchar_t* value)
 	: CustomString::CustomString()
 {
-	Write((const char*)value, wcslen(value) * 2);
+	Write(value, wcslen(value) * 2);
 }
 
 CustomString::CustomString(const CustomString& other)
@@ -56,14 +56,14 @@ CustomString& CustomString::operator=(const wchar_t* value)
 {
 	// TODO: 여기에 return 문을 삽입합니다.
 	Clear();
-	Write((const char*)value, wcslen(value) * 2);
+	Write(value, wcslen(value) * 2);
 	return *this;
 }
 
 CustomString& CustomString::operator+=(const wchar_t* value)
 {
 	// TODO: 여기에 return 문을 삽입합니다.
-	Write((const char*)value, wcslen(value) * 2);
+	Write(value, wcslen(value) * 2);
 	return *this;
 }
 
@@ -121,6 +121,18 @@ bool CustomString::Write(const char* desc, size_t length)
 	Resize(length);
 
 	memcpy(&m_Buff[write_size], desc, length);
+	write_size += length;
+
+	return true;
+}
+
+bool CustomString::Write(const wchar_t* desc, size_t length)
+{
+	if (desc == nullptr) return false;
+
+	Resize(length);
+	WideCharToMultiByte(CP_ACP, 0, desc, -1, &m_Buff[write_size], length, 0, 0);
+	//memcpy(&m_Buff[write_size], desc, length);
 	write_size += length;
 
 	return true;

@@ -12,19 +12,21 @@ namespace NetworkCommon
 		class DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer
 		{
 		public:
-			enum class DBCONNECTIONDLL_EXPORTS_DECLSPEC EStorageType
+			enum class DBCONNECTIONDLL_EXPORTS_DECLSPEC EStorageType : SQLSMALLINT
 			{
 				None = 0,
-				Int = 4,
-				Float = 6,
-				DateTime = 9,
-				String = 12
+				Int = SQL_INTEGER,
+				BIGINT = SQL_BIGINT,
+				Float = SQL_FLOAT,
+				DateTime = SQL_DATETIME,
+				String = SQL_VARCHAR
 			};
 
 			union DBCONNECTIONDLL_EXPORTS_DECLSPEC StorageData
 			{
 				SQLINTEGER  Int;
 				SQLFLOAT	Float;
+				SQLBIGINT	BIGINT;
 				TIMESTAMP_STRUCT  DateTime;
 			};
 
@@ -59,6 +61,9 @@ namespace NetworkCommon
 
 		template <>
 		int DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<int>() noexcept;
+		
+		template <>
+		long long DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<long long>() noexcept;
 
 		template <>
 		float DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<float>() noexcept;

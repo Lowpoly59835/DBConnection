@@ -15,7 +15,7 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 {
 	if (SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_envHandle) == SQL_ERROR)
 	{
-		throw SQLException("Unable to allocate an environment handle", ESQLErrorCode::ALLOC_HANDDLE_FAIL, SQL_ERROR);
+		throw SQLException("Unable to allocate an environment handle");
 	}
 
 	SQLRETURN retCode = SQLSetEnvAttr(m_envHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
@@ -23,7 +23,7 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 
 	if (!IsSuccess(retCode))
 	{
-		throw SQLException("Invalid handle errorCode", ESQLErrorCode::ALLOC_HANDDLE_FAIL, retCode);
+		throw SQLException(m_envHandle, SQL_HANDLE_ENV, retCode);
 	}
 
 	//HandleDiagnosticRecord(m_envHandle, SQL_HANDLE_ENV, retCode);
@@ -32,7 +32,7 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 
 	if (!IsSuccess(retCode))
 	{
-		throw SQLException("Invalid ConnHanlde", ESQLErrorCode::INVALID, retCode);
+		throw SQLException(m_envHandle, SQL_HANDLE_DBC, retCode);
 	}
 
 
@@ -43,7 +43,7 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 
 	if (!IsSuccess(retCode))
 	{
-		throw SQLException("Connect fail", ESQLErrorCode::CONNECT_FAIL, retCode);
+		throw SQLException(m_connHanlde, SQL_HANDLE_DBC, retCode);
 	}
 }
 

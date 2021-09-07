@@ -33,9 +33,9 @@ int main()
 
 		while (reader.Next())
 		{
-			int id = reader.GetValue<int>(L"ID");
-			std::string test_value = reader.GetValue<std::string>(L"Value");
-			tm beginTime = reader.GetValue<tm>(L"UpdateTime");
+			int id = reader.GetValue<int>("ID");
+			std::string test_value = reader.GetValue<std::string>("Value");
+			tm beginTime = reader.GetValue<tm>("UpdateTime");
 					   			
 			char str[26];
 

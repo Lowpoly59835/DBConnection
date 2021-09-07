@@ -122,7 +122,6 @@
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)ExportDefine.h" "$(OutDir)"
 copy /Y "$(ProjectDir)IConnection.h" "$(OutDir)"
-copy /Y "$(ProjectDir)SharedClass.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLBuffer.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLCommand.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLConnection.h" "$(OutDir)"

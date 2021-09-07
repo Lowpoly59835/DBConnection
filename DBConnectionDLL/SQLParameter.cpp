@@ -21,6 +21,12 @@ void NetworkCommon::DBConnection::SQLParameter::operator=(int value)
 	*pValue = value;
 }
 
+void NetworkCommon::DBConnection::SQLParameter::operator=(long long value)
+{
+	SQLBIGINT* pValue = static_cast<SQLBIGINT*>(m_buffer.GetBuffer());
+	*pValue = value;
+}
+
 void NetworkCommon::DBConnection::SQLParameter::operator=(float value)
 {
 	SQLFLOAT* pValue = static_cast<SQLFLOAT*>(m_buffer.GetBuffer());
@@ -59,6 +65,9 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 	case SQLBuffer::EStorageType::Float:
 		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_FLOAT, SQL_FLOAT, 0, 0, static_cast<SQLFLOAT*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
+	case SQLBuffer::EStorageType::BIGINT:
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_BIGINT, SQL_BIGINT, 0, 0, static_cast<SQLBIGINT*>(m_buffer.GetBuffer()), 0, &cid);
+		break;
 	case SQLBuffer::EStorageType::String:
 	{
 		cid = SQL_NTS;
@@ -69,12 +78,12 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TIMESTAMP, sizeof(TIMESTAMP_STRUCT), 0, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
 	default:
-		throw SQLException(Format("%s parameter is unknown type", m_name.c_str()).c_str(), ESQLErrorCode::NO_SUPPORT_TYPE);
+		throw SQLException(Format("%s parameter is unknown type", m_name.c_str()).c_str());
 	}
 
 	if (cid == SQL_NULL_DATA)
 	{
-		throw SQLException("null data", ESQLErrorCode::INVALID);
+		throw SQLException("null data");
 	}
 
 

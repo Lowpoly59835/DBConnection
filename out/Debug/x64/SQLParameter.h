@@ -17,6 +17,7 @@ namespace NetworkCommon
 			~SQLParameter();
 
 			void operator=(int value);
+			void operator=(long long value);
 			void operator=(float value);
 			void operator=(const char* value);
 			void operator=(std::string& value);

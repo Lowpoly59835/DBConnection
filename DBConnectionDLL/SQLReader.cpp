@@ -64,7 +64,7 @@ void NetworkCommon::DBConnection::SQLReader::Bind()
 
 	if (m_hStmt == NULL)
 	{
-		throw SQLException();
+		throw SQLException("handle is invaild");
 	}
 
 	SQLSMALLINT cCols;
@@ -72,7 +72,7 @@ void NetworkCommon::DBConnection::SQLReader::Bind()
 
 	if (!IsSuccess(result))
 	{
-		throw SQLException("", ESQLErrorCode::UNKNOWN, result);
+		throw SQLException(m_hStmt, SQL_HANDLE_STMT, result);
 	}
 
 	for (int i = 1; i <= cCols; i++)
@@ -105,7 +105,7 @@ void NetworkCommon::DBConnection::SQLReader::Bind()
 		if (!IsSuccess(result))
 		{
 			m_resultBuffer.clear();
-			throw SQLException("", ESQLErrorCode::UNKNOWN, result);
+			throw SQLException(m_hStmt, SQL_HANDLE_STMT, result);
 		}
 	}
 }
@@ -139,12 +139,12 @@ SQLRETURN NetworkCommon::DBConnection::SQLReader::BindReadBuffer(SQLBuffer& buff
 		result = SQLBindCol(hstmt, colpos, SQL_C_TIMESTAMP, static_cast<TIMESTAMP_STRUCT*>(buffer.GetBuffer()), sizeof(TIMESTAMP_STRUCT), &cid);
 		break;
 	default:
-		throw SQLException("unknown type", ESQLErrorCode::NO_SUPPORT_TYPE);
+		throw SQLException("unknown type");
 	}
 
 	if (cid == SQL_NULL_DATA)
 	{
-		throw SQLException("null data", ESQLErrorCode::INVALID);
+		throw SQLException("null data");
 	}
 
 	return result;
@@ -168,7 +168,7 @@ std::wstring NetworkCommon::DBConnection::SQLReader::ToWString(const char* sourc
 
 	if (len == -1)
 	{
-		throw SQLException("column find error", ESQLErrorCode::COLUMNS_ERROR);
+		throw SQLException("column find error");
 	}
 
 	std::wstring wColName(len, 0);
@@ -194,7 +194,7 @@ int NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 		}
 	}
 
-	throw SQLException("not exists colums", ESQLErrorCode::NOT_EXISTIS_COLUM);
+	throw SQLException("not exists colums");
 }
 
 template<>
@@ -211,7 +211,7 @@ float NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 		}
 	}
 
-	throw SQLException("not exists colums", ESQLErrorCode::NOT_EXISTIS_COLUM);
+	throw SQLException("not exists colums");
 }
 
 template<>
@@ -228,7 +228,7 @@ std::string NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName
 		}
 	}
 
-	throw SQLException("not exists colums", ESQLErrorCode::NOT_EXISTIS_COLUM);
+	throw SQLException("not exists colums");
 }
 
 template<>
@@ -245,7 +245,7 @@ TIMESTAMP_STRUCT NetworkCommon::DBConnection::SQLReader::GetValue(const char* co
 		}
 	}
 
-	throw SQLException("not exists colums", ESQLErrorCode::NOT_EXISTIS_COLUM);
+	throw SQLException("not exists colums");
 }
 
 /// 초단위까지만 지원
@@ -255,10 +255,5 @@ tm NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 {
 	TIMESTAMP_STRUCT timestamp = GetValue<TIMESTAMP_STRUCT>(colName);
 	
-	tm time_tm{ timestamp.second , timestamp.minute, timestamp.hour, timestamp.day, timestamp.month - 1, timestamp.year - 1900
-	}; 
-	
-	mktime(&time_tm);
-
-	return time_tm;
+	return TotmFromTimeStamp(timestamp);
 }

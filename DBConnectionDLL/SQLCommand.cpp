@@ -32,7 +32,7 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 	}
 	else if (m_command.Empty())
 	{
-		throw SQLException("command is empty", ESQLErrorCode::INVALID);
+		throw SQLException("command is empty");
 	}
 
 
@@ -42,24 +42,14 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 
 	if (retCode != SQL_SUCCESS)
 	{
-		throw SQLException("execute error", ESQLErrorCode::ALLOC_HANDDLE_FAIL, retCode);
+		throw SQLException(m_connection->m_connHanlde, SQL_HANDLE_STMT, retCode);
 	}
 	
 	retCode = ExecuteStatement(hStmt);
-
-	if (retCode != SQL_SUCCESS)
-	{
-		throw SQLException("execute error", ESQLErrorCode::EXECUTE_FAIL, retCode);
-	}
-
-		
-	SQLSMALLINT cCols;
-
-	retCode = SQLNumResultCols(hStmt, &cCols);
-
+	
 	if (!IsSuccess(retCode))
 	{
-		throw SQLException("execute error", ESQLErrorCode::EXECUTE_FAIL, retCode);
+		throw SQLException(hStmt, SQL_HANDLE_STMT, retCode);
 	}
 
 	return SQLReader(*this, hStmt);
@@ -73,7 +63,7 @@ SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hS
 
 	if (retcode != SQL_SUCCESS)
 	{
-		return retcode;
+		throw SQLException(m_connection->m_connHanlde, SQL_HANDLE_STMT, retcode);
 	}
 
 	for (int i = 0 ; i < m_pararmeters.size() ; i++)
@@ -85,6 +75,7 @@ SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hS
 	{
 		m_pararmetersOutput[i].BindParmeter(hStmt, i + m_pararmeters.size() + 1, SQL_PARAM_OUTPUT);
 	}
+
 	 retcode = SQLExecute(hStmt);
 
 	 return retcode;
@@ -115,6 +106,15 @@ SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(con
 	return &result;
 }
 
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, long long value)
+{
+	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
+}
+
 SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, float value)
 {
 	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
@@ -124,7 +124,7 @@ SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(con
 	return &result;
 }
 
-SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, std::string value)
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, std::string& value)
 {
 	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
 
@@ -133,11 +133,22 @@ SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(con
 	return &result;
 }
 
-SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, TIMESTAMP_STRUCT value)
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, TIMESTAMP_STRUCT& value)
 {
 	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
 
 	result = value;
+
+	return &result;
+}
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(const char* parameterName, SQLSMALLINT type, tm& value)
+{
+	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
+
+	TIMESTAMP_STRUCT st_tm = ToTimeStampFromtime_tm(value);
+
+	result = st_tm;
 
 	return &result;
 }
@@ -159,6 +170,15 @@ SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithVal
 	return &result;
 }
 
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, long long value)
+{
+	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
+
+	result = value;
+
+	return &result;
+}
+
 SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, float value)
 {
 	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
@@ -168,7 +188,7 @@ SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithVal
 	return &result;
 }
 
-SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, std::string value)
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, std::string& value)
 {
 	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
 
@@ -177,11 +197,22 @@ SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithVal
 	return &result;
 }
 
-SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, TIMESTAMP_STRUCT value)
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, TIMESTAMP_STRUCT& value)
 {
 	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
 
 	result = value;
+
+	return &result;
+}
+
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, tm& value)
+{
+	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
+
+	TIMESTAMP_STRUCT st_tm = ToTimeStampFromtime_tm(value);
+
+	result = st_tm;
 
 	return &result;
 }

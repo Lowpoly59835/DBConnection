@@ -20,6 +20,7 @@ public:
 
 private:
 	bool Write(const char* desc, size_t length);
+	bool Write(const wchar_t* desc, size_t length);
 	void Clear();
 public:
 	size_t Capacity();
