@@ -18,30 +18,29 @@ int main()
 
 	try
 	{
-		SQLConnection sqlConn(L"DRIVER={SQL Server};SERVER=localhost,1433;DATABASE=TestDB;UID=Sin;PWD=skfnxh59835;");
+		SQLConnection sqlConn("DRIVER={SQL Server};SERVER=localhost,1433;DATABASE=Imas_GameDB;UID=Sin;PWD=skfnxh59835;");
 	
 		sqlConn.Open();
 		
 		std::cout << "connect sucess " << std::endl;
 
-		SQLCommand command(&sqlConn, L"Proc_LoadRanking ?");
+		SQLCommand command(&sqlConn, L"Proc_LoadPlayer ?, ?");
 
-		command.AddParameterWithValue("@pID", SQL_INTEGER, 2);
+		std::string id = "sky59835";
+		std::string pw = "skfnxh59835";
+
+		command.AddParameterWithValue("@pID", SQL_VARCHAR, id);
+		command.AddParameterWithValue("@pPassword", SQL_VARCHAR, pw);
 
 		SQLReader reader = command.Execute();
 		
 
 		while (reader.Next())
 		{
-			int id = reader.GetValue<int>("ID");
-			std::string test_value = reader.GetValue<std::string>("Value");
-			tm beginTime = reader.GetValue<tm>("UpdateTime");
-					   			
-			char str[26];
+			std::string id = reader.GetValue<std::string>("ID");
+			std::string test_value = reader.GetValue<std::string>("PW");
 
-			strftime(str, sizeof(str),"%Y-%m-%d %H:%M:%S", &beginTime);
-
-			std::cout << "id : " << id << " / value : " << test_value.c_str() << " / time : " << str << std::endl;
+			std::cout << "id : " << id << " / value : " << test_value.c_str() << std::endl;
 		}
 
 		sqlConn.Close();
