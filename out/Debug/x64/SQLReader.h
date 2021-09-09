@@ -37,13 +37,11 @@ namespace NetworkCommon
 			}
 
 			bool HasValue() noexcept;
-			int RowCount() noexcept;
 
 		private:
 			void Bind();
 			SQLRETURN BindReadBuffer(SQLBuffer& buffer, SQLHSTMT& hstmt, int colpos);
 			void BufferClear();
-			std::wstring ToWString(const char* source);
 
 		private:
 			SQLHSTMT m_hStmt;

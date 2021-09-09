@@ -56,7 +56,6 @@ namespace NetworkCommon
 
 		return result;
 	}
-
 }
 #define GetCurrentMethodName __FUNCTION__
 

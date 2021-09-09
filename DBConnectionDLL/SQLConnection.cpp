@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SQLConnection.h"
 
-NetworkCommon::DBConnection::SQLConnection::SQLConnection(const wchar_t* strConnection)
+NetworkCommon::DBConnection::SQLConnection::SQLConnection(const char* strConnection)
 	:m_strConnection(strConnection), m_connHanlde(NULL), m_envHandle(NULL)
 {
 }
@@ -35,11 +35,13 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 		throw SQLException(m_envHandle, SQL_HANDLE_DBC, retCode);
 	}
 
+	std::wstring wstrConnection = ToWString(m_strConnection.c_str());
 
-	//HandleDiagnosticRecord(m_envHandle, SQL_HANDLE_ENV, retCode);
-	WCHAR* pwszConnStr = const_cast<WCHAR*>(m_strConnection.c_wstr());
+	//WCHAR* pwszConnStr = const_cast<WCHAR*>(wstrConnection.c_str());
+	SQLWCHAR out_connect_str[1024] = L"";
+	SQLSMALLINT OutConnStrLen = 0;
 
-	retCode = SQLDriverConnect(m_connHanlde, GetDesktopWindow(), pwszConnStr, SQL_NTS, NULL, 0, NULL, SQL_DRIVER_COMPLETE);
+	retCode = SQLDriverConnect(m_connHanlde, GetDesktopWindow(), wstrConnection.data(), wcslen(wstrConnection.data()), out_connect_str, 1024, &OutConnStrLen, SQL_DRIVER_NOPROMPT);
 
 	if (!IsSuccess(retCode))
 	{

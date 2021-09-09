@@ -61,6 +61,24 @@ TIMESTAMP_STRUCT NetworkCommon::DBConnection::ToTimeStampFromtime_tm(tm& time_tm
 	return tm_stamp;
 }
 
+std::wstring NetworkCommon::DBConnection::ToWString(const char* source)
+{
+	size_t len = -1;
+
+	::mbstowcs_s(&len, nullptr, 0, source, 0);
+
+	if (len == -1)
+	{
+		throw SQLException("column find error");
+	}
+
+	std::wstring wColName(len, 0);
+
+	::mbstowcs_s(&len, &wColName[0], wColName.size(), &source[0], len);
+
+	return wColName;
+}
+
 NetworkCommon::DBConnection::SQLException::SQLException(SQLHANDLE& handle, SQLSMALLINT hType, RETCODE retCode)
 {
 	HandleDiagnosticRecord(handle, hType, retCode, m_message, m_errorCode);

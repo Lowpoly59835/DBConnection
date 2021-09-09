@@ -16,8 +16,7 @@ public:
 	CustomString& operator+=(const wchar_t* value);
 	CustomString& operator=(const CustomString& other);
 	operator const char* ();
-	operator const wchar_t* ();
-
+	
 private:
 	bool Write(const char* desc, size_t length);
 	bool Write(const wchar_t* desc, size_t length);
@@ -25,7 +24,6 @@ private:
 public:
 	size_t Capacity();
 	const char* c_str();
-	const wchar_t* c_wstr();
 	const char* data();
 	bool Empty();
 	size_t Size();

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CustomString.h"
+#include "IConnection.h"
 #include <string>
+#include <clocale>
 
 using namespace std;
 
@@ -19,7 +21,7 @@ CustomString::CustomString(const char* value)
 CustomString::CustomString(const wchar_t* value)
 	: CustomString::CustomString()
 {
-	Write(value, wcslen(value) * 2);
+	Write(value, wcslen(value));
 }
 
 CustomString::CustomString(const CustomString& other)
@@ -56,14 +58,14 @@ CustomString& CustomString::operator=(const wchar_t* value)
 {
 	// TODO: 여기에 return 문을 삽입합니다.
 	Clear();
-	Write(value, wcslen(value) * 2);
+	Write(value, wcslen(value));
 	return *this;
 }
 
 CustomString& CustomString::operator+=(const wchar_t* value)
 {
 	// TODO: 여기에 return 문을 삽입합니다.
-	Write(value, wcslen(value) * 2);
+	Write(value, wcslen(value));
 	return *this;
 }
 
@@ -78,11 +80,6 @@ CustomString& CustomString::operator=(const CustomString& other)
 CustomString::operator const char* ()
 {
 	return c_str();
-}
-
-CustomString::operator const wchar_t* ()
-{
-	return c_wstr();
 }
 
 size_t CustomString::Size()
@@ -104,7 +101,7 @@ void CustomString::Resize(size_t length)
 		newSize += newSize / 2;
 	} while (newSize < write_size + length);
 
-	char* newBuf = new char[newSize];
+	char* newBuf = new char[newSize] {0};
 
 	memcpy(newBuf, m_Buff, write_size);
 	delete[] m_Buff;
@@ -130,9 +127,8 @@ bool CustomString::Write(const wchar_t* desc, size_t length)
 {
 	if (desc == nullptr) return false;
 
-	Resize(length);
+	Resize(length * 2);
 	WideCharToMultiByte(CP_ACP, 0, desc, -1, &m_Buff[write_size], length, 0, 0);
-	//memcpy(&m_Buff[write_size], desc, length);
 	write_size += length;
 
 	return true;
@@ -146,11 +142,6 @@ void CustomString::Clear()
 const char* CustomString::c_str()
 {
 	return m_Buff;
-}
-
-const wchar_t* CustomString::c_wstr()
-{
-	return (const wchar_t*)m_Buff;
 }
 
 const char* CustomString::data()

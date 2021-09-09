@@ -160,35 +160,17 @@ void NetworkCommon::DBConnection::SQLReader::BufferClear()
 	m_resultBuffer.clear();
 }
 
-std::wstring NetworkCommon::DBConnection::SQLReader::ToWString(const char* source)
-{
-	size_t len = -1;
-
-	::mbstowcs_s(&len, nullptr, 0, source, 0);
-
-	if (len == -1)
-	{
-		throw SQLException("column find error");
-	}
-
-	std::wstring wColName(len, 0);
-
-	::mbstowcs_s(&len, &wColName[0], wColName.size(), &source[0], len);
-
-	return wColName;
-}
-
-
 
 template<>
 int NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 {
-	std::wstring wColName = ToWString(colName);
+	//std::wstring wColName = ToWString(colName);
 
 	for (auto& it : m_resultBuffer)
 	{
 		//if(wColName.compare(it.first.c_wstr()) == 0)
-		if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		//if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		if (strcmp(it.first.c_str(), colName) == 0)
 		{
 			return it.second->GetValue<int>();
 		}
@@ -200,12 +182,13 @@ int NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 template<>
 float NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 {
-	std::wstring wColName = ToWString(colName);
+	//std::wstring wColName = ToWString(colName);
 
 	for (auto& it : m_resultBuffer)
 	{
 		//if (wColName._Equal(it.first.c_wstr()))
-		if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		//if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		if (strcmp(it.first.c_str(), colName) == 0)
 		{
 			return it.second->GetValue<float>();
 		}
@@ -217,12 +200,13 @@ float NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 template<>
 std::string NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 {
-	std::wstring wColName = ToWString(colName);
+	//std::wstring wColName = ToWString(colName);
 
 	for (auto& it : m_resultBuffer)
 	{
 		//if (wColName._Equal(it.first.c_wstr()))
-		if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		//if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		if (strcmp(it.first.c_str(), colName) == 0)
 		{
 			return it.second->GetValue<std::string>();
 		}
@@ -234,12 +218,13 @@ std::string NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName
 template<>
 TIMESTAMP_STRUCT NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 {
-	std::wstring wColName = ToWString(colName);
+	//std::wstring wColName = ToWString(colName);
 
 	for (auto& it : m_resultBuffer)
 	{
 		//if (wColName._Equal(it.first.c_wstr()))
-		if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		//if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		if(strcmp(it.first.c_str(), colName) == 0)
 		{
 			return it.second->GetValue<TIMESTAMP_STRUCT>();
 		}

@@ -12,7 +12,7 @@ namespace NetworkCommon
 			SQLConnection(const SQLConnection&) = delete;
 			SQLConnection& operator=(const SQLConnection&) = delete;
 
-			SQLConnection(const wchar_t* strConnection);
+			SQLConnection(const char* strConnection);
 			~SQLConnection();
 
 		public:

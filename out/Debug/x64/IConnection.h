@@ -42,7 +42,6 @@ namespace NetworkCommon
 		tm TotmFromTimeStamp(TIMESTAMP_STRUCT& time_st);
 		TIMESTAMP_STRUCT ToTimeStampFromtime_t(time_t& time_t);
 		TIMESTAMP_STRUCT ToTimeStampFromtime_tm(tm& time_tm);
-
-		
+		std::wstring ToWString(const char* source);		
 	}
 }
