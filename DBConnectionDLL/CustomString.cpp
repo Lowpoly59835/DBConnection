@@ -127,7 +127,8 @@ bool CustomString::Write(const wchar_t* desc, size_t length)
 {
 	if (desc == nullptr) return false;
 
-	Resize(length * 2);
+	length = length * 2;
+	Resize(length);
 	WideCharToMultiByte(CP_ACP, 0, desc, -1, &m_Buff[write_size], length, 0, 0);
 	write_size += length;
 
