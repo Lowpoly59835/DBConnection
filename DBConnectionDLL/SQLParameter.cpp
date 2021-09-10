@@ -48,8 +48,9 @@ void NetworkCommon::DBConnection::SQLParameter::operator=(std::string& value)
 void NetworkCommon::DBConnection::SQLParameter::operator=(TIMESTAMP_STRUCT& value)
 {
 	TIMESTAMP_STRUCT* pValue = static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer());
-	*pValue = value;
+	*pValue = TIMESTAMP_STRUCT { value.year, value.month, value.day, value.hour, value.minute, value.second, value.fraction };
 }
+
 
 RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt, int colpos, SQLSMALLINT bindType)
 {
@@ -75,7 +76,10 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, SQL_CHAR, pString->Size(), 0, SQLPOINTER(pString->c_str()), pString->Size() + 1, &cid);
 	}break;
 	case SQLBuffer::EStorageType::DateTime:
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TIMESTAMP, sizeof(TIMESTAMP_STRUCT), 0, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), 0, &cid);
+		cid = sizeof(TIMESTAMP_STRUCT);
+		//result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TIMESTAMP, sizeof(TIMESTAMP_STRUCT), 0, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), 0, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TYPE_TIMESTAMP, 27, 19, m_buffer.GetBuffer(), sizeof(TIMESTAMP_STRUCT), &cid);
+
 		break;
 	default:
 		throw SQLException(Format("%s parameter is unknown type", m_name.c_str()).c_str());
@@ -87,24 +91,10 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 	}
 
 
-	//if (!m_name.empty())
-	//{
-	//	SQLHDESC hIpd = NULL;
-
-	//	result = SQLGetStmtAttr(hstmt, SQL_ATTR_IMP_PARAM_DESC, &hIpd, 0, 0);
-
-	//	if (!IsSuccess(result))
-	//	{
-	//		throw SQLException("", ESQLErrorCode::BIND_PARMETER_ERROR, result);
-	//	}
-
-	//	result = SQLSetDescField(hIpd, colpos, SQL_DESC_NAME, SQLPOINTER(m_name.c_str()), SQL_NTS);
-
-	//	if (!IsSuccess(result))
-	//	{
-	//		throw SQLException("", ESQLErrorCode::BIND_PARMETER_ERROR, result);
-	//	}
-	//}
+	if (!IsSuccess(result))
+	{
+		throw SQLException(hstmt, SQL_HANDLE_STMT, result);
+	}
 
 	return result;
 }

@@ -6,6 +6,7 @@
 #include "SQLCommand.h"
 #include "SQLReader.h"
 #include <chrono>
+#include <atltime.h>
 
 
 using namespace NetworkCommon::DBConnection;
@@ -24,23 +25,31 @@ int main()
 		
 		std::cout << "connect sucess " << std::endl;
 
-		SQLCommand command(&sqlConn, L"Proc_LoadPlayer ?, ?");
+		//SQLCommand command(&sqlConn, L"Proc_LoadPlayer ?, ?");
+		SQLCommand command(&sqlConn, L"Proc_SingUpPlayer ?, ?, ?, ?");
 
 		std::string id = "sky59835";
 		std::string pw = "skfnxh59835";
+		std::string nickname = "nick";
+		tm st_now;
+		CTime now = CTime::GetCurrentTime();
+		now.GetLocalTm(&st_now);
 
 		command.AddParameterWithValue("@pID", SQL_VARCHAR, id);
 		command.AddParameterWithValue("@pPassword", SQL_VARCHAR, pw);
+		command.AddParameterWithValue("@pNickName", SQL_VARCHAR, nickname);
+		command.AddParameterWithValue("@pCreateTime", SQL_DATETIME, st_now);
 
 		SQLReader reader = command.Execute();
 		
 
 		while (reader.Next())
 		{
-			std::string id = reader.GetValue<std::string>("ID");
-			std::string test_value = reader.GetValue<std::string>("PW");
+			std::string result_id = reader.GetValue<std::string>("ID");
+			std::string result_pw = reader.GetValue<std::string>("PW");
+			tm result_createTime = reader.GetValue<tm>("CreateTime");
 
-			std::cout << "id : " << id << " / value : " << test_value.c_str() << std::endl;
+			std::cout << "id : " << result_id << " / value : " << result_pw.c_str() << std::endl;
 		}
 
 		sqlConn.Close();

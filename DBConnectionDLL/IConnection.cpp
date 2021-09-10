@@ -37,7 +37,7 @@ bool DBCONNECTIONDLL_EXPORTS_DECLSPEC NetworkCommon::DBConnection::IsSuccess(SQL
 
 tm NetworkCommon::DBConnection::TotmFromTimeStamp(TIMESTAMP_STRUCT& time_st)
 {
-	tm time_tm{ time_st.second , time_st.minute, time_st.hour, time_st.day, time_st.month - 1, time_st.year - 1900
+	tm time_tm{ time_st.second , time_st.minute, time_st.hour, time_st.day, time_st.month, time_st.year
 	};
 
 	mktime(&time_tm);
@@ -56,6 +56,7 @@ TIMESTAMP_STRUCT NetworkCommon::DBConnection::ToTimeStampFromtime_t(time_t& time
 
 TIMESTAMP_STRUCT NetworkCommon::DBConnection::ToTimeStampFromtime_tm(tm& time_tm)
 {
+	//TIMESTAMP_STRUCT tm_stamp{time_tm.tm_year+1900, time_tm.tm_mon+1, time_tm.tm_mday, time_tm.tm_hour, time_tm.tm_min, time_tm.tm_sec, 0};
 	TIMESTAMP_STRUCT tm_stamp{time_tm.tm_year, time_tm.tm_mon, time_tm.tm_mday, time_tm.tm_hour, time_tm.tm_min, time_tm.tm_sec, 0};
 
 	return tm_stamp;

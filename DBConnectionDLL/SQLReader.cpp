@@ -37,14 +37,15 @@ bool NetworkCommon::DBConnection::SQLReader::Next()
 {
 	SQLRETURN result = SQLFetch(m_hStmt);
 
-	if (result != SQL_SUCCESS && result != SQL_NO_DATA)
+	if (!IsSuccess(result))
 	{
-		throw SQLException("");
-	}	
+		if (result != SQL_SUCCESS && result != SQL_NO_DATA && result != SQL_NULL_DATA)
+		{
+			throw SQLException(m_hStmt, SQL_HANDLE_STMT,result);
+		}
+	}
 
 	m_hasValue = (result == SQL_SUCCESS ? true : false);
-
-
 
 	return HasValue();
 }
@@ -146,6 +147,12 @@ SQLRETURN NetworkCommon::DBConnection::SQLReader::BindReadBuffer(SQLBuffer& buff
 	{
 		throw SQLException("null data");
 	}
+
+	if (!IsSuccess(result))
+	{
+		throw SQLException(hstmt, SQL_HANDLE_STMT, result);
+	}
+
 
 	return result;
 }

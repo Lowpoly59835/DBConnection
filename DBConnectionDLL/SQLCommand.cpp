@@ -59,9 +59,6 @@ SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hS
 {
 	std::wstring wstrCommand = ToWString(m_command.c_str());
 
-	//WCHAR* command = const_cast<WCHAR*>(ToWString(m_command.c_str()).c_str());
-	//std::wstring wColName = ToWString(m_command.c_str());
-
 	SQLRETURN retcode = SQLPrepare(hStmt, wstrCommand.data(), SQL_NTS);
 
 	if (retcode != SQL_SUCCESS)
