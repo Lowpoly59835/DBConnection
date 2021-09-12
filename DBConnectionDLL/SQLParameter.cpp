@@ -58,33 +58,40 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 	SQLRETURN result = 0;
 	SQLLEN string_length = 0;
 
+	SQLSMALLINT   NumParams, i, DataType, DecimalDigits, Nullable;
+	SQLULEN   ParamSize;
+
+	result = SQLDescribeParam(hstmt, colpos, &DataType, &ParamSize, &DecimalDigits, &Nullable);
+
+	if (!IsSuccess(result))
+	{
+		throw SQLException(hstmt, SQL_HANDLE_STMT, result);
+	}
+
 	switch (m_buffer.Type)
 	{
 	case SQLBuffer::EStorageType::Int:
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_INTEGER, SQL_INTEGER, 0, 0, static_cast<SQLINTEGER*>(m_buffer.GetBuffer()), 0, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_INTEGER, DataType, 0, 0, static_cast<SQLINTEGER*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
 	case SQLBuffer::EStorageType::Float:
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_FLOAT, SQL_FLOAT, 0, 0, static_cast<SQLFLOAT*>(m_buffer.GetBuffer()), 0, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_FLOAT, DataType, 0, 0, static_cast<SQLFLOAT*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
 	case SQLBuffer::EStorageType::BIGINT:
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_BIGINT, SQL_BIGINT, 0, 0, static_cast<SQLBIGINT*>(m_buffer.GetBuffer()), 0, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_BIGINT, DataType, 0, 0, static_cast<SQLBIGINT*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
 	case SQLBuffer::EStorageType::String:
 	{
 		cid = SQL_NTS;
 		CustomString* pString = static_cast<CustomString*>(m_buffer.GetBuffer());
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, SQL_CHAR, pString->Size(), 0, SQLPOINTER(pString->c_str()), pString->Size() + 1, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, DataType, ParamSize, 0, SQLPOINTER(pString->c_str()), pString->Size() * 2, &cid);
+		//result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, DataType, ParamSize, 0, SQLPOINTER(pString->c_str()), ParamSize+1, &cid);
 	}break;
 	case SQLBuffer::EStorageType::DateTime:
-		cid = sizeof(TIMESTAMP_STRUCT);
-		//result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TIMESTAMP, sizeof(TIMESTAMP_STRUCT), 0, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), 0, &cid);
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TIMESTAMP, SQL_TYPE_TIMESTAMP, 27, 19, m_buffer.GetBuffer(), sizeof(TIMESTAMP_STRUCT), &cid);
-
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TYPE_TIMESTAMP, DataType, ParamSize, DecimalDigits, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), sizeof(TIMESTAMP_STRUCT), 0);
 		break;
 	default:
 		throw SQLException(Format("%s parameter is unknown type", m_name.c_str()).c_str());
 	}
-
 	if (cid == SQL_NULL_DATA)
 	{
 		throw SQLException("null data");

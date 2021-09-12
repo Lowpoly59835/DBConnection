@@ -10,13 +10,13 @@ using NetworkCommon::DBConnection::SQLParameter;
 using std::make_pair;
 using std::string;
 
-NetworkCommon::DBConnection::SQLCommand::SQLCommand(SQLConnection * connection)
+NetworkCommon::DBConnection::SQLCommand::SQLCommand(SQLConnection* connection)
 	:m_connection(connection)
 {
 }
 
 NetworkCommon::DBConnection::SQLCommand::SQLCommand(SQLConnection* connection, const wchar_t* command)
-	:m_connection(connection), m_command(command)
+	: m_connection(connection), m_command(command)
 {
 }
 
@@ -44,9 +44,9 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 	{
 		throw SQLException(m_connection->m_connHanlde, SQL_HANDLE_STMT, retCode);
 	}
-	
+
 	retCode = ExecuteStatement(hStmt);
-	
+
 	if (!IsSuccess(retCode))
 	{
 		throw SQLException(hStmt, SQL_HANDLE_STMT, retCode);
@@ -58,7 +58,6 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute()
 SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hStmt)
 {
 	std::wstring wstrCommand = ToWString(m_command.c_str());
-
 	SQLRETURN retcode = SQLPrepare(hStmt, wstrCommand.data(), SQL_NTS);
 
 	if (retcode != SQL_SUCCESS)
@@ -66,23 +65,24 @@ SQLRETURN NetworkCommon::DBConnection::SQLCommand::ExecuteStatement(SQLHSTMT& hS
 		throw SQLException(m_connection->m_connHanlde, SQL_HANDLE_STMT, retcode);
 	}
 
-	for (int i = 0 ; i < m_pararmeters.size() ; i++)
+
+	for (int i = 0; i < m_pararmeters.size(); i++)
 	{
-		m_pararmeters[i].BindParmeter(hStmt, i + 1, SQL_PARAM_INPUT);
+		m_pararmeters[i].BindParmeter(hStmt, i + 1,  SQL_PARAM_INPUT);
 	}
 
 	for (int i = 0; i < m_pararmetersOutput.size(); i++)
 	{
 		m_pararmetersOutput[i].BindParmeter(hStmt, i + m_pararmeters.size() + 1, SQL_PARAM_OUTPUT);
 	}
+	
+	retcode = SQLExecute(hStmt);
 
-	 retcode = SQLExecute(hStmt);
-
-	 return retcode;
+	return retcode;
 }
 
 
-SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * command)
+SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t* command)
 {
 	m_command = command;
 
@@ -90,7 +90,7 @@ SQLReader NetworkCommon::DBConnection::SQLCommand::Execute(const wchar_t * comma
 }
 
 
-SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameter(const char * parameterName, SQLSMALLINT type)
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameter(const char* parameterName, SQLSMALLINT type)
 {
 	auto& result = m_pararmeters.emplace_back(SQLParameter(parameterName, type));
 
@@ -154,7 +154,7 @@ SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddParameterWithValue(con
 }
 
 
-SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameter(const char * parameterName, SQLSMALLINT type)
+SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameter(const char* parameterName, SQLSMALLINT type)
 {
 	auto& result = m_pararmetersOutput.emplace_back(SQLParameter(parameterName, type));
 

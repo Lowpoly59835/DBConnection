@@ -19,18 +19,18 @@ int main()
 
 	try
 	{
-		SQLConnection sqlConn("DRIVER={SQL Server};SERVER=localhost,1433;DATABASE=Imas_GameDB;UID=Sin;PWD=skfnxh59835;");
-	
+		SQLConnection sqlConn("DRIVER={SQL Server Native Client 11.0};SERVER=localhost,1433;DATABASE=Imas_GameDB;UID=Sin;PWD=skfnxh59835;");
+		
 		sqlConn.Open();
 		
 		std::cout << "connect sucess " << std::endl;
 
 		//SQLCommand command(&sqlConn, L"Proc_LoadPlayer ?, ?");
-		SQLCommand command(&sqlConn, L"Proc_SingUpPlayer ?, ?, ?, ?");
+		SQLCommand command(&sqlConn, L" Proc_SingUpPlayer ?, ? ,?,?");
 
-		std::string id = "sky59835";
-		std::string pw = "skfnxh59835";
-		std::string nickname = "nick";
+		std::string id = "123sky59835";
+		std::string pw = "123skfnxh59835";
+		std::string nickname = "123nick name";
 		tm st_now;
 		CTime now = CTime::GetCurrentTime();
 		now.GetLocalTm(&st_now);
@@ -47,7 +47,7 @@ int main()
 		{
 			std::string result_id = reader.GetValue<std::string>("ID");
 			std::string result_pw = reader.GetValue<std::string>("PW");
-			tm result_createTime = reader.GetValue<tm>("CreateTime");
+			std::string result_createTime = reader.GetValue<std::string>("CreateTime");
 
 			std::cout << "id : " << result_id << " / value : " << result_pw.c_str() << std::endl;
 		}
