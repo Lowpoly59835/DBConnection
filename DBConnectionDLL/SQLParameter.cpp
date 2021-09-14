@@ -58,7 +58,7 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 	SQLRETURN result = 0;
 	SQLLEN string_length = 0;
 
-	SQLSMALLINT   NumParams, i, DataType, DecimalDigits, Nullable;
+	SQLSMALLINT  DataType, DecimalDigits, Nullable;
 	SQLULEN   ParamSize;
 
 	result = SQLDescribeParam(hstmt, colpos, &DataType, &ParamSize, &DecimalDigits, &Nullable);
@@ -71,20 +71,20 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 	switch (m_buffer.Type)
 	{
 	case SQLBuffer::EStorageType::Int:
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_INTEGER, DataType, 0, 0, static_cast<SQLINTEGER*>(m_buffer.GetBuffer()), 0, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_INTEGER, DataType, ParamSize, DecimalDigits, static_cast<SQLINTEGER*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
 	case SQLBuffer::EStorageType::Float:
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_FLOAT, DataType, 0, 0, static_cast<SQLFLOAT*>(m_buffer.GetBuffer()), 0, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_FLOAT, DataType, ParamSize, DecimalDigits, static_cast<SQLFLOAT*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
 	case SQLBuffer::EStorageType::BIGINT:
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_BIGINT, DataType, 0, 0, static_cast<SQLBIGINT*>(m_buffer.GetBuffer()), 0, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_BIGINT, DataType, ParamSize, DecimalDigits, static_cast<SQLBIGINT*>(m_buffer.GetBuffer()), 0, &cid);
 		break;
 	case SQLBuffer::EStorageType::String:
 	{
-		cid = SQL_NTS;
+		//cid = SQL_NTSL;
 		CustomString* pString = static_cast<CustomString*>(m_buffer.GetBuffer());
-		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, DataType, ParamSize, 0, SQLPOINTER(pString->c_str()), pString->Size() * 2, &cid);
-		//result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, DataType, ParamSize, 0, SQLPOINTER(pString->c_str()), ParamSize+1, &cid);
+		//result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, SQL_CHAR, pString->Size(), 0, SQLPOINTER(pString->c_str()), pString->Size() + 1, &cid);
+		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, DataType, ParamSize, DecimalDigits, SQLPOINTER(pString->data()), ParamSize, NULL);
 	}break;
 	case SQLBuffer::EStorageType::DateTime:
 		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_TYPE_TIMESTAMP, DataType, ParamSize, DecimalDigits, static_cast<TIMESTAMP_STRUCT*>(m_buffer.GetBuffer()), sizeof(TIMESTAMP_STRUCT), 0);

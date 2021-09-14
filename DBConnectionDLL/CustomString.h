@@ -29,13 +29,12 @@ namespace NetworkCommon
 			size_t Capacity();
 			const char* c_str();
 			const char* data();
-			void ToWchar();
 			bool Empty();
 			size_t Size();
 			void Resize(size_t length);
 			size_t Max();
 		private:
-			static const int DEFAULT_SIZE = 128;
+			static const int DEFAULT_SIZE = 64;
 
 			size_t max_size;
 			size_t write_size;
