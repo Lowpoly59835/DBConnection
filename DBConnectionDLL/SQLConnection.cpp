@@ -26,7 +26,6 @@ void NetworkCommon::DBConnection::SQLConnection::Open()
 		throw SQLException(m_envHandle, SQL_HANDLE_ENV, retCode);
 	}
 
-	//HandleDiagnosticRecord(m_envHandle, SQL_HANDLE_ENV, retCode);
 
 	retCode = SQLAllocHandle(SQL_HANDLE_DBC, m_envHandle, &m_connHanlde);
 

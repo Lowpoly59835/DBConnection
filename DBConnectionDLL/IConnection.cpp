@@ -27,6 +27,7 @@ void NetworkCommon::DBConnection::HandleDiagnosticRecord(SQLHANDLE hHandle, SQLS
 	{
 		//throw SQLException("Invalid handle!", ESQLErrorCode::INVALID);
 		errorMessage = wszMessage;
+		errorMessage += wszState;
 	}
 }
 
@@ -56,8 +57,8 @@ TIMESTAMP_STRUCT NetworkCommon::DBConnection::ToTimeStampFromtime_t(time_t& time
 
 TIMESTAMP_STRUCT NetworkCommon::DBConnection::ToTimeStampFromtime_tm(tm& time_tm)
 {
-	//TIMESTAMP_STRUCT tm_stamp{time_tm.tm_year+1900, time_tm.tm_mon+1, time_tm.tm_mday, time_tm.tm_hour, time_tm.tm_min, time_tm.tm_sec, 0};
-	TIMESTAMP_STRUCT tm_stamp{time_tm.tm_year, time_tm.tm_mon, time_tm.tm_mday, time_tm.tm_hour, time_tm.tm_min, time_tm.tm_sec, 0};
+	TIMESTAMP_STRUCT tm_stamp{time_tm.tm_year+1900, time_tm.tm_mon+1, time_tm.tm_mday, time_tm.tm_hour, time_tm.tm_min, time_tm.tm_sec, 0};
+	//TIMESTAMP_STRUCT tm_stamp{time_tm.tm_year, time_tm.tm_mon, time_tm.tm_mday, time_tm.tm_hour, time_tm.tm_min, time_tm.tm_sec, 0};
 
 	return tm_stamp;
 }

@@ -48,6 +48,7 @@ namespace NetworkCommon
 		private:
 			friend class SQLReader;
 			friend class SQLParameter;
+			friend class SQLCommand;
 
 			void* GetBuffer();
 

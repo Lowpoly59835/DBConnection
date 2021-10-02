@@ -3,8 +3,10 @@
 #include "IConnection.h"
 #include <string>
 #include <clocale>
+#include "IConnection.h"
 
 using namespace std;
+using NetworkCommon::DBConnection::CustomString;
 
 CustomString::CustomString()
 	:write_size(0), max_size(DEFAULT_SIZE)
@@ -110,6 +112,11 @@ void CustomString::Resize(size_t length)
 	max_size = newSize;
 }
 
+size_t CustomString::Max()
+{
+	return max_size;
+}
+
 
 bool CustomString::Write(const char* desc, size_t length)
 {
@@ -127,10 +134,10 @@ bool CustomString::Write(const wchar_t* desc, size_t length)
 {
 	if (desc == nullptr) return false;
 
-	length = length * 2;
-	Resize(length);
-	WideCharToMultiByte(CP_ACP, 0, desc, -1, &m_Buff[write_size], length, 0, 0);
-	write_size += length;
+	//length = length;
+	Resize(length * 2);
+	WideCharToMultiByte(CP_ACP, 0, desc, -1, &m_Buff[write_size], Capacity(), 0, 0);
+	write_size += strlen(m_Buff);
 
 	return true;
 }
@@ -144,6 +151,8 @@ const char* CustomString::c_str()
 {
 	return m_Buff;
 }
+
+
 
 const char* CustomString::data()
 {
