@@ -20,6 +20,7 @@ namespace NetworkCommon
 			void Close() final;
 
 			friend class SQLCommand;
+			friend class SQLTranstaction;
 
 		private:
 			CustomString m_strConnection;

@@ -25,20 +25,27 @@ int main()
 		
 		std::cout << "connect sucess " << std::endl;
 
-		SQLCommand command(&sqlConn, L"Proc_LoadPlayer ?, ?");
-		//SQLCommand command(&sqlConn, L"Proc_SingUpPlayer ?, ?, ? ,?");
+		//SQLCommand command(&sqlConn, L"Proc_LoadPlayer ?, ?");
+		SQLCommand command(&sqlConn, L"Proc_SingUpPlayer ?, ?, ? ,?, ?, ?");
+		SQLTranstaction sqlTrans(&sqlConn);
+
+		sqlTrans.BegionTrans();
 
 		std::string id = "sky59835";
 		std::string pw = "skfnxh59835";
-		std::string nickname = "123nick name";
+		std::string nickname = "nick name";
 		tm st_now;
 		CTime now = CTime::GetCurrentTime();
 		now.GetLocalTm(&st_now);
+		INT64 playerID = 0;
+		INT32 outputResult = 0;
 
 		command.AddParameterWithValue("@pID", SQL_VARCHAR, id);
 		command.AddParameterWithValue("@pPassword", SQL_VARCHAR, pw);
-		//command.AddParameterWithValue("@pNickName", SQL_VARCHAR, nickname);
-		//command.AddParameterWithValue("@pCreateTime", SQL_DATETIME, st_now);
+		command.AddParameterWithValue("@pNickName", SQL_VARCHAR, nickname);
+		command.AddParameterWithValue("@pCreateTime", SQL_DATETIME, st_now);
+		command.AddOutputParameter("@pOutPlayerID", SQL_BIGINT);
+		command.AddOutputParameter("@pOutResult", SQL_INTEGER);
 
 		SQLReader reader = command.Execute();
 		
@@ -51,6 +58,10 @@ int main()
 
 			std::cout << "id : " << result_id << " / value : " << result_pw.c_str() << std::endl;
 		}
+
+		//reader.GetValue("@pOutPlayerID")
+
+		auto result = command.GetParameterOutputValue<int>("@pOutPlayerID");;
 
 		sqlConn.Close();
 
