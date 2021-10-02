@@ -21,9 +21,9 @@ NetworkCommon::DBConnection::SQLTranstaction::~SQLTranstaction()
 			Rollback();
 		}
 	}
-	catch (SQLException& e)
+	catch (SQLException&)
 	{
-		
+		return;
 	}
 }
 

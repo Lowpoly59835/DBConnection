@@ -28,9 +28,9 @@ int main()
 
 		//SQLCommand command(&sqlConn, L"Proc_LoadPlayer ?, ?");
 		SQLCommand command(&sqlConn, L"Proc_SingUpPlayer ?, ?, ? ,?, ?, ?");
-		SQLTranstaction sqlTrans(&sqlConn);
+		//SQLTranstaction sqlTrans(&sqlConn);
 
-		sqlTrans.BegionTrans();
+		//sqlTrans.BegionTrans();
 
 		std::string id = "sky598351";
 		std::string pw = "skfnxh598351";
@@ -65,7 +65,7 @@ int main()
 		auto result = command.GetParameterOutputValue<int>("@pOutPlayerID");;
 
 		//sqlTrans.Commit();
-		sqlTrans.Rollback();
+		//sqlTrans.Rollback();
 		sqlConn.Close();
 
 		std::cout << "disconnect sucess" << std::endl;

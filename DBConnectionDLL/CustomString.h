@@ -1,5 +1,7 @@
 #pragma once
 #include "ExportDefine.h"
+#include <string>
+#include <ostream>
 
 namespace NetworkCommon
 {
@@ -19,7 +21,16 @@ namespace NetworkCommon
 			CustomString& operator=(const wchar_t* value);
 			CustomString& operator+=(const wchar_t* value);
 			CustomString& operator=(const CustomString& other);
+			CustomString& operator=(const std::string& value);
+			CustomString& operator+=(const std::string& value);
+			
 			operator const char* ();
+			bool operator==(const CustomString& other) const;
+			friend std::ostream& operator<<(std::ostream& os, const CustomString& value)
+			{
+				// TODO: 여기에 return 문을 삽입합니다.
+				return os << const_cast<CustomString&>(value).c_str();
+			}
 
 		private:
 			bool Write(const char* desc, size_t length);

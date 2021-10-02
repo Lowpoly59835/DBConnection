@@ -145,7 +145,7 @@ copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLParameter.h" "$(OutDi
 copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLReader.h" "$(OutDir)"
 copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\CustomString.h" "$(OutDir)"
 copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLTranstaction.h" "$(OutDir)"
-
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\DB*.h" "$(OutDir)"
 
 </Command>
     </PreBuildEvent>
@@ -178,7 +178,11 @@ copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLCommand.h" "$(OutDir)
 copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLConnection.h" "$(OutDir)"
 copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLParameter.h" "$(OutDir)"
 copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLReader.h" "$(OutDir)"
-copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\CustomString.h" "$(OutDir)"</Command>
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\CustomString.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\SQLTranstaction.h" "$(OutDir)"
+copy /Y "$(SolutionDir)out\$(Configuration)\$(Platform)\DB*.h" "$(OutDir)"
+
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

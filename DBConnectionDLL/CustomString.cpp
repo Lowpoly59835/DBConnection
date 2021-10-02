@@ -79,6 +79,28 @@ CustomString& CustomString::operator=(const CustomString& other)
 	return *this;
 }
 
+CustomString& NetworkCommon::DBConnection::CustomString::operator=(const std::string& value)
+{
+	// TODO: 여기에 return 문을 삽입합니다.
+	Clear();
+	Write(value.c_str(), value.size());
+
+	return *this;
+}
+
+CustomString& NetworkCommon::DBConnection::CustomString::operator+=(const std::string& value)
+{
+	// TODO: 여기에 return 문을 삽입합니다.
+	Write(value.c_str(), value.size());
+
+	return *this;
+}
+
+bool NetworkCommon::DBConnection::CustomString::operator==(const CustomString& other) const
+{
+	return strcmp(this->m_Buff, other.m_Buff);
+}
+
 CustomString::operator const char* ()
 {
 	return c_str();

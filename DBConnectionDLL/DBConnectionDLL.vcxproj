@@ -130,6 +130,7 @@ copy /Y "$(ProjectDir)SQLReader.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLTranstaction.h" "$(OutDir)"
 copy /Y "$(ProjectDir)CustomString.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SharedClass.h" "$(OutDir)"
+copy /Y "$(ProjectDir)DB*.h" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -183,22 +184,29 @@ copy /Y "$(ProjectDir)SharedClass.h" "$(OutDir)"
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)ExportDefine.h" "$(OutDir)"
 copy /Y "$(ProjectDir)IConnection.h" "$(OutDir)"
-copy /Y "$(ProjectDir)SharedClass.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLBuffer.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLCommand.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLConnection.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLParameter.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLReader.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLTranstaction.h" "$(OutDir)"
 copy /Y "$(ProjectDir)CustomString.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SharedClass.h" "$(OutDir)"
+copy /Y "$(ProjectDir)DB*.h" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DBObject.h" />
+    <ClInclude Include="DBType.h" />
+    <ClInclude Include="DBTypeManager.h" />
     <ClInclude Include="ExportDefine.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="HashFunc.h" />
     <ClInclude Include="IConnection.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SharedClass.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="SQLBuffer.h" />
     <ClInclude Include="SQLCommand.h" />
     <ClInclude Include="SQLConnection.h" />
@@ -208,7 +216,11 @@ copy /Y "$(ProjectDir)CustomString.h" "$(OutDir)"
     <ClInclude Include="SQLTranstaction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DBObject.cpp" />
+    <ClCompile Include="DBType.cpp" />
+    <ClCompile Include="DBTypeManager.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="HashFunc.cpp" />
     <ClCompile Include="IConnection.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
