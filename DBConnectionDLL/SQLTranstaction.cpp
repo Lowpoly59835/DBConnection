@@ -14,9 +14,16 @@ NetworkCommon::DBConnection::SQLTranstaction::SQLTranstaction(SQLConnection* con
 
 NetworkCommon::DBConnection::SQLTranstaction::~SQLTranstaction()
 {
-	if (!m_isCommit)
+	try
 	{
-		Rollback();
+		if (!m_isCommit)
+		{
+			Rollback();
+		}
+	}
+	catch (SQLException& e)
+	{
+		
 	}
 }
 
@@ -44,6 +51,11 @@ VOID NetworkCommon::DBConnection::SQLTranstaction::Commit()
 
 void NetworkCommon::DBConnection::SQLTranstaction::Rollback()
 {
+	if (m_connection->m_envHandle == NULL)
+	{
+		return;
+	}
+
 	SQLRETURN result = SQLEndTran(SQL_HANDLE_ENV, m_connection->m_envHandle, SQL_ROLLBACK);
 
 	if (!IsSuccess(result))

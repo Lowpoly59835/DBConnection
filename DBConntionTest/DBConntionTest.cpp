@@ -5,6 +5,7 @@
 #include "SQLConnection.h"
 #include "SQLCommand.h"
 #include "SQLReader.h"
+#include "SQLTranstaction.h"
 #include <chrono>
 #include <atltime.h>
 
@@ -31,8 +32,8 @@ int main()
 
 		sqlTrans.BegionTrans();
 
-		std::string id = "sky59835";
-		std::string pw = "skfnxh59835";
+		std::string id = "sky598351";
+		std::string pw = "skfnxh598351";
 		std::string nickname = "nick name";
 		tm st_now;
 		CTime now = CTime::GetCurrentTime();
@@ -63,6 +64,8 @@ int main()
 
 		auto result = command.GetParameterOutputValue<int>("@pOutPlayerID");;
 
+		//sqlTrans.Commit();
+		sqlTrans.Rollback();
 		sqlConn.Close();
 
 		std::cout << "disconnect sucess" << std::endl;

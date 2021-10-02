@@ -13,69 +13,87 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="헤더 파일\01. Shared">
+      <UniqueIdentifier>{a33adabc-1a77-4f14-a0f5-284e70afde75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\02. SQL">
+      <UniqueIdentifier>{dc0d0469-0f59-4da1-ba78-0614a1f07613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. SQL">
+      <UniqueIdentifier>{9fb09b0c-4ece-413a-92d4-4e6c20941e08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Shared">
+      <UniqueIdentifier>{5dc6e7d3-bdc2-45fc-acc4-813d48359ceb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="CustomString.h">
+      <Filter>헤더 파일\01. Shared</Filter>
     </ClInclude>
     <ClInclude Include="ExportDefine.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\01. Shared</Filter>
     </ClInclude>
-    <ClInclude Include="IConnection.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일\01. Shared</Filter>
     </ClInclude>
     <ClInclude Include="SharedClass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\01. Shared</Filter>
     </ClInclude>
-    <ClInclude Include="SQLCommand.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SQLConnection.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SQLReader.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="IConnection.h">
+      <Filter>헤더 파일\02. SQL</Filter>
     </ClInclude>
     <ClInclude Include="SQLBuffer.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\02. SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLCommand.h">
+      <Filter>헤더 파일\02. SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLConnection.h">
+      <Filter>헤더 파일\02. SQL</Filter>
     </ClInclude>
     <ClInclude Include="SQLParameter.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\02. SQL</Filter>
     </ClInclude>
-    <ClInclude Include="CustomString.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="SQLReader.h">
+      <Filter>헤더 파일\02. SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLTranstaction.h">
+      <Filter>헤더 파일\02. SQL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CustomString.cpp">
+      <Filter>소스 파일\01. Shared</Filter>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SQLCommand.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SQLConnection.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SQLReader.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\01. Shared</Filter>
     </ClCompile>
     <ClCompile Include="IConnection.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\02. SQL</Filter>
     </ClCompile>
     <ClCompile Include="SQLBuffer.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\02. SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLCommand.cpp">
+      <Filter>소스 파일\02. SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLConnection.cpp">
+      <Filter>소스 파일\02. SQL</Filter>
     </ClCompile>
     <ClCompile Include="SQLParameter.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\02. SQL</Filter>
     </ClCompile>
-    <ClCompile Include="CustomString.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="SQLReader.cpp">
+      <Filter>소스 파일\02. SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLTranstaction.cpp">
+      <Filter>소스 파일\02. SQL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

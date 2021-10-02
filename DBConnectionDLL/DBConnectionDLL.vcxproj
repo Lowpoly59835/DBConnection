@@ -127,7 +127,9 @@ copy /Y "$(ProjectDir)SQLCommand.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLConnection.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLParameter.h" "$(OutDir)"
 copy /Y "$(ProjectDir)SQLReader.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SQLTranstaction.h" "$(OutDir)"
 copy /Y "$(ProjectDir)CustomString.h" "$(OutDir)"
+copy /Y "$(ProjectDir)SharedClass.h" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -203,6 +205,7 @@ copy /Y "$(ProjectDir)CustomString.h" "$(OutDir)"
     <ClInclude Include="SQLParameter.h" />
     <ClInclude Include="SQLReader.h" />
     <ClInclude Include="CustomString.h" />
+    <ClInclude Include="SQLTranstaction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -219,6 +222,7 @@ copy /Y "$(ProjectDir)CustomString.h" "$(OutDir)"
     <ClCompile Include="SQLParameter.cpp" />
     <ClCompile Include="SQLReader.cpp" />
     <ClCompile Include="CustomString.cpp" />
+    <ClCompile Include="SQLTranstaction.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
