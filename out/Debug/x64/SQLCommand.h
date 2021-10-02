@@ -39,12 +39,21 @@ namespace NetworkCommon
 			SQLParameter* AddParameterWithValue(const char* parameterName, SQLSMALLINT type, tm& value);
 
 			SQLParameter* AddOutputParameter(const char* parameterName, SQLSMALLINT type);
+			/*
 			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, int value);
 			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, long long value);
 			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, float value);
 			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, std::string& value);
 			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, TIMESTAMP_STRUCT& value);
 			SQLParameter* AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, tm& value);
+			*/
+
+			template<typename T>
+			T GetParameterOutputValue(const char* colName)
+			{
+				static_assert(true, "unknow data type");
+			}
+
 
 		private:
 			RETCODE ExecuteStatement(SQLHSTMT& hStmt);
@@ -56,6 +65,25 @@ namespace NetworkCommon
 			vector<SQLParameter> m_pararmetersOutput;
 			vector<SQLParameter> m_pararmeters;
 		};
+
+
+
+		template <>
+		int DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand::GetParameterOutputValue<int>(const char* colName);
+		
+		template <>
+		float DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand::GetParameterOutputValue<float>(const char* colName);
+
+		template <>
+		std::string DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand::GetParameterOutputValue<std::string>(const char* colName);
+
+		template <>
+		TIMESTAMP_STRUCT DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand::GetParameterOutputValue<TIMESTAMP_STRUCT>(const char* colName);
+
+		/// 초단위까지만 지원
+		/// 밀리세컨드는 따로 변환해야함
+		template <>
+		tm DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand::GetParameterOutputValue<tm>(const char* colName);
 	}
 }
 

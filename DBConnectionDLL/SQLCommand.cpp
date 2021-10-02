@@ -3,12 +3,15 @@
 #include "SQLReader.h"
 #include <exception>
 #include <utility>
+#include <algorithm>
 
 using std::exception;
 using NetworkCommon::DBConnection::SQLReader;
 using NetworkCommon::DBConnection::SQLParameter;
+using NetworkCommon::DBConnection::SQLException;
 using std::make_pair;
 using std::string;
+using std::vector;
 
 NetworkCommon::DBConnection::SQLCommand::SQLCommand(SQLConnection* connection)
 	:m_connection(connection)
@@ -160,6 +163,7 @@ SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameter(const 
 
 	return &result;
 }
+/*
 
 SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithValue(const char* parameterName, SQLSMALLINT type, int value)
 {
@@ -216,3 +220,84 @@ SQLParameter* NetworkCommon::DBConnection::SQLCommand::AddOutputParameterWithVal
 
 	return &result;
 }
+*/
+
+
+
+template<>
+int NetworkCommon::DBConnection::SQLCommand::GetParameterOutputValue(const char* colName)
+{
+	//std::wstring wColName = ToWString(colName);
+
+	for (auto& it : m_pararmetersOutput)
+	{
+		//if(wColName.compare(it.first.c_wstr()) == 0)
+		//if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		if (strcmp(it.m_name.c_str(), colName) == 0)
+		{
+			return *static_cast<int*>(it.m_buffer.GetBuffer());
+		}
+	}
+
+	throw SQLException("not exists colums");
+}
+
+
+template<>
+float NetworkCommon::DBConnection::SQLCommand::GetParameterOutputValue(const char* colName)
+{
+	//std::wstring wColName = ToWString(colName);
+
+	for (auto& it : m_pararmetersOutput)
+	{
+		if (strcmp(it.m_name.c_str(), colName) == 0)
+		{
+			return *static_cast<float*>(it.m_buffer.GetBuffer());
+		}
+	}
+
+	throw SQLException("not exists colums");
+}
+
+template<>
+std::string NetworkCommon::DBConnection::SQLCommand::GetParameterOutputValue(const char* colName)
+{
+	//std::wstring wColName = ToWString(colName);
+
+	for (auto& it : m_pararmetersOutput)
+	{
+		if (strcmp(it.m_name.c_str(), colName) == 0)
+		{			
+			return static_cast<CustomString*>(it.m_buffer.GetBuffer())->c_str();
+		}
+	}
+
+	throw SQLException("not exists colums");
+}
+
+template<>
+TIMESTAMP_STRUCT NetworkCommon::DBConnection::SQLCommand::GetParameterOutputValue(const char* colName)
+{
+	//std::wstring wColName = ToWString(colName);
+
+	for (auto& it : m_pararmetersOutput)
+	{
+		if (strcmp(it.m_name.c_str(), colName) == 0)
+		{
+			return *static_cast<TIMESTAMP_STRUCT*>(it.m_buffer.GetBuffer());
+		}
+	}
+
+	throw SQLException("not exists colums");
+}
+
+/// 초단위까지만 지원
+/// 밀리세컨드는 따로 변환해야함
+template<>
+tm NetworkCommon::DBConnection::SQLCommand::GetParameterOutputValue(const char* colName)
+{
+	TIMESTAMP_STRUCT timestamp = GetParameterOutputValue<TIMESTAMP_STRUCT>(colName);
+
+	return TotmFromTimeStamp(timestamp);
+}
+
