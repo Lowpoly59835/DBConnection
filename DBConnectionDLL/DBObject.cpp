@@ -158,3 +158,24 @@ std::string CDBDATETIME::ToString()
 	return Format("%d-%d-%d %d:%d:%d:%d ", m_value.year, m_value.month, m_value.day, m_value.hour, m_value.minute, m_value.second, m_value.fraction);
 }
 
+///////////////////////////////////////////////////////////////
+
+NetworkCommon::DBConnection::CDBBIGINT::CDBBIGINT(CDBTABLE& owner, const char* columnName)
+	: CDBObject::CDBObject(columnName), m_dbType(&owner, this), m_value()
+{
+}
+
+NetworkCommon::DBConnection::CDBBIGINT::CDBBIGINT()
+	: CDBObject::CDBObject(""), m_dbType(), m_value()
+{
+}
+
+CDBType NetworkCommon::DBConnection::CDBBIGINT::GetType()
+{
+	return m_dbType;
+}
+
+int NetworkCommon::DBConnection::CDBBIGINT::GetValue()
+{
+	return m_value;
+}

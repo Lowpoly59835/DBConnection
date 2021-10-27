@@ -62,6 +62,31 @@ namespace NetworkCommon
 			CMemberInfo m_dbType;
 		}DBINT;
 
+		typedef class DBCONNECTIONDLL_EXPORTS_DECLSPEC CDBBIGINT : public DBObject
+		{
+		public:
+			CDBBIGINT(CDBTABLE& owner, const char* columnName);
+			CDBBIGINT();
+			CDBBIGINT(const CDBBIGINT& other) = delete;
+			CDBType GetType() final;
+			int GetValue();
+
+			CDBBIGINT& operator=(INT64 other)
+			{
+				m_value = other;
+				return *this;
+			}
+
+			friend ostream& operator<<(ostream& os, const CDBBIGINT& dbINT)
+			{
+				// TODO: 여기에 return 문을 삽입합니다.
+				return os << dbINT.m_value;
+			}
+		private:
+			INT64 m_value;
+			CMemberInfo m_dbType;
+		}DBBIGINT;
+
 		typedef class DBCONNECTIONDLL_EXPORTS_DECLSPEC CDBSTRING : public DBObject
 		{
 		public:

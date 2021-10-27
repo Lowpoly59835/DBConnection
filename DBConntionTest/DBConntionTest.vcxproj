@@ -86,9 +86,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
-    <ReferencePath>$(VC_ReferencesPath_x64);</ReferencePath>
+    <IncludePath>$(SolutionDir)out\$(Configuration)\$(Platform);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)out\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
+    <ReferencePath>$(SolutionDir)out\$(Configuration)\$(Platform);$(VC_ReferencesPath_x64);</ReferencePath>
     <SourcePath>$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
