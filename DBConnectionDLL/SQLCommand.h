@@ -66,11 +66,12 @@ namespace NetworkCommon
 			vector<SQLParameter> m_pararmeters;
 		};
 
-
-
 		template <>
 		int DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand::GetParameterOutputValue<int>(const char* colName);
-		
+
+		template <>
+		INT64 DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand::GetParameterOutputValue<INT64>(const char* colName);
+
 		template <>
 		float DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLCommand::GetParameterOutputValue<float>(const char* colName);
 

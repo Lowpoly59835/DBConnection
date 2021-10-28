@@ -244,6 +244,24 @@ int NetworkCommon::DBConnection::SQLCommand::GetParameterOutputValue(const char*
 
 
 template<>
+INT64 NetworkCommon::DBConnection::SQLCommand::GetParameterOutputValue(const char* colName)
+{
+	//std::wstring wColName = ToWString(colName);
+
+	for (auto& it : m_pararmetersOutput)
+	{
+		//if(wColName.compare(it.first.c_wstr()) == 0)
+		//if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		if (strcmp(it.m_name.c_str(), colName) == 0)
+		{
+			return *static_cast<INT64*>(it.m_buffer.GetBuffer());
+		}
+	}
+
+	throw SQLException("not exists colums");
+}
+
+template<>
 float NetworkCommon::DBConnection::SQLCommand::GetParameterOutputValue(const char* colName)
 {
 	//std::wstring wColName = ToWString(colName);
