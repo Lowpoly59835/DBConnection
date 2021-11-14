@@ -3,9 +3,7 @@
 
 #include "Singleton.h"
 #include "SharedClass.h"
-
 #include "ExportDefine.h"
-
 #include "CustomString.h"
 
 using std::vector;

@@ -6,9 +6,10 @@ namespace NetworkCommon
 {
 	namespace DBConnection
 	{
-		typedef DBCONNECTIONDLL_EXPORTS_DECLSPEC struct st_hash_custom_string
+		typedef DBCONNECTIONDLL_EXPORTS_DECLSPEC class HashCustomString
 		{
-			unsigned long long operator() (const CustomString& value) const;
-		}HashCustomString;
+		public:
+			std::size_t operator() (const CustomString& value) const;
+		};
 	}
 }

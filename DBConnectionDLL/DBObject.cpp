@@ -99,6 +99,11 @@ CDBType CDBSTRING::GetType()
 	return m_dbType;
 }
 
+const char* CDBSTRING::GetValue()
+{
+	return m_value;
+}
+
 
 ///////////////////////////////////////////////////////////////
 
@@ -116,6 +121,12 @@ CDBType CDBFLOAT::GetType()
 {
 	return m_dbType;
 }
+
+float CDBFLOAT::GetValue()
+{
+	return m_value;
+}
+
 ///////////////////////////////////////////////////////////////
 
 CDBDATETIME::CDBDATETIME(CDBTABLE& owner, const char* columnName)
@@ -158,6 +169,11 @@ std::string CDBDATETIME::ToString()
 	return Format("%d-%d-%d %d:%d:%d:%d ", m_value.year, m_value.month, m_value.day, m_value.hour, m_value.minute, m_value.second, m_value.fraction);
 }
 
+TIMESTAMP_STRUCT CDBDATETIME::GetValue()
+{
+	return m_value;
+}
+
 ///////////////////////////////////////////////////////////////
 
 NetworkCommon::DBConnection::CDBBIGINT::CDBBIGINT(CDBTABLE& owner, const char* columnName)
@@ -175,7 +191,7 @@ CDBType NetworkCommon::DBConnection::CDBBIGINT::GetType()
 	return m_dbType;
 }
 
-int NetworkCommon::DBConnection::CDBBIGINT::GetValue()
+INT64 NetworkCommon::DBConnection::CDBBIGINT::GetValue()
 {
 	return m_value;
 }

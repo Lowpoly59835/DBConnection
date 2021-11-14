@@ -69,7 +69,7 @@ namespace NetworkCommon
 			CDBBIGINT();
 			CDBBIGINT(const CDBBIGINT& other) = delete;
 			CDBType GetType() final;
-			int GetValue();
+			INT64 GetValue();
 
 			CDBBIGINT& operator=(INT64 other)
 			{
@@ -94,6 +94,9 @@ namespace NetworkCommon
 			CDBSTRING();
 			CDBSTRING(const CDBSTRING& other) = delete;
 			CDBType GetType() final;
+
+			const char* GetValue();
+
 			CDBSTRING& operator=(std::string other)
 			{
 				m_value = other;
@@ -118,6 +121,9 @@ namespace NetworkCommon
 			CDBFLOAT();
 			CDBFLOAT(const CDBFLOAT& other) = delete;
 			CDBType GetType() final;
+
+
+			float GetValue();
 
 			CDBFLOAT& operator=(float other)
 			{
@@ -144,6 +150,8 @@ namespace NetworkCommon
 			CDBDATETIME();
 			CDBDATETIME(const CDBFLOAT& other) = delete;
 			CDBType GetType() final;
+
+			TIMESTAMP_STRUCT GetValue();
 
 			CDBDATETIME& operator=(TIMESTAMP_STRUCT other);
 			CDBDATETIME& operator=(tm& other);

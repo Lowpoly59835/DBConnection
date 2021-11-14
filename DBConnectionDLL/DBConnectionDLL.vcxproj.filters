@@ -69,11 +69,11 @@
     <ClInclude Include="SQLTranstaction.h">
       <Filter>헤더 파일\02. SQL</Filter>
     </ClInclude>
-    <ClInclude Include="DBObject.h">
-      <Filter>헤더 파일\03. Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>헤더 파일\01. Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="DBObject.h">
+      <Filter>헤더 파일\03. Reflection</Filter>
     </ClInclude>
     <ClInclude Include="DBType.h">
       <Filter>헤더 파일\03. Reflection</Filter>
@@ -82,7 +82,7 @@
       <Filter>헤더 파일\03. Reflection</Filter>
     </ClInclude>
     <ClInclude Include="HashFunc.h">
-      <Filter>헤더 파일\01. Shared</Filter>
+      <Filter>헤더 파일\03. Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +126,7 @@
       <Filter>소스 파일\03. Reflection</Filter>
     </ClCompile>
     <ClCompile Include="HashFunc.cpp">
-      <Filter>소스 파일\01. Shared</Filter>
+      <Filter>소스 파일\03. Reflection</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
