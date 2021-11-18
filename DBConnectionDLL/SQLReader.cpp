@@ -139,6 +139,9 @@ SQLRETURN NetworkCommon::DBConnection::SQLReader::BindReadBuffer(SQLBuffer& buff
 	case SQLBuffer::EStorageType::DateTime:
 		result = SQLBindCol(hstmt, colpos, SQL_C_TIMESTAMP, static_cast<TIMESTAMP_STRUCT*>(buffer.GetBuffer()), sizeof(TIMESTAMP_STRUCT), &cid);
 		break;
+	case SQLBuffer::EStorageType::BIGINT:
+		result = SQLBindCol(hstmt, colpos, SQL_C_SBIGINT, static_cast<SQLBIGINT*>(buffer.GetBuffer()), sizeof(SQLBIGINT), &cid);
+		break;
 	default:
 		throw SQLException("unknown type");
 	}
