@@ -64,7 +64,7 @@ namespace NetworkCommon
 		int DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<int>() noexcept;
 		
 		template <>
-		long long DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<long long>() noexcept;
+		INT64 DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<INT64>() noexcept;
 
 		template <>
 		float DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLBuffer::GetValue<float>() noexcept;

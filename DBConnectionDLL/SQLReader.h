@@ -29,6 +29,7 @@ namespace NetworkCommon
 
 		public:
 			bool Next();
+			bool NextResult();
 
 			template<typename T>
 			T GetValue(const char* colName)
@@ -42,6 +43,8 @@ namespace NetworkCommon
 			void Bind();
 			SQLRETURN BindReadBuffer(SQLBuffer& buffer, SQLHSTMT& hstmt, int colpos);
 			void BufferClear();
+			bool HaveNextResult();
+
 
 		private:
 			SQLHSTMT m_hStmt;
@@ -53,6 +56,9 @@ namespace NetworkCommon
 
 		template <>
 		int DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<int>(const char* colName);
+
+		template <>
+		INT64 DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<INT64>(const char* colName);
 
 		template <>
 		float DBCONNECTIONDLL_EXPORTS_DECLSPEC SQLReader::GetValue<float>(const char* colName);

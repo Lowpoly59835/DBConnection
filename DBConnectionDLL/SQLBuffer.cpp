@@ -63,7 +63,7 @@ float NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 }
 
 template<>
-long long NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
+INT64 NetworkCommon::DBConnection::SQLBuffer::GetValue() noexcept
 {
 	return m_data.BIGINT;
 }

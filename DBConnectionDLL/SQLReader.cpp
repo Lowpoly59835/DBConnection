@@ -33,6 +33,23 @@ SQLReader::~SQLReader()
 	}
 }
 
+bool NetworkCommon::DBConnection::SQLReader::HaveNextResult()
+{
+	SQLRETURN result = SQLMoreResults(m_hStmt);
+
+	if (!IsSuccess(result))
+	{
+		if (result != SQL_SUCCESS && result != SQL_NO_DATA && result != SQL_NULL_DATA)
+		{
+			throw SQLException(m_hStmt, SQL_HANDLE_STMT, result);
+		}
+	}
+
+	m_hasValue = (result == SQL_SUCCESS ? true : false);
+
+	return m_hasValue;
+}
+
 bool NetworkCommon::DBConnection::SQLReader::Next()
 {
 	SQLRETURN result = SQLFetch(m_hStmt);
@@ -41,13 +58,25 @@ bool NetworkCommon::DBConnection::SQLReader::Next()
 	{
 		if (result != SQL_SUCCESS && result != SQL_NO_DATA && result != SQL_NULL_DATA)
 		{
-			throw SQLException(m_hStmt, SQL_HANDLE_STMT,result);
+			throw SQLException(m_hStmt, SQL_HANDLE_STMT, result);
 		}
 	}
 
-	m_hasValue = (result == SQL_SUCCESS ? true : false);
+	m_hasValue = (result == SQL_SUCCESS ? true : result == SQL_SUCCESS_WITH_INFO ? true : false);
 
 	return HasValue();
+}
+
+bool NetworkCommon::DBConnection::SQLReader::NextResult()
+{
+	if (HaveNextResult() == false)
+	{
+		return false;
+	}
+
+	m_resultBuffer.clear();
+
+	Bind();
 }
 
 bool NetworkCommon::DBConnection::SQLReader::HasValue() noexcept
@@ -93,11 +122,11 @@ void NetworkCommon::DBConnection::SQLReader::Bind()
 			continue;
 		}
 
-		if (wcslen(ColumnName) == 0)
-		{
+		//if (wcslen(ColumnName) == 0)
+		//{
 			//문자열 길이가 0이라면, 다른 이름으로 치환해줘야할듯?
 			//검색할떈 어떻하지?
-		}
+		//}
 
 		m_resultBuffer.emplace_back(ColumnName, new SQLBuffer(DataType));
 
@@ -112,12 +141,12 @@ void NetworkCommon::DBConnection::SQLReader::Bind()
 }
 
 
-SQLRETURN NetworkCommon::DBConnection::SQLReader::BindReadBuffer(SQLBuffer& buffer, SQLHSTMT & hstmt, int colpos)
-{	
+SQLRETURN NetworkCommon::DBConnection::SQLReader::BindReadBuffer(SQLBuffer& buffer, SQLHSTMT& hstmt, int colpos)
+{
 	SQLLEN cid = 0;
 	SQLRETURN result = 0;
 	SQLLEN string_length = 0;
-		
+
 	switch (buffer.Type)
 	{
 	case SQLBuffer::EStorageType::Int:
@@ -190,6 +219,23 @@ int NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 }
 
 template<>
+INT64 NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
+{
+	//std::wstring wColName = ToWString(colName);
+
+	for (auto& it : m_resultBuffer)
+	{
+		//if(wColName.compare(it.first.c_wstr()) == 0)
+		//if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
+		if (strcmp(it.first.c_str(), colName) == 0)
+		{
+			return it.second->GetValue<INT64>();
+		}
+	}
+
+	throw SQLException("not exists colums");
+}
+template<>
 float NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 {
 	//std::wstring wColName = ToWString(colName);
@@ -234,7 +280,7 @@ TIMESTAMP_STRUCT NetworkCommon::DBConnection::SQLReader::GetValue(const char* co
 	{
 		//if (wColName._Equal(it.first.c_wstr()))
 		//if (wcscmp(it.first.c_wstr(), wColName.c_str()) == 0)
-		if(strcmp(it.first.c_str(), colName) == 0)
+		if (strcmp(it.first.c_str(), colName) == 0)
 		{
 			return it.second->GetValue<TIMESTAMP_STRUCT>();
 		}
@@ -249,6 +295,6 @@ template<>
 tm NetworkCommon::DBConnection::SQLReader::GetValue(const char* colName)
 {
 	TIMESTAMP_STRUCT timestamp = GetValue<TIMESTAMP_STRUCT>(colName);
-	
+
 	return TotmFromTimeStamp(timestamp);
 }
