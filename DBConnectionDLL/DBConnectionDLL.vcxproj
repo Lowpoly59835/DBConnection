@@ -210,6 +210,7 @@ copy /Y "$(ProjectDir)DB*.h" "$(OutDir)"
     <ClInclude Include="SQLBuffer.h" />
     <ClInclude Include="SQLCommand.h" />
     <ClInclude Include="SQLConnection.h" />
+    <ClInclude Include="SQLConnectionPool.h" />
     <ClInclude Include="SQLParameter.h" />
     <ClInclude Include="SQLReader.h" />
     <ClInclude Include="CustomString.h" />
@@ -231,6 +232,7 @@ copy /Y "$(ProjectDir)DB*.h" "$(OutDir)"
     <ClCompile Include="SQLBuffer.cpp" />
     <ClCompile Include="SQLCommand.cpp" />
     <ClCompile Include="SQLConnection.cpp" />
+    <ClCompile Include="SQLConnectionPool.cpp" />
     <ClCompile Include="SQLParameter.cpp" />
     <ClCompile Include="SQLReader.cpp" />
     <ClCompile Include="CustomString.cpp" />

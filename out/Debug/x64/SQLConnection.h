@@ -13,10 +13,12 @@ namespace NetworkCommon
 			SQLConnection& operator=(const SQLConnection&) = delete;
 
 			SQLConnection(const char* strConnection);
+			SQLConnection(const char* strConnection, SQLHDBC& connHandle, SQLHENV envHandle);
 			~SQLConnection();
 
 		public:
 			void Open() final;
+			void Open2();
 			void Close() final;
 
 			friend class SQLCommand;

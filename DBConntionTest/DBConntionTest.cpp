@@ -20,9 +20,28 @@ int main()
 
 	try
 	{
-		SQLConnection sqlConn("DRIVER={ODBC Driver 17 for SQL Server};SERVER=localhost,1433;DATABASE=Imas_GameDB;UID=Sin;PWD=skfnxh59835;");
-		
+
+		SQLHDBC m_connHanlde;
+		SQLHENV m_envHandle;
+
+		if (SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_envHandle) == SQL_ERROR)
+		{
+			throw SQLException("Unable to allocate an environment handle");
+		}
+
+
+		SQLRETURN retCode = SQLSetEnvAttr(m_envHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
+		retCode = SQLSetEnvAttr(NULL, SQL_ATTR_CONNECTION_POOLING, (SQLPOINTER)SQL_CP_ONE_PER_DRIVER, SQL_IS_INTEGER);
+
+
+		retCode = SQLAllocHandle(SQL_HANDLE_DBC, m_envHandle, &m_connHanlde);
+
+		SQLConnection sqlConn("DRIVER={ODBC Driver 17 for SQL Server};SERVER=localhost,1433;DATABASE=Imas_GameDB;UID=Sin;PWD=skfnxh59835;", m_connHanlde, m_envHandle);
+
+		SQLConnection sqlConn2("DRIVER={ODBC Driver 17 for SQL Server};SERVER=localhost,1433;DATABASE=Imas_GameDB;UID=Sin;PWD=skfnxh59835;", m_connHanlde, m_envHandle);
+
 		sqlConn.Open();
+		sqlConn2.Open();
 		
 		std::cout << "connect sucess " << std::endl;
 

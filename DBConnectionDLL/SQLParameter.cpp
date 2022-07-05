@@ -58,16 +58,6 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 	SQLRETURN result = 0;
 	SQLLEN string_length = 0;
 
-	//SQLSMALLINT  DataType, DecimalDigits, Nullable;
-	//SQLULEN   ParamSize;
-
-	//result = SQLDescribeParam(hstmt, colpos, &DataType, &ParamSize, &DecimalDigits, &Nullable);
-
-	//if (!IsSuccess(result))
-	//{
-	//	throw SQLException(hstmt, SQL_HANDLE_STMT, result);
-	//}
-
 	switch (m_buffer.Type)
 	{
 	case SQLBuffer::EStorageType::Int:
@@ -81,9 +71,7 @@ RETCODE NetworkCommon::DBConnection::SQLParameter::BindParmeter(SQLHSTMT& hstmt,
 		break;
 	case SQLBuffer::EStorageType::String:
 	{
-		//cid = SQL_NTSL;
 		CustomString* pString = static_cast<CustomString*>(m_buffer.GetBuffer());
-		//result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, SQL_CHAR, pString->Size(), 0, SQLPOINTER(pString->c_str()), pString->Size() + 1, &cid);
 		result = SQLBindParameter(hstmt, colpos, bindType, SQL_C_CHAR, SQL_VARCHAR, pString->Size(), 0, SQLPOINTER(pString->data()), pString->Size(), NULL);
 	}break;
 	case SQLBuffer::EStorageType::DateTime:
