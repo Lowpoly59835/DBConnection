@@ -72,20 +72,14 @@
     <ClInclude Include="Singleton.h">
       <Filter>헤더 파일\01. Shared</Filter>
     </ClInclude>
-    <ClInclude Include="DBObject.h">
-      <Filter>헤더 파일\03. Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="DBType.h">
-      <Filter>헤더 파일\03. Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="DBTypeManager.h">
-      <Filter>헤더 파일\03. Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="HashFunc.h">
-      <Filter>헤더 파일\03. Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="SQLConnectionPool.h">
       <Filter>헤더 파일\02. SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>헤더 파일\03. Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeInfo.h">
+      <Filter>헤더 파일\03. Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -119,20 +113,11 @@
     <ClCompile Include="SQLTranstaction.cpp">
       <Filter>소스 파일\02. SQL</Filter>
     </ClCompile>
-    <ClCompile Include="DBObject.cpp">
-      <Filter>소스 파일\03. Reflection</Filter>
-    </ClCompile>
-    <ClCompile Include="DBType.cpp">
-      <Filter>소스 파일\03. Reflection</Filter>
-    </ClCompile>
-    <ClCompile Include="DBTypeManager.cpp">
-      <Filter>소스 파일\03. Reflection</Filter>
-    </ClCompile>
-    <ClCompile Include="HashFunc.cpp">
-      <Filter>소스 파일\03. Reflection</Filter>
-    </ClCompile>
     <ClCompile Include="SQLConnectionPool.cpp">
       <Filter>소스 파일\02. SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeInfo.cpp">
+      <Filter>소스 파일\03. Reflection</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
